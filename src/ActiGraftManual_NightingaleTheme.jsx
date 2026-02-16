@@ -195,12 +195,12 @@ const GlobalStyle = () => (
       .cream-card { background: #f7f3ed !important; border: 1px solid #c8c0b4 !important; }
       .cream-card, .cream-card * { color: #222 !important; }
 
-      /* ── PURPLE / TEAL DARK CARDS → white bg with teal left border ── */
-      .page div[style*="background: ${C.purple}"],
-      .page div[style*="background: rgb(94, 42, 94)"] {
+      /* ── TEAL / BLUE DARK CARDS → white bg with teal left border ── */
+      .page div[style*="background: ${C.blue}"],
+      .page div[style*="background: rgb(26, 56, 82)"] {
         background: #fff !important;
-        border: 1px solid #5BB8C8 !important;
-        border-left: 3px solid #5BB8C8 !important;
+        border: 1px solid #4A96A6 !important;
+        border-left: 3px solid #4A96A6 !important;
       }
 
       /* ── ALERT CARDS → white bg, keep left accent border ── */
@@ -219,8 +219,8 @@ const GlobalStyle = () => (
 
       /* ── TABLES ── */
       .tbl th {
-        background: linear-gradient(135deg, #5E2A5E, #7A3A7A) !important;
-        color: #5BB8C8 !important;
+        background: #1A3852 !important;
+        color: #fff !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -288,11 +288,10 @@ const Page = ({ children, pageNum }) => {
       maxWidth: 820,
       margin: isMobile ? "0 auto 20px" : "0 auto 32px",
       background: C.bg1,
-      borderRadius: isMobile ? 0 : 8,
-      boxShadow: isMobile ? "none" : `0 8px 32px ${C.purpleDark}60, 0 2px 8px ${C.teal}20`,
+      borderRadius: isMobile ? 0 : 3,
+      boxShadow: isMobile ? "none" : "0 4px 40px rgba(0,0,0,0.5)",
       overflow: "hidden",
-      minHeight: 400,
-      border: `1px solid ${C.border}`
+      minHeight: 400
     }}>
       <div className="mol-bg"><MolecularBg variant={variant} /></div>
       <BirdWatermark style={{ bottom: -40, right: -20, width: 280, height: 300 }} />
@@ -332,63 +331,13 @@ const Page = ({ children, pageNum }) => {
 
 // ─── REUSABLE COMPONENTS (Playbook-matched) ───
 
-// Section header with geometric corner accents (Legacy Medical brand)
+// Section header with teal accent bar
 const SectionHead = ({ num, title, sub }) => (
-  <div style={{ marginBottom: 28, position: "relative" }}>
-    {/* Geometric corner accents */}
-    <div style={{
-      position: "absolute",
-      top: -6,
-      left: -6,
-      width: 40,
-      height: 40,
-      borderTop: `2px solid ${C.teal}30`,
-      borderLeft: `2px solid ${C.teal}30`,
-      borderTopLeftRadius: 2
-    }} />
-    <div style={{
-      position: "absolute",
-      top: -6,
-      right: -6,
-      width: 40,
-      height: 40,
-      borderTop: `2px solid ${C.purple}30`,
-      borderRight: `2px solid ${C.purple}30`,
-      borderTopRightRadius: 2
-    }} />
-
-    {num && <div style={{
-      display: "inline-block",
-      background: `linear-gradient(135deg, ${C.purple}, ${C.teal})`,
-      color: "#fff",
-      fontSize: 9,
-      fontWeight: 800,
-      padding: "4px 14px",
-      borderRadius: 4,
-      letterSpacing: 2,
-      marginBottom: 12,
-      textTransform: "uppercase",
-      boxShadow: `0 2px 6px ${C.teal}30`
-    }}>Section {num}</div>}
-
-    <h2 style={{
-      fontSize: 28,
-      fontWeight: 800,
-      color: C.cream1,
-      margin: 0,
-      lineHeight: 1.2,
-      fontFamily: "'Georgia', 'Times New Roman', serif"
-    }}>{title}</h2>
-
+  <div style={{ marginBottom: 28 }}>
+    {num && <div style={{ display: "inline-block", background: C.teal, color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 12px", borderRadius: 3, letterSpacing: 2, marginBottom: 10, textTransform: "uppercase" }}>Section {num}</div>}
+    <h2 style={{ fontSize: 28, fontWeight: 800, color: C.cream1, margin: 0, lineHeight: 1.2, fontFamily: "'Georgia', 'Times New Roman', serif" }}>{title}</h2>
     {sub && <p style={{ fontSize: 13, color: C.cream4, margin: "6px 0 0", lineHeight: 1.4 }}>{sub}</p>}
-
-    <div style={{
-      width: 80,
-      height: 3,
-      background: `linear-gradient(90deg, ${C.purple}, ${C.teal}, transparent)`,
-      marginTop: 12,
-      borderRadius: 2
-    }} />
+    <div style={{ width: 60, height: 2, background: `linear-gradient(90deg, ${C.teal}, transparent)`, marginTop: 12 }} />
   </div>
 );
 
@@ -410,52 +359,26 @@ const CreamCard = ({ title, children, borderColor }) => (
 // Dark purple-teal card (matches Legacy Medical brand)
 const TealCard = ({ title, children, icon }) => (
   <div style={{ background: C.purple, border: `1px solid ${C.purpleBorder}`, borderRadius: 8, padding: "18px 20px", marginBottom: 12, boxShadow: `0 2px 8px ${C.purpleDark}40` }}>
-    {title && <div style={{ fontSize: 11, fontWeight: 700, color: C.tealBright, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{title}</div>}
+    {title && <div style={{ fontSize: 13, fontWeight: 700, color: C.tealBright, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5, fontSize: 11 }}>{title}</div>}
     <div style={{ fontSize: 12.5, color: C.cream2, lineHeight: 1.65 }}>{children}</div>
   </div>
 );
 
-// Alert / callout card (Legacy Medical brand: purple-teal gradient theme)
+// Alert / callout card
 const AlertCard = ({ title, children, type }) => {
-  const colors = {
-    warn: { bg: "rgba(196,168,104,0.08)", border: C.gold, text: C.goldLight },
-    danger: { bg: "rgba(192,112,112,0.08)", border: C.red, text: C.redLight },
-    info: { bg: `linear-gradient(135deg, ${C.purple}15, ${C.tealGlow})`, border: C.teal, text: C.tealBright }
-  };
+  const colors = { warn: { bg: "rgba(196,168,104,0.08)", border: C.gold, text: C.goldLight }, danger: { bg: "rgba(192,112,112,0.08)", border: C.red, text: C.redLight }, info: { bg: C.tealGlow, border: C.teal, text: C.tealBright } };
   const c = colors[type] || colors.info;
   return (
-    <div style={{
-      background: c.bg,
-      border: `1px solid ${c.border}40`,
-      borderLeft: `3px solid ${c.border}`,
-      borderRadius: 8,
-      padding: "14px 18px",
-      marginBottom: 12,
-      boxShadow: `0 2px 8px ${C.purpleDark}20`
-    }}>
+    <div style={{ background: c.bg, border: `1px solid ${c.border}40`, borderLeft: `3px solid ${c.border}`, borderRadius: 4, padding: "12px 16px", marginBottom: 12 }}>
       {title && <div style={{ fontSize: 11, fontWeight: 700, color: c.text, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 }}>{title}</div>}
       <div style={{ fontSize: 12, color: C.cream3, lineHeight: 1.65 }}>{children}</div>
     </div>
   );
 };
 
-// Numbered step badge (Legacy Medical brand: gradient badge with glow)
+// Numbered step badge (matches Playbook teal square badges)
 const StepBadge = ({ n }) => (
-  <div style={{
-    minWidth: 32,
-    height: 32,
-    borderRadius: 6,
-    background: `linear-gradient(135deg, ${C.purple}, ${C.teal})`,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#fff",
-    fontWeight: 800,
-    fontSize: 15,
-    flexShrink: 0,
-    fontFamily: "'Georgia', serif",
-    boxShadow: `0 2px 8px ${C.teal}40, inset 0 1px 0 rgba(255,255,255,0.1)`
-  }}>{n}</div>
+  <div style={{ minWidth: 30, height: 30, borderRadius: 5, background: C.teal, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 800, fontSize: 14, flexShrink: 0, fontFamily: "'Georgia', serif" }}>{n}</div>
 );
 
 // Step row
@@ -470,62 +393,21 @@ const StepRow = ({ n, title, desc, time }) => (
   </div>
 );
 
-// Big stat (Legacy Medical brand: gradient accent text)
+// Big stat (matches Playbook bottom stats: large number + label)
 const BigStat = ({ value, label, sub }) => (
   <div style={{ textAlign: "center", flex: "1 1 150px" }}>
-    <div style={{
-      fontSize: 36,
-      fontWeight: 800,
-      background: `linear-gradient(135deg, ${C.cream1}, ${C.tealBright})`,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      backgroundClip: "text",
-      lineHeight: 1,
-      fontFamily: "'Georgia', serif"
-    }}>{value}</div>
-    <div style={{
-      fontSize: 11,
-      fontWeight: 700,
-      color: C.teal,
-      marginTop: 6,
-      textTransform: "uppercase",
-      letterSpacing: 0.6
-    }}>{label}</div>
+    <div style={{ fontSize: 36, fontWeight: 800, color: C.cream1, lineHeight: 1, fontFamily: "'Georgia', serif" }}>{value}</div>
+    <div style={{ fontSize: 11, fontWeight: 700, color: C.teal, marginTop: 6, textTransform: "uppercase", letterSpacing: 0.6 }}>{label}</div>
     {sub && <div style={{ fontSize: 10, color: C.cream5, marginTop: 3 }}>{sub}</div>}
   </div>
 );
 
-// Table (Legacy Medical brand: purple-teal gradient header)
+// Table (Playbook-matched dark header with cream text)
 const Tbl = ({ h, rows, compact }) => (
-  <div style={{
-    overflowX: "auto",
-    marginBottom: 16,
-    borderRadius: 8,
-    border: `1px solid ${C.border}`,
-    overflow: "hidden"
-  }}>
+  <div style={{ overflowX: "auto", marginBottom: 16, borderRadius: 4, border: `1px solid ${C.border}` }}>
     <table className="tbl" style={{ width: "100%", borderCollapse: "collapse", fontSize: compact ? 11 : 12 }}>
-      <thead>
-        <tr>{h.map((x, i) => <th key={i} style={{
-          padding: compact ? "8px 10px" : "10px 14px",
-          background: `linear-gradient(135deg, ${C.purple}, ${C.purpleLight})`,
-          color: C.tealBright,
-          textAlign: "left",
-          borderBottom: `2px solid ${C.teal}`,
-          fontWeight: 700,
-          whiteSpace: "nowrap",
-          textTransform: "uppercase",
-          letterSpacing: 0.5,
-          fontSize: compact ? 9 : 10
-        }}>{x}</th>)}</tr>
-      </thead>
-      <tbody>{rows.map((r, ri) => <tr key={ri}>{r.map((c, ci) => <td key={ci} style={{
-        padding: compact ? "7px 10px" : "9px 14px",
-        borderBottom: `1px solid ${C.border}`,
-        background: ri % 2 === 0 ? C.bg2 : C.bg3,
-        color: ci === 0 ? C.cream2 : C.cream3,
-        fontWeight: ci === 0 ? 600 : 400
-      }}>{c}</td>)}</tr>)}</tbody>
+      <thead><tr>{h.map((x, i) => <th key={i} style={{ padding: compact ? "7px 10px" : "9px 12px", background: C.bg4, color: C.cream1, textAlign: "left", borderBottom: `2px solid ${C.teal}`, fontWeight: 700, whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: 0.4, fontSize: compact ? 9 : 10 }}>{x}</th>)}</tr></thead>
+      <tbody>{rows.map((r, ri) => <tr key={ri}>{r.map((c, ci) => <td key={ci} style={{ padding: compact ? "6px 10px" : "8px 12px", borderBottom: `1px solid ${C.border}`, background: ri % 2 === 0 ? C.bg2 : C.bg3, color: ci === 0 ? C.cream2 : C.cream3, fontWeight: ci === 0 ? 600 : 400 }}>{c}</td>)}</tr>)}</tbody>
     </table>
   </div>
 );
@@ -554,15 +436,7 @@ const SendModal = ({ open, onClose }) => {
   const inp = { width: "100%", padding: 10, borderRadius: 4, border: `1px solid ${C.borderLight}`, background: C.bg2, color: C.cream1, fontSize: 13, outline: "none", boxSizing: "border-box" };
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,12,18,0.92)" }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{
-        background: C.bg3,
-        border: `1px solid ${C.purpleBorder}`,
-        borderRadius: 10,
-        padding: 28,
-        width: "100%",
-        maxWidth: 440,
-        boxShadow: `0 8px 32px ${C.purpleDark}60, 0 2px 8px ${C.teal}20`
-      }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: C.bg3, border: `1px solid ${C.blueBorder}`, borderRadius: 8, padding: 28, width: "100%", maxWidth: 440 }}>
         <h3 style={{ color: C.cream1, fontSize: 16, fontWeight: 700, margin: "0 0 16px", fontFamily: "'Georgia', serif" }}>Quick Send Manual</h3>
         <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
           {["email", "sms"].map(m => <button key={m} onClick={() => setMethod(m)} style={{ flex: 1, padding: "7px 14px", borderRadius: 4, border: `1px solid ${method === m ? C.teal : C.border}`, background: method === m ? C.tealGlow : "transparent", color: method === m ? C.teal : C.cream4, cursor: "pointer", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>{m === "email" ? "Email" : "SMS"}</button>)}
