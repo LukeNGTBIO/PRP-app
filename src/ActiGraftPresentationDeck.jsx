@@ -18,11 +18,11 @@ const B = {
   tealDark: NIGHTINGALE.cyan.dim,    // "#008C9E" - Deep cyan
   tealGlow: NIGHTINGALE.cyan.bgActive, // Cyan glow
 
-  // Steel/Cyan Accents (replacing purple/magenta)
-  purple: NIGHTINGALE.cyan.mid,      // "#00BCD4" - Mid cyan (was purple)
-  purpleBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" - Bright cyan (was magenta)
-  magenta: NIGHTINGALE.cyan.core,    // "#00E5FF" - Core cyan (was magenta)
-  magentaGlow: NIGHTINGALE.cyan.bgHover, // Cyan hover glow
+  // Additional Cyan Variants - Nightingale Brand Theme v5.0
+  cyanMid: NIGHTINGALE.cyan.mid,     // "#00BCD4" - Mid cyan
+  cyanBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" - Bright cyan highlight
+  cyanCore: NIGHTINGALE.cyan.core,   // "#00E5FF" - Electric cyan core
+  cyanGlow: NIGHTINGALE.cyan.bgHover, // Cyan hover glow
 
   // Secondary Colors
   gold: "#FFB547",
@@ -175,7 +175,7 @@ const ImagePlaceholder = ({ title, subtitle, icon, color = B.teal, aspectRatio =
       left: 0,
       right: 0,
       bottom: 0,
-      background: `radial-gradient(circle at 30% 50%, ${B.purple}08, transparent 60%), radial-gradient(circle at 70% 50%, ${color}08, transparent 60%)`,
+      background: `radial-gradient(circle at 30% 50%, ${B.cyanMid}08, transparent 60%), radial-gradient(circle at 70% 50%, ${color}08, transparent 60%)`,
       pointerEvents: "none"
     }} />
     <div style={{ position: "relative", zIndex: 1 }}>
@@ -216,8 +216,8 @@ const DonutChart = ({ pct, size = 120, stroke = 10, color = B.teal, label, subla
         <svg width={responsiveSize} height={responsiveSize} style={{ transform: "rotate(-90deg)" }}>
           <defs>
             <linearGradient id={`donutGrad-${pct}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={B.purple} />
-              <stop offset="50%" stopColor={B.magenta} />
+              <stop offset="0%" stopColor={B.cyanMid} />
+              <stop offset="50%" stopColor={B.cyanCore} />
               <stop offset="100%" stopColor={color} />
             </linearGradient>
           </defs>
@@ -254,7 +254,7 @@ const HBar = ({ label, value, pct, color = B.teal, maxW = "100%", highlight }) =
     <div style={{ height: 8, background: B.surface, borderRadius: 4, overflow: "hidden", maxWidth: maxW }}>
       <div style={{
         height: "100%", width: `${pct}%`,
-        background: `linear-gradient(90deg, ${B.purple}, ${B.magenta}, ${color})`,
+        background: `linear-gradient(90deg, ${B.cyanMid}, ${B.cyanCore}, ${color})`,
         transition: "width 1.2s cubic-bezier(.22,1,.36,1)",
         boxShadow: `0 0 12px ${color}40`
       }} />
@@ -271,7 +271,7 @@ const VBar = ({ label, value, pct, color = B.teal, maxH = 160 }) => (
     }}>
       <div style={{
         width: "100%", height: `${pct}%`,
-        background: `linear-gradient(180deg, ${color}, ${B.magenta}, ${B.purple}88)`,
+        background: `linear-gradient(180deg, ${color}, ${B.cyanCore}, ${B.cyanMid}88)`,
         borderRadius: "6px 6px 0 0",
         transition: "height 1.2s cubic-bezier(.22,1,.36,1)",
         boxShadow: `0 0 16px ${color}40`
@@ -288,13 +288,13 @@ const MetricCard = ({ icon, value, label, sublabel, accent = B.teal, isMobile })
     padding: isMobile ? "14px 12px" : "18px 16px",
     border: `1px solid ${B.borderLight}`,
     textAlign: "center",
-    boxShadow: `0 4px 16px ${accent}20, 0 0 24px ${B.magentaGlow}`
+    boxShadow: `0 4px 16px ${accent}20, 0 0 24px ${B.cyanCoreGlow}`
   }}>
     <div style={{ fontSize: isMobile ? 18 : 20, marginBottom: isMobile ? 6 : 8 }}>{icon}</div>
     <div style={{
       fontSize: isMobile ? 22 : 28,
       fontWeight: 800,
-      background: `linear-gradient(135deg, ${accent}, ${B.magenta})`,
+      background: `linear-gradient(135deg, ${accent}, ${B.cyanCore})`,
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
       backgroundClip: "text",
@@ -310,16 +310,16 @@ const MetricCard = ({ icon, value, label, sublabel, accent = B.teal, isMobile })
 const GlowBox = ({ color = B.teal, children, style = {}, isMobile }) => (
   <div style={{
     position: "relative",
-    background: `linear-gradient(135deg, ${B.purple}20, ${B.magenta}15, ${color}10)`,
+    background: `linear-gradient(135deg, ${B.cyanMid}20, ${B.cyanCore}15, ${color}10)`,
     borderRadius: isMobile ? 10 : 14,
     padding: isMobile ? "14px 16px" : "18px 22px",
     border: `1px solid ${color}40`,
-    boxShadow: `0 4px 20px ${color}20, 0 0 30px ${B.magentaGlow}`,
+    boxShadow: `0 4px 20px ${color}20, 0 0 30px ${B.cyanCoreGlow}`,
     ...style
   }}>
     <div style={{
       position: "absolute", top: 0, left: 0, right: 0, height: 2,
-      background: `linear-gradient(90deg, transparent, ${color}80, ${B.magenta}60, transparent)`
+      background: `linear-gradient(90deg, transparent, ${color}80, ${B.cyanCore}60, transparent)`
     }} />
     {children}
   </div>
@@ -330,7 +330,7 @@ const SectionTag = ({ text, color = B.teal }) => (
     display: "inline-block",
     padding: "4px 12px",
     borderRadius: 6,
-    background: `linear-gradient(135deg, ${B.purple}30, ${B.magenta}20, ${color}15)`,
+    background: `linear-gradient(135deg, ${B.cyanMid}30, ${B.cyanCore}20, ${color}15)`,
     border: `1px solid ${color}50`,
     fontSize: 10,
     fontWeight: 700,
@@ -338,7 +338,7 @@ const SectionTag = ({ text, color = B.teal }) => (
     textTransform: "uppercase",
     color,
     marginBottom: 12,
-    boxShadow: `0 2px 8px ${color}30, 0 0 16px ${B.magentaGlow}`
+    boxShadow: `0 2px 8px ${color}30, 0 0 16px ${B.cyanCoreGlow}`
   }}>
     {text}
   </div>
@@ -369,7 +369,7 @@ const ActiGraftPresentationDeck = () => {
     { id: "clinical", label: "Clinical Evidence", section: "EVIDENCE", color: B.tealBright },
     { id: "financial", label: "Financial Benefits", section: "ECONOMICS", color: B.gold },
     { id: "revenue", label: "Revenue Projections", section: "ECONOMICS", color: B.teal },
-    { id: "competitive", label: "Competitive Intel", section: "MARKET", color: B.magenta },
+    { id: "competitive", label: "Competitive Intel", section: "MARKET", color: B.cyanCore },
     { id: "gpo", label: "Market Access", section: "ACCESS", color: B.blue },
     { id: "reimbursement", label: "Reimbursement", section: "ECONOMICS", color: B.gold },
     { id: "implementation", label: "Implementation", section: "ACTION", color: B.tealBright },
@@ -447,7 +447,7 @@ const ActiGraftPresentationDeck = () => {
         <MetricCard isMobile={isMobile} icon="🔬" value="2.7×" label="RCT Healing" sublabel="vs Standard Care" accent={B.tealBright} />
         <MetricCard isMobile={isMobile} icon="💰" value="$25K" label="Per Patient" sublabel="12-Week Course" accent={B.gold} />
         <MetricCard isMobile={isMobile} icon="🏥" value="$0" label="Capital Req." sublabel="No Equipment" accent={B.teal} />
-        <MetricCard isMobile={isMobile} icon="🤝" value="5" label="GPO Contracts" sublabel="Access Secured" accent={B.magenta} />
+        <MetricCard isMobile={isMobile} icon="🤝" value="5" label="GPO Contracts" sublabel="Access Secured" accent={B.cyanCore} />
       </div>
 
       <div style={{ marginTop: 48, fontSize: 13, color: B.textMuted }}>
@@ -481,7 +481,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: 14,
         padding: 24,
         border: `1px solid ${B.border}`,
-        boxShadow: `0 4px 20px ${B.purple}30`
+        boxShadow: `0 4px 20px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 18, color: B.text, marginBottom: 16 }}>Traditional CTP Revenue Impact</h3>
         <HBar label="Pre-Reform Revenue" value="$15,000-46,000" pct={100} color={B.textMuted} />
@@ -527,7 +527,7 @@ const ActiGraftPresentationDeck = () => {
             padding: 20,
             border: `1px solid ${B.border}`,
             marginBottom: 16,
-            boxShadow: `0 4px 16px ${B.purple}20`
+            boxShadow: `0 4px 16px ${B.cyanMid}20`
           }}>
             <h3 style={{ fontSize: 16, color: B.text, marginBottom: 12 }}>Facility Overview</h3>
             <div style={{ fontSize: 13, color: B.textSecondary, lineHeight: 1.6 }}>
@@ -544,7 +544,7 @@ const ActiGraftPresentationDeck = () => {
             borderRadius: 14,
             padding: 20,
             border: `1px solid ${B.border}`,
-            boxShadow: `0 4px 16px ${B.purple}20`
+            boxShadow: `0 4px 16px ${B.cyanMid}20`
           }}>
             <h3 style={{ fontSize: 16, color: B.text, marginBottom: 12 }}>Sandy Deimund, CWCN</h3>
             <div style={{ fontSize: 13, color: B.textSecondary, lineHeight: 1.6 }}>
@@ -574,7 +574,7 @@ const ActiGraftPresentationDeck = () => {
       <div style={{
         marginTop: 24,
         padding: 16,
-        background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+        background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
         border: `1px solid ${B.tealBright}40`,
         borderRadius: 12,
         boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -606,7 +606,7 @@ const ActiGraftPresentationDeck = () => {
           borderRadius: 12,
           padding: 16,
           border: `1px solid ${B.border}`,
-          boxShadow: `0 4px 16px ${B.purple}20`
+          boxShadow: `0 4px 16px ${B.cyanMid}20`
         }}>
           <div style={{ fontSize: 28, fontWeight: 800, color: B.gold, textShadow: `0 0 12px ${B.goldGlow}` }}>5.5-11K</div>
           <div style={{ fontSize: 12, color: B.textSecondary, marginTop: 4 }}>Annual DFUs</div>
@@ -620,7 +620,7 @@ const ActiGraftPresentationDeck = () => {
         padding: 24,
         border: `1px solid ${B.border}`,
         marginBottom: 20,
-        boxShadow: `0 4px 16px ${B.purple}20`
+        boxShadow: `0 4px 16px ${B.cyanMid}20`
       }}>
         <h3 style={{ fontSize: 16, color: B.text, marginBottom: 16 }}>Payer Mix Intelligence</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
@@ -641,7 +641,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: 12,
         padding: 20,
         border: `1px solid ${B.border}30`,
-        boxShadow: `0 2px 12px ${B.purple}15`
+        boxShadow: `0 2px 12px ${B.cyanMid}15`
       }}>
         <h3 style={{ fontSize: 15, color: B.text, marginBottom: 12 }}>Competitive Landscape</h3>
         <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -684,7 +684,7 @@ const ActiGraftPresentationDeck = () => {
           borderRadius: 14,
           padding: 24,
           border: `1px solid ${B.border}`,
-          boxShadow: `0 4px 20px ${B.purple}30`
+          boxShadow: `0 4px 20px ${B.cyanMid}30`
         }}>
           <h3 style={{ fontSize: 18, color: B.text, marginBottom: 20 }}>4-Step Clinical Process</h3>
 
@@ -703,7 +703,7 @@ const ActiGraftPresentationDeck = () => {
             }}>
               <div style={{
                 width: 40, height: 40, borderRadius: "50%",
-                background: `linear-gradient(135deg, ${B.purple}30, ${B.teal}20)`,
+                background: `linear-gradient(135deg, ${B.cyanMid}30, ${B.teal}20)`,
                 border: `2px solid ${B.teal}`,
                 display: "flex", alignItems: "center",
                 justifyContent: "center", fontSize: 18, fontWeight: 800, color: B.teal,
@@ -724,7 +724,7 @@ const ActiGraftPresentationDeck = () => {
           <div style={{
             marginTop: 20,
             padding: 14,
-            background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+            background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
             border: `1px solid ${B.tealBright}40`,
             borderRadius: 10,
             textAlign: "center",
@@ -757,7 +757,7 @@ const ActiGraftPresentationDeck = () => {
             borderRadius: 14,
             padding: 16,
             border: `1px solid ${B.border}`,
-            boxShadow: `0 4px 16px ${B.purple}20`
+            boxShadow: `0 4px 16px ${B.cyanMid}20`
           }}>
             <h4 style={{ fontSize: 14, color: B.text, marginBottom: 12 }}>Key Differentiators</h4>
             <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -775,7 +775,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: 12,
         padding: 16,
         border: `1px solid ${B.border}30`,
-        boxShadow: `0 2px 12px ${B.purple}15`
+        boxShadow: `0 2px 12px ${B.cyanMid}15`
       }}>
         <div style={{ fontSize: 12, color: B.gold, fontWeight: 700, marginBottom: 6 }}>📋 FDA Clearance</div>
         <div style={{ fontSize: 11, color: B.textSecondary }}>
@@ -835,7 +835,7 @@ const ActiGraftPresentationDeck = () => {
         padding: 24,
         border: `1px solid ${B.border}`,
         marginBottom: 20,
-        boxShadow: `0 4px 20px ${B.purple}30`
+        boxShadow: `0 4px 20px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 18, color: B.text, marginBottom: 16 }}>Study Design</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
@@ -863,7 +863,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: 14,
         padding: 24,
         border: `1px solid ${B.border}`,
-        boxShadow: `0 4px 20px ${B.purple}30`
+        boxShadow: `0 4px 20px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 16, color: B.text, marginBottom: 16 }}>Performance vs All Advanced Therapies</h3>
         <HBar label="ActiGraft PRO" value="51%" pct={100} color={B.tealBright} highlight />
@@ -879,7 +879,7 @@ const ActiGraftPresentationDeck = () => {
         background: B.surface,
         borderRadius: 10,
         border: `1px solid ${B.border}30`,
-        boxShadow: `0 2px 12px ${B.purple}15`
+        boxShadow: `0 2px 12px ${B.cyanMid}15`
       }}>
         <div style={{ fontSize: 11, color: B.textMuted }}>
           <strong style={{ color: B.text }}>Source:</strong> Snyder, R.J., et al. (2024). "Efficacy and safety of autologous whole blood clot in diabetic foot ulcers: A multicentre, randomised controlled trial." <em>Journal of Wound Care</em>, 33(9), 634-645.
@@ -955,7 +955,7 @@ const ActiGraftPresentationDeck = () => {
         padding: 24,
         border: `1px solid ${B.border}`,
         marginBottom: 20,
-        boxShadow: `0 4px 20px ${B.purple}30`
+        boxShadow: `0 4px 20px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 18, color: B.text, marginBottom: 16 }}>Cost-Effectiveness Breakdown</h3>
         <div style={{ marginBottom: 14 }}>
@@ -980,7 +980,7 @@ const ActiGraftPresentationDeck = () => {
 
       <div style={{
         padding: 16,
-        background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+        background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
         border: `1px solid ${B.tealBright}40`,
         borderRadius: 12,
         boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -1018,7 +1018,7 @@ const ActiGraftPresentationDeck = () => {
         padding: isMobile ? 20 : 28,
         border: `1px solid ${B.border}`,
         marginBottom: 28,
-        boxShadow: `0 4px 24px ${B.purple}30`
+        boxShadow: `0 4px 24px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 18, color: B.text, marginBottom: 24, textAlign: "center" }}>
           Methodist North Wound Care Revenue Scenarios
@@ -1071,7 +1071,7 @@ const ActiGraftPresentationDeck = () => {
       <div style={{
         marginTop: 24,
         padding: 18,
-        background: `linear-gradient(135deg, ${B.purple}10, ${B.gold}08)`,
+        background: `linear-gradient(135deg, ${B.cyanMid}10, ${B.gold}08)`,
         border: `1px solid ${B.gold}40`,
         borderRadius: 12,
         boxShadow: `0 4px 16px ${B.goldGlow}`
@@ -1087,7 +1087,7 @@ const ActiGraftPresentationDeck = () => {
 
   const renderCompetitive = () => (
     <div style={{ padding: isMobile ? "20px" : "40px" }}>
-      <SectionTag text="COMPETITIVE INTELLIGENCE" color={B.magenta} />
+      <SectionTag text="COMPETITIVE INTELLIGENCE" color={B.cyanCore} />
       <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         NCD 270.3 Competitive Landscape
       </h1>
@@ -1097,9 +1097,9 @@ const ActiGraftPresentationDeck = () => {
         <ImagePlaceholder
           title="PRP Product Comparison Matrix"
           subtitle="ActiGraft PRO vs Aurix, CASCADE, FastSkin Patch"
-          icon={<DNAIcon size={isMobile ? 60 : 80} color={B.magenta} />}
+          icon={<DNAIcon size={isMobile ? 60 : 80} color={B.cyanCore} />}
           aspectRatio="21/9"
-          color={B.magenta}
+          color={B.cyanCore}
           isMobile={isMobile}
         />
       </div>
@@ -1110,7 +1110,7 @@ const ActiGraftPresentationDeck = () => {
         padding: isMobile ? 16 : 24,
         border: `1px solid ${B.border}`,
         marginBottom: 20,
-        boxShadow: `0 4px 24px ${B.purple}30`
+        boxShadow: `0 4px 24px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 16, color: B.text, marginBottom: 16 }}>Primary PRP Competitors (G0465 Pathway)</h3>
         <table style={{ width: "100%", fontSize: 11, borderCollapse: "collapse" }}>
@@ -1199,7 +1199,7 @@ const ActiGraftPresentationDeck = () => {
         padding: 24,
         border: `1px solid ${B.border}`,
         marginBottom: 24,
-        boxShadow: `0 4px 24px ${B.purple}30`
+        boxShadow: `0 4px 24px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 18, color: B.text, marginBottom: 16 }}>ActiGraft GPO Portfolio</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
@@ -1239,7 +1239,7 @@ const ActiGraftPresentationDeck = () => {
           <div style={{
             textAlign: "center",
             padding: 16,
-            background: `linear-gradient(135deg, ${B.purple}20, ${B.teal}15)`,
+            background: `linear-gradient(135deg, ${B.cyanMid}20, ${B.teal}15)`,
             border: `1px solid ${B.tealBright}50`,
             borderRadius: 10,
             boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -1268,7 +1268,7 @@ const ActiGraftPresentationDeck = () => {
           borderRadius: 12,
           padding: 20,
           border: `1px solid ${B.border}30`,
-          boxShadow: `0 2px 12px ${B.purple}15`
+          boxShadow: `0 2px 12px ${B.cyanMid}15`
         }}>
           <h4 style={{ fontSize: 14, color: B.text, marginBottom: 12 }}>VA/Federal Access</h4>
           <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -1285,7 +1285,7 @@ const ActiGraftPresentationDeck = () => {
           borderRadius: 12,
           padding: 20,
           border: `1px solid ${B.border}30`,
-          boxShadow: `0 2px 12px ${B.purple}15`
+          boxShadow: `0 2px 12px ${B.cyanMid}15`
         }}>
           <h4 style={{ fontSize: 14, color: B.text, marginBottom: 12 }}>Medicare Coverage</h4>
           <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -1303,7 +1303,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: 14,
         padding: 20,
         border: `1px solid ${B.border}`,
-        boxShadow: `0 4px 16px ${B.purple}20`
+        boxShadow: `0 4px 16px ${B.cyanMid}20`
       }}>
         <h4 style={{ fontSize: 14, color: B.text, marginBottom: 12 }}>Commercial Payer Status</h4>
         <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.6 }}>
@@ -1316,7 +1316,7 @@ const ActiGraftPresentationDeck = () => {
       <div style={{
         marginTop: 20,
         padding: 14,
-        background: `linear-gradient(135deg, ${B.purple}15, ${B.blue}10)`,
+        background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.blue}10)`,
         border: `1px solid ${B.blue}50`,
         borderRadius: 12,
         boxShadow: `0 4px 16px ${B.blue}30`
@@ -1342,12 +1342,12 @@ const ActiGraftPresentationDeck = () => {
           borderRadius: 14,
           padding: 24,
           border: `1px solid ${B.border}`,
-          boxShadow: `0 4px 24px ${B.purple}30`
+          boxShadow: `0 4px 24px ${B.cyanMid}30`
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
             <div style={{
               padding: "12px 20px",
-              background: `linear-gradient(135deg, ${B.purple}30, ${B.gold}20)`,
+              background: `linear-gradient(135deg, ${B.cyanMid}30, ${B.gold}20)`,
               border: `1px solid ${B.gold}50`,
               borderRadius: 10,
               fontSize: 24,
@@ -1429,7 +1429,7 @@ const ActiGraftPresentationDeck = () => {
             borderRadius: 14,
             padding: 16,
             border: `1px solid ${B.border}`,
-            boxShadow: `0 4px 16px ${B.purple}20`
+            boxShadow: `0 4px 16px ${B.cyanMid}20`
           }}>
             <h4 style={{ fontSize: 13, color: B.text, marginBottom: 10 }}>Coverage Criteria</h4>
             <div style={{ fontSize: 11, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -1448,7 +1448,7 @@ const ActiGraftPresentationDeck = () => {
         padding: 20,
         marginBottom: 20,
         border: `1px solid ${B.border}30`,
-        boxShadow: `0 2px 12px ${B.purple}15`
+        boxShadow: `0 2px 12px ${B.cyanMid}15`
       }}>
         <h3 style={{ fontSize: 16, color: B.text, marginBottom: 12 }}>National Coverage Determination (NCD) 270.3</h3>
         <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -1467,7 +1467,7 @@ const ActiGraftPresentationDeck = () => {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
         <div style={{
           padding: 16,
-          background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+          background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
           border: `1px solid ${B.tealBright}40`,
           borderRadius: 12,
           boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -1480,7 +1480,7 @@ const ActiGraftPresentationDeck = () => {
 
         <div style={{
           padding: 16,
-          background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+          background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
           border: `1px solid ${B.tealBright}40`,
           borderRadius: 12,
           boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -1518,7 +1518,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: isMobile ? 10 : 14,
         padding: isMobile ? 16 : 24,
         border: `1px solid ${B.border}`,
-        boxShadow: `0 4px 24px ${B.purple}30`
+        boxShadow: `0 4px 24px ${B.cyanMid}30`
       }}>
         {[
           {
@@ -1569,7 +1569,7 @@ const ActiGraftPresentationDeck = () => {
               "Optimize workflow and supply chain",
               "Plan for sustained growth"
             ],
-            color: B.magenta
+            color: B.cyanCore
           }
         ].map((phase, i) => (
           <div key={i} style={{ marginBottom: i === 4 ? 0 : 24 }}>
@@ -1612,7 +1612,7 @@ const ActiGraftPresentationDeck = () => {
       <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
         <div style={{
           padding: 16,
-          background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+          background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
           border: `1px solid ${B.tealBright}40`,
           borderRadius: 12,
           boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -1628,7 +1628,7 @@ const ActiGraftPresentationDeck = () => {
 
         <div style={{
           padding: 16,
-          background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+          background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
           border: `1px solid ${B.tealBright}40`,
           borderRadius: 12,
           boxShadow: `0 4px 16px ${B.tealGlow}`
@@ -1708,7 +1708,7 @@ const ActiGraftPresentationDeck = () => {
             borderRadius: 14,
             padding: 20,
             border: `1px solid ${B.border}`,
-            boxShadow: `0 4px 16px ${B.purple}20`
+            boxShadow: `0 4px 16px ${B.cyanMid}20`
           }}>
             <div style={{ fontSize: 32, marginBottom: 12 }}>{resource.icon}</div>
             <h3 style={{ fontSize: 16, color: resource.color, marginBottom: 12, fontWeight: 700 }}>
@@ -1728,7 +1728,7 @@ const ActiGraftPresentationDeck = () => {
         borderRadius: 14,
         padding: 24,
         border: `1px solid ${B.border}`,
-        boxShadow: `0 4px 24px ${B.purple}30`
+        boxShadow: `0 4px 24px ${B.cyanMid}30`
       }}>
         <h3 style={{ fontSize: 18, color: B.text, marginBottom: 16 }}>Nightingale BioTech Partnership Value</h3>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
@@ -1757,7 +1757,7 @@ const ActiGraftPresentationDeck = () => {
         background: B.surface,
         borderRadius: 12,
         border: `1px solid ${B.border}30`,
-        boxShadow: `0 2px 12px ${B.purple}15`
+        boxShadow: `0 2px 12px ${B.cyanMid}15`
       }}>
         <h4 style={{ fontSize: 14, color: B.text, marginBottom: 10 }}>Getting Started</h4>
         <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
@@ -1809,7 +1809,7 @@ const ActiGraftPresentationDeck = () => {
               border: `1px solid ${B.border}`,
               display: "flex",
               gap: 12,
-              boxShadow: `0 4px 16px ${B.purple}20`
+              boxShadow: `0 4px 16px ${B.cyanMid}20`
             }}>
               <div style={{ fontSize: 24 }}>{adv.icon}</div>
               <div>
@@ -1839,7 +1839,7 @@ const ActiGraftPresentationDeck = () => {
               border: `1px solid ${B.border}`,
               display: "flex",
               gap: 12,
-              boxShadow: `0 4px 16px ${B.purple}20`
+              boxShadow: `0 4px 16px ${B.cyanMid}20`
             }}>
               <div style={{ fontSize: 24 }}>{adv.icon}</div>
               <div>
@@ -1854,7 +1854,7 @@ const ActiGraftPresentationDeck = () => {
       <div style={{
         marginTop: 32,
         padding: 24,
-        background: `linear-gradient(135deg, ${B.purple}20, ${B.gold}15)`,
+        background: `linear-gradient(135deg, ${B.cyanMid}20, ${B.gold}15)`,
         border: `2px solid ${B.gold}50`,
         borderRadius: 14,
         textAlign: "center",
@@ -1889,7 +1889,7 @@ const ActiGraftPresentationDeck = () => {
         marginBottom: 32,
         maxWidth: 800,
         margin: "0 auto 32px",
-        boxShadow: `0 8px 32px ${B.purple}40`
+        boxShadow: `0 8px 32px ${B.cyanMid}40`
       }}>
         <h3 style={{ fontSize: 20, color: B.text, marginBottom: 24 }}>Immediate Actions</h3>
         <div style={{ textAlign: "left", maxWidth: 600, margin: "0 auto" }}>
@@ -1911,7 +1911,7 @@ const ActiGraftPresentationDeck = () => {
             }}>
               <div style={{
                 width: 40, height: 40, borderRadius: "50%",
-                background: `linear-gradient(135deg, ${B.purple}30, ${B.gold}20)`,
+                background: `linear-gradient(135deg, ${B.cyanMid}30, ${B.gold}20)`,
                 border: `2px solid ${B.gold}`,
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: 18, fontWeight: 800, color: B.gold, flexShrink: 0,
@@ -1939,7 +1939,7 @@ const ActiGraftPresentationDeck = () => {
 
       <div style={{
         padding: 20,
-        background: `linear-gradient(135deg, ${B.purple}15, ${B.teal}10)`,
+        background: `linear-gradient(135deg, ${B.cyanMid}15, ${B.teal}10)`,
         border: `1px solid ${B.tealBright}40`,
         borderRadius: 12,
         maxWidth: 700,
@@ -2000,7 +2000,7 @@ const ActiGraftPresentationDeck = () => {
         color: B.text,
         fontFamily: NIGHTINGALE.font.primary,
         position: "relative",
-        backgroundImage: `radial-gradient(circle at 20% 50%, ${B.purple}15, transparent 50%), radial-gradient(circle at 80% 50%, ${B.teal}08, transparent 50%)`
+        backgroundImage: `radial-gradient(circle at 20% 50%, ${B.cyanMid}15, transparent 50%), radial-gradient(circle at 80% 50%, ${B.teal}08, transparent 50%)`
       }}>
         {/* Header */}
         <div style={{
@@ -2014,7 +2014,7 @@ const ActiGraftPresentationDeck = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          boxShadow: `0 2px 16px ${B.purple}30`
+          boxShadow: `0 2px 16px ${B.cyanMid}30`
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 10 : 16 }}>
             <img src={nbLogoWhite} alt="Nightingale BioTech" style={{ height: isMobile ? 22 : 28 }} />
@@ -2048,14 +2048,14 @@ const ActiGraftPresentationDeck = () => {
           alignItems: "center",
           justifyContent: "space-between",
           gap: isMobile ? 12 : 24,
-          boxShadow: `0 -2px 16px ${B.purple}30`
+          boxShadow: `0 -2px 16px ${B.cyanMid}30`
         }}>
           <button
             onClick={() => go(idx - 1)}
             disabled={idx === 0}
             style={{
               padding: isMobile ? "8px 12px" : "10px 20px",
-              background: idx === 0 ? B.surface : `linear-gradient(135deg, ${B.purple}30, ${B.card})`,
+              background: idx === 0 ? B.surface : `linear-gradient(135deg, ${B.cyanMid}30, ${B.card})`,
               border: `1px solid ${idx === 0 ? B.border : B.borderLight}`,
               borderRadius: isMobile ? 6 : 8,
               color: idx === 0 ? B.textMuted : B.text,
@@ -2100,7 +2100,7 @@ const ActiGraftPresentationDeck = () => {
             disabled={idx === SLIDE_ORDER.length - 1}
             style={{
               padding: isMobile ? "8px 12px" : "10px 20px",
-              background: idx === SLIDE_ORDER.length - 1 ? B.surface : `linear-gradient(135deg, ${B.purple}30, ${B.card})`,
+              background: idx === SLIDE_ORDER.length - 1 ? B.surface : `linear-gradient(135deg, ${B.cyanMid}30, ${B.card})`,
               border: `1px solid ${idx === SLIDE_ORDER.length - 1 ? B.border : B.borderLight}`,
               borderRadius: isMobile ? 6 : 8,
               color: idx === SLIDE_ORDER.length - 1 ? B.textMuted : B.text,
