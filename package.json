@@ -8,6 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -25,6 +27,7 @@
     "@babel/plugin-syntax-jsx": "^7.28.6",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.0",
-    "@vitejs/plugin-react": "^4.3.4"
+    "@vitejs/plugin-react": "^4.3.4",
+    "gh-pages": "^6.3.0"
   }
 }
