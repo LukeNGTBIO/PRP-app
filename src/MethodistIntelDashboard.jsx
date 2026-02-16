@@ -15,22 +15,24 @@ import {
 // Dark Blue: #0A1526 | Light Blue: #CDE9EE | Bright Blue: #449AF6
 // Light Taupe: #EDE7D4 | Golden Yellow: #FEBE11 | White: #FFFFFF
 const BRAND = {
-  brightBlue: "#449AF6",       // Primary accent — CTAs, links, highlights
-  lightBlue: "#CDE9EE",        // Secondary accent — soft highlights, badges
-  goldenYellow: "#FEBE11",     // Accent — dividers, warnings, timeline markers
-  dark: "#0A1526",             // Dark Blue — primary background
-  darkPanel: "#0E1B30",        // Slightly lighter dark panel
-  darkCard: "#12223D",         // Card backgrounds
-  border: "#1A3050",           // Border color (dark blue family)
-  textPrimary: "#CDE9EE",     // Light Blue — headings on dark bg
-  textSecondary: "#8FA8BE",    // Muted light blue for secondary text
-  textMuted: "#5B7590",        // Dimmed text
-  confirmed: "#449AF6",        // Bright Blue for positive / confirmed
-  assessed: "#FEBE11",         // Golden Yellow for assessed / warning
-  unconfirmed: "#E85D5D",      // Red for not found / barriers
-  high: "#CDE9EE",             // Light Blue for high confidence
-  taupe: "#EDE7D4",            // Light Taupe — alt backgrounds, subtle accents
-  white: "#FFFFFF",
+  brightBlue: "#D4A860",       // Gold accent — CTAs, links, highlights (matches PRP)
+  lightBlue: "#f5f5ed",        // Light beige — soft highlights, badges
+  goldenYellow: "#D4A860",     // Gold accent — dividers, warnings, timeline markers
+  dark: "#f0efe8",             // Cream — page background (matches PRP)
+  darkPanel: "#fff",           // White — panel backgrounds
+  darkCard: "#fff",            // White — card backgrounds
+  border: "#eee",              // Light gray — borders
+  textPrimary: "#333",         // Dark gray — primary text
+  textSecondary: "#666",       // Medium gray — secondary text
+  textMuted: "#999",           // Light gray — muted text
+  confirmed: "#0D6E3F",        // Forest green — positive / confirmed (matches PRP)
+  assessed: "#E65100",         // Orange — assessed / warning
+  unconfirmed: "#B71C1C",      // Red — not found / barriers (matches PRP)
+  high: "#1A3A6B",             // Navy — high confidence
+  taupe: "#f0efe8",            // Cream — alt backgrounds
+  white: "#1a1a2e",            // Dark navy — used for headings (inverted for light theme)
+  headerBg: "#1a1a2e",         // Dark navy — header background (matches PRP)
+  headerBorder: "#2a2a3e",     // Dark navy border
 };
 
 const HOSPITAL_PROFILE = {
@@ -164,15 +166,15 @@ const WOUND_CLOSURE_DATA = [
 
 const ConfidenceBadge = ({ level }) => {
   const map = {
-    "Confirmed": { bg: "rgba(52,211,153,0.15)", text: BRAND.confirmed, icon: CheckCircle },
-    "High Confidence": { bg: "rgba(96,165,250,0.15)", text: BRAND.high, icon: Shield },
-    "Assessed": { bg: "rgba(251,191,36,0.15)", text: BRAND.assessed, icon: AlertTriangle },
-    "Probable": { bg: "rgba(251,191,36,0.15)", text: BRAND.assessed, icon: AlertTriangle },
-    "Moderate": { bg: "rgba(251,191,36,0.15)", text: BRAND.assessed, icon: AlertTriangle },
-    "Unconfirmed": { bg: "rgba(248,113,113,0.15)", text: BRAND.unconfirmed, icon: XCircle },
-    "Inferred": { bg: "rgba(139,155,180,0.15)", text: BRAND.textSecondary, icon: Target },
-    "Recommendation": { bg: "rgba(37,162,220,0.15)", text: BRAND.brightBlue, icon: Zap },
-    "Contextual": { bg: "rgba(139,155,180,0.15)", text: BRAND.textSecondary, icon: FileText },
+    "Confirmed": { bg: "#E8F5ED", text: BRAND.confirmed, icon: CheckCircle },
+    "High Confidence": { bg: "#E6EDF7", text: BRAND.high, icon: Shield },
+    "Assessed": { bg: "#FFF3E0", text: BRAND.assessed, icon: AlertTriangle },
+    "Probable": { bg: "#FFF3E0", text: BRAND.assessed, icon: AlertTriangle },
+    "Moderate": { bg: "#FFF3E0", text: BRAND.assessed, icon: AlertTriangle },
+    "Unconfirmed": { bg: "#FFEBEE", text: BRAND.unconfirmed, icon: XCircle },
+    "Inferred": { bg: "#f5f5ed", text: BRAND.textSecondary, icon: Target },
+    "Recommendation": { bg: "#FDF3E7", text: "#8B4513", icon: Zap },
+    "Contextual": { bg: "#f5f5ed", text: BRAND.textSecondary, icon: FileText },
   };
   const cfg = map[level] || map["Unconfirmed"];
   const Icon = cfg.icon;
@@ -188,7 +190,7 @@ const StatusDot = ({ active }) => (
 );
 
 const MetricCard = ({ icon: Icon, label, value, sub, accent = BRAND.brightBlue }) => (
-  <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 4 }}>
+  <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 4, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
       <Icon size={14} color={accent} />
       <span style={{ color: BRAND.textMuted, fontSize: 11, fontWeight: 500, letterSpacing: 0.4, textTransform: "uppercase" }}>{label}</span>
@@ -233,7 +235,7 @@ const DataRow = ({ label, value, confidence, highlight }) => (
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}>
+    <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)" }}>
       <div style={{ fontSize: 12, color: BRAND.textSecondary, marginBottom: 6 }}>{label}</div>
       {payload.map((p, i) => (
         <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: p.color, fontWeight: 600 }}>
@@ -260,36 +262,36 @@ export default function MethodistIntelDashboard() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Roboto', 'Segoe UI', system-ui, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Outfit', 'Helvetica Neue', sans-serif" }}>
       {/* HEADER */}
-      <div style={{ background: BRAND.dark, borderBottom: `1px solid ${BRAND.border}`, padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
+      <div style={{ background: BRAND.headerBg, borderBottom: `2px solid #D4A860`, padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
-                <div style={{ background: BRAND.brightBlue, padding: "6px 10px", borderRadius: 6, fontWeight: 700, fontSize: 13, color: BRAND.white, letterSpacing: 0.5 }}>NB</div>
-                <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: -0.3, color: BRAND.white }}>
-                  Methodist University Hospital — Market Intelligence
-                </h1>
+                <span style={{ color: "#D4A860", fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase" }}>NIGHTINGALE BIOTECH</span>
               </div>
-              <p style={{ margin: 0, fontSize: 12, color: BRAND.textMuted, marginLeft: 46 }}>
-                ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026 · Nightingale BioTech
+              <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: -0.3, color: "#fff" }}>
+                Methodist University Hospital — Market Intelligence
+              </h1>
+              <p style={{ margin: 0, fontSize: 12, color: "#aaa", marginTop: 4 }}>
+                ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026
               </p>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 11, color: BRAND.textMuted, background: BRAND.darkCard, padding: "6px 12px", borderRadius: 8, border: `1px solid ${BRAND.border}` }}>
+              <span style={{ fontSize: 11, color: "#aaa", background: "#232340", padding: "6px 12px", borderRadius: 8, border: "1px solid #2a2a3e" }}>
                 <Clock size={12} style={{ verticalAlign: -2, marginRight: 4 }} /> Last Updated: Feb 15, 2026
               </span>
             </div>
           </div>
           {/* TABS */}
-          <div style={{ display: "flex", gap: 4, marginTop: 18, overflowX: "auto" }}>
+          <div style={{ display: "flex", gap: 4, marginTop: 18, overflowX: "auto", background: "#232340", borderRadius: 6, padding: 4, borderBottom: "2px solid #D4A860" }}>
             {tabs.map(t => {
               const Icon = t.icon;
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? `${BRAND.brightBlue}15` : "transparent", border: `1px solid ${active ? BRAND.brightBlue + "33" : "transparent"}`, borderRadius: 6, padding: "7px 14px", color: active ? BRAND.brightBlue : BRAND.textMuted, fontSize: 12, fontWeight: active ? 600 : 400, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s" }}>
+                  style={{ background: active ? "#D4A860" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#1a1a2e" : "#aaa", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );

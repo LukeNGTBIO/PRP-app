@@ -6,45 +6,45 @@ function App() {
   const [activePage, setActivePage] = useState('prp')
 
   return (
-    <div>
+    <div style={{ background: '#f0efe8', minHeight: '100vh' }}>
       {/* Navigation Bar */}
       <nav style={{
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: '#0A1526',
-        borderBottom: '2px solid #1A3050',
+        background: '#1a1a2e',
+        borderBottom: '2px solid #D4A860',
         padding: '0 32px',
         display: 'flex',
         alignItems: 'center',
         gap: 8,
-        fontFamily: "'Roboto', 'Segoe UI', system-ui, sans-serif",
+        fontFamily: "'Outfit', 'Helvetica Neue', sans-serif",
       }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #449AF6, #FEBE11)',
-          padding: '6px 10px',
-          borderRadius: 8,
-          fontWeight: 800,
-          fontSize: 13,
-          color: '#0A1526',
-          letterSpacing: -0.3,
-          marginRight: 12,
+        <span style={{
+          color: '#D4A860',
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: 1.5,
+          textTransform: 'uppercase',
+          marginRight: 16,
+          padding: '14px 0',
         }}>
-          NB
-        </div>
+          NIGHTINGALE BIOTECH
+        </span>
         <button
           onClick={() => setActivePage('prp')}
           style={{
-            background: activePage === 'prp' ? 'rgba(68,154,246,0.15)' : 'transparent',
-            border: activePage === 'prp' ? '1px solid rgba(68,154,246,0.3)' : '1px solid transparent',
-            borderBottom: activePage === 'prp' ? '2px solid #449AF6' : '2px solid transparent',
-            color: activePage === 'prp' ? '#449AF6' : '#8FA8BE',
-            padding: '14px 20px',
-            fontSize: 14,
-            fontWeight: activePage === 'prp' ? 700 : 400,
+            background: activePage === 'prp' ? '#D4A860' : 'transparent',
+            border: '2px solid transparent',
+            borderBottom: activePage === 'prp' ? '2px solid #D4A860' : '2px solid transparent',
+            color: activePage === 'prp' ? '#1a1a2e' : '#aaa',
+            padding: '12px 20px',
+            fontSize: 12,
+            fontWeight: 700,
             cursor: 'pointer',
-            transition: 'all 0.2s',
-            borderRadius: '8px 8px 0 0',
+            transition: 'all 0.15s ease',
+            borderRadius: '6px 6px 0 0',
+            letterSpacing: 0.5,
           }}
         >
           PRP Competitive Landscape
@@ -52,16 +52,17 @@ function App() {
         <button
           onClick={() => setActivePage('methodist')}
           style={{
-            background: activePage === 'methodist' ? 'rgba(68,154,246,0.15)' : 'transparent',
-            border: activePage === 'methodist' ? '1px solid rgba(68,154,246,0.3)' : '1px solid transparent',
-            borderBottom: activePage === 'methodist' ? '2px solid #449AF6' : '2px solid transparent',
-            color: activePage === 'methodist' ? '#449AF6' : '#8FA8BE',
-            padding: '14px 20px',
-            fontSize: 14,
-            fontWeight: activePage === 'methodist' ? 700 : 400,
+            background: activePage === 'methodist' ? '#D4A860' : 'transparent',
+            border: '2px solid transparent',
+            borderBottom: activePage === 'methodist' ? '2px solid #D4A860' : '2px solid transparent',
+            color: activePage === 'methodist' ? '#1a1a2e' : '#aaa',
+            padding: '12px 20px',
+            fontSize: 12,
+            fontWeight: 700,
             cursor: 'pointer',
-            transition: 'all 0.2s',
-            borderRadius: '8px 8px 0 0',
+            transition: 'all 0.15s ease',
+            borderRadius: '6px 6px 0 0',
+            letterSpacing: 0.5,
           }}
         >
           Methodist Hospital Intel
