@@ -274,6 +274,19 @@ const GlobalStyle = () => (
   `}</style>
 );
 
+// ─── RESPONSIVE HOOK ───
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+};
+
 // ─── PAGE WRAPPER (each "page" of the e-PDF) ───
 // Using static variant based on pageNum to ensure consistent rendering
 const Page = ({ children, pageNum }) => {
@@ -282,7 +295,7 @@ const Page = ({ children, pageNum }) => {
     ? parseInt(pageNum) % 2
     : (pageNum === 'i' ? 1 : 0);
 
-  const isMobile = window.innerWidth < 768;
+  const isMobile = useIsMobile();
 
   return (
     <div className="page" style={{
@@ -334,14 +347,17 @@ const Page = ({ children, pageNum }) => {
 // ─── REUSABLE COMPONENTS (Playbook-matched) ───
 
 // Section header with teal accent bar
-const SectionHead = ({ num, title, sub }) => (
-  <div style={{ marginBottom: 28 }}>
-    {num && <div style={{ display: "inline-block", background: C.teal, color: "#fff", fontSize: 9, fontWeight: 800, padding: "3px 12px", borderRadius: 3, letterSpacing: 2, marginBottom: 10, textTransform: "uppercase" }}>Section {num}</div>}
-    <h2 style={{ fontSize: 28, fontWeight: 800, color: C.cream1, margin: 0, lineHeight: 1.2, fontFamily: "'Georgia', 'Times New Roman', serif" }}>{title}</h2>
-    {sub && <p style={{ fontSize: 13, color: C.cream4, margin: "6px 0 0", lineHeight: 1.4 }}>{sub}</p>}
-    <div style={{ width: 60, height: 2, background: `linear-gradient(90deg, ${C.teal}, transparent)`, marginTop: 12 }} />
-  </div>
-);
+const SectionHead = ({ num, title, sub }) => {
+  const isMobile = useIsMobile();
+  return (
+    <div style={{ marginBottom: isMobile ? 20 : 28 }}>
+      {num && <div style={{ display: "inline-block", background: C.teal, color: "#fff", fontSize: isMobile ? 8 : 9, fontWeight: 800, padding: "3px 12px", borderRadius: 3, letterSpacing: isMobile ? 1.5 : 2, marginBottom: 10, textTransform: "uppercase" }}>Section {num}</div>}
+      <h2 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 800, color: C.cream1, margin: 0, lineHeight: 1.2, fontFamily: "'Georgia', 'Times New Roman', serif" }}>{title}</h2>
+      {sub && <p style={{ fontSize: isMobile ? 12 : 13, color: C.cream4, margin: "6px 0 0", lineHeight: 1.4 }}>{sub}</p>}
+      <div style={{ width: isMobile ? 50 : 60, height: 2, background: `linear-gradient(90deg, ${C.teal}, transparent)`, marginTop: 12 }} />
+    </div>
+  );
+};
 
 // Cream info card (frosted glass aesthetic)
 const CreamCard = ({ title, children, borderColor }) => (
@@ -379,30 +395,39 @@ const AlertCard = ({ title, children, type }) => {
 };
 
 // Numbered step badge (matches Playbook teal square badges)
-const StepBadge = ({ n }) => (
-  <div style={{ minWidth: 30, height: 30, borderRadius: 5, background: C.teal, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 800, fontSize: 14, flexShrink: 0, fontFamily: "'Georgia', serif" }}>{n}</div>
-);
+const StepBadge = ({ n }) => {
+  const isMobile = useIsMobile();
+  return (
+    <div style={{ minWidth: isMobile ? 28 : 30, height: isMobile ? 28 : 30, borderRadius: 5, background: C.teal, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 800, fontSize: isMobile ? 13 : 14, flexShrink: 0, fontFamily: "'Georgia', serif" }}>{n}</div>
+  );
+};
 
 // Step row
-const StepRow = ({ n, title, desc, time }) => (
-  <div style={{ display: "flex", gap: 14, marginBottom: 16, alignItems: "flex-start" }}>
-    <StepBadge n={n} />
-    <div style={{ flex: 1 }}>
-      <div style={{ fontWeight: 700, color: C.cream1, fontSize: 14, fontFamily: "'Georgia', serif" }}>{title}</div>
-      <div style={{ color: C.cream3, fontSize: 12, lineHeight: 1.6, marginTop: 3 }}>{desc}</div>
-      {time && <div style={{ color: C.teal, fontSize: 10, fontWeight: 700, marginTop: 4, textTransform: "uppercase", letterSpacing: 0.8 }}>{time}</div>}
+const StepRow = ({ n, title, desc, time }) => {
+  const isMobile = useIsMobile();
+  return (
+    <div style={{ display: "flex", gap: isMobile ? 10 : 14, marginBottom: isMobile ? 14 : 16, alignItems: "flex-start" }}>
+      <StepBadge n={n} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 700, color: C.cream1, fontSize: isMobile ? 13 : 14, fontFamily: "'Georgia', serif" }}>{title}</div>
+        <div style={{ color: C.cream3, fontSize: isMobile ? 11.5 : 12, lineHeight: 1.6, marginTop: 3 }}>{desc}</div>
+        {time && <div style={{ color: C.teal, fontSize: isMobile ? 9 : 10, fontWeight: 700, marginTop: 4, textTransform: "uppercase", letterSpacing: 0.8 }}>{time}</div>}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Big stat (matches Playbook bottom stats: large number + label)
-const BigStat = ({ value, label, sub }) => (
-  <div style={{ textAlign: "center", flex: "1 1 150px" }}>
-    <div style={{ fontSize: 36, fontWeight: 800, color: C.cream1, lineHeight: 1, fontFamily: "'Georgia', serif" }}>{value}</div>
-    <div style={{ fontSize: 11, fontWeight: 700, color: C.teal, marginTop: 6, textTransform: "uppercase", letterSpacing: 0.6 }}>{label}</div>
-    {sub && <div style={{ fontSize: 10, color: C.cream5, marginTop: 3 }}>{sub}</div>}
-  </div>
-);
+const BigStat = ({ value, label, sub }) => {
+  const isMobile = useIsMobile();
+  return (
+    <div style={{ textAlign: "center", flex: isMobile ? "1 1 120px" : "1 1 150px", minWidth: isMobile ? "110px" : "140px" }}>
+      <div style={{ fontSize: isMobile ? 28 : 36, fontWeight: 800, color: C.cream1, lineHeight: 1, fontFamily: "'Georgia', serif" }}>{value}</div>
+      <div style={{ fontSize: isMobile ? 10 : 11, fontWeight: 700, color: C.teal, marginTop: isMobile ? 5 : 6, textTransform: "uppercase", letterSpacing: 0.6 }}>{label}</div>
+      {sub && <div style={{ fontSize: isMobile ? 9 : 10, color: C.cream5, marginTop: 3 }}>{sub}</div>}
+    </div>
+  );
+};
 
 // Table (Playbook-matched dark header with cream text)
 const Tbl = ({ h, rows, compact }) => (
@@ -421,24 +446,42 @@ const P = ({ children }) => <p style={{ fontSize: 13, color: C.cream2, lineHeigh
 const H3 = ({ children }) => <h3 style={{ fontSize: 16, fontWeight: 700, color: C.cream1, margin: "20px 0 10px", fontFamily: "'Georgia', serif" }}>{children}</h3>;
 
 // Two-column grid
-const Grid2 = ({ children }) => <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 14 }}>{children}</div>;
+const Grid2 = ({ children }) => {
+  const isMobile = useIsMobile();
+  return <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(240px, 1fr))", gap: isMobile ? 10 : 12, marginBottom: 14 }}>{children}</div>;
+};
 
 // ─── SEND MODAL ───
 const SendModal = ({ open, onClose }) => {
   const [method, setMethod] = useState("email");
   const [to, setTo] = useState("");
   const [msg, setMsg] = useState("I'd like to share our ActiGraft Training Manual with you. This covers clinical protocols, reimbursement guidance (CY2026 updates), MAC-specific billing, and implementation pathways.");
+  const isMobile = useIsMobile();
+
   if (!open) return null;
+
   const fire = () => {
     const subj = encodeURIComponent("ActiGraft Training & Education Manual — Nightingale BioTech / Legacy Medical");
     const body = encodeURIComponent(msg + "\n\n" + window.location.href);
     window.open(method === "email" ? `mailto:${to}?subject=${subj}&body=${body}` : `sms:${to}?body=${encodeURIComponent(msg + " " + window.location.href)}`, "_blank");
     onClose();
   };
-  const inp = { width: "100%", padding: 10, borderRadius: 4, border: `1px solid ${C.borderLight}`, background: C.bg2, color: C.cream1, fontSize: 13, outline: "none", boxSizing: "border-box" };
+
+  const inp = {
+    width: "100%",
+    padding: isMobile ? 9 : 10,
+    borderRadius: 4,
+    border: `1px solid ${C.borderLight}`,
+    background: C.bg2,
+    color: C.cream1,
+    fontSize: isMobile ? 12 : 13,
+    outline: "none",
+    boxSizing: "border-box"
+  };
+
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,12,18,0.92)" }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: C.bg3, border: `1px solid ${C.borderLight}`, borderRadius: 8, padding: 28, width: "100%", maxWidth: 440 }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,12,18,0.92)", padding: isMobile ? "0 12px" : 0 }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: C.bg3, border: `1px solid ${C.borderLight}`, borderRadius: 8, padding: isMobile ? 20 : 28, width: "100%", maxWidth: 440 }}>
         <h3 style={{ color: C.cream1, fontSize: 16, fontWeight: 700, margin: "0 0 16px", fontFamily: "'Georgia', serif" }}>Quick Send Manual</h3>
         <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
           {["email", "sms"].map(m => <button key={m} onClick={() => setMethod(m)} style={{ flex: 1, padding: "7px 14px", borderRadius: 4, border: `1px solid ${method === m ? C.teal : C.border}`, background: method === m ? C.tealGlow : "transparent", color: method === m ? C.teal : C.cream4, cursor: "pointer", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>{m === "email" ? "Email" : "SMS"}</button>)}
@@ -461,6 +504,7 @@ const SendModal = ({ open, onClose }) => {
 export default function ActiGraftManual() {
   const [sendOpen, setSendOpen] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   // Scroll to top when component mounts (tab is opened)
   useEffect(() => {
@@ -500,58 +544,73 @@ export default function ActiGraftManual() {
       {/* ═══ FLOATING TOOLBAR ═══ */}
       <div className="toolbar-float no-print" style={{
         position: "fixed",
-        top: window.innerWidth < 768 ? 8 : 16,
-        right: window.innerWidth < 768 ? 8 : 16,
+        top: isMobile ? 8 : 16,
+        right: isMobile ? 8 : 16,
         zIndex: 500,
         display: "flex",
-        gap: window.innerWidth < 768 ? 4 : 6,
+        gap: isMobile ? 4 : 6,
         flexWrap: "wrap"
       }}>
         <button onClick={() => setTocOpen(!tocOpen)} style={{
-          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          padding: isMobile ? "8px 12px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.borderLight}`,
           background: C.bg3,
           color: C.cream3,
           cursor: "pointer",
-          fontSize: window.innerWidth < 768 ? 10 : 11,
-          fontWeight: 600
+          fontSize: isMobile ? 10 : 11,
+          fontWeight: 600,
+          minWidth: isMobile ? 44 : "auto",
+          minHeight: isMobile ? 44 : "auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
         }}>
           {tocOpen ? "✕" : "☰"}
         </button>
         <button onClick={() => window.print()} style={{
-          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          padding: isMobile ? "8px 12px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.borderLight}`,
           background: C.bg3,
           color: C.cream3,
           cursor: "pointer",
-          fontSize: window.innerWidth < 768 ? 10 : 11,
-          fontWeight: 600
+          fontSize: isMobile ? 10 : 11,
+          fontWeight: 600,
+          minWidth: isMobile ? 44 : "auto",
+          minHeight: isMobile ? 44 : "auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
         }}>
           🖨
         </button>
         <button onClick={() => setSendOpen(true)} style={{
-          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          padding: isMobile ? "8px 12px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.teal}40`,
           background: C.tealGlow,
           color: C.tealBright,
           cursor: "pointer",
-          fontSize: window.innerWidth < 768 ? 10 : 11,
-          fontWeight: 700
+          fontSize: isMobile ? 10 : 11,
+          fontWeight: 700,
+          minWidth: isMobile ? 44 : "auto",
+          minHeight: isMobile ? 44 : "auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
         }}>
           ✉
         </button>
       </div>
 
       {/* ═══ TOC SIDEBAR ═══ */}
-      {tocOpen && <div className="no-print" style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: 300, maxWidth: "80vw", background: C.bg2, borderLeft: `1px solid ${C.borderLight}`, zIndex: 400, overflowY: "auto", padding: "60px 16px 16px", boxShadow: "-4px 0 40px rgba(0,0,0,0.5)" }}>
-        <div style={{ fontSize: 9, color: C.cream5, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12 }}>Table of Contents</div>
+      {tocOpen && <div className="no-print" style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: isMobile ? "85vw" : 300, maxWidth: isMobile ? "85vw" : "300px", background: C.bg2, borderLeft: `1px solid ${C.borderLight}`, zIndex: 400, overflowY: "auto", padding: isMobile ? "50px 12px 12px" : "60px 16px 16px", boxShadow: "-4px 0 40px rgba(0,0,0,0.5)" }}>
+        <div style={{ fontSize: isMobile ? 8 : 9, color: C.cream5, letterSpacing: isMobile ? 1.5 : 2, textTransform: "uppercase", marginBottom: 12 }}>Table of Contents</div>
         {sections.map(s => (
-          <button key={s.id} onClick={() => goTo(s.id)} style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: "7px 6px", border: "none", background: "transparent", color: C.cream3, cursor: "pointer", fontSize: 12, textAlign: "left", borderRadius: 3 }}
+          <button key={s.id} onClick={() => goTo(s.id)} style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: isMobile ? "9px 6px" : "7px 6px", border: "none", background: "transparent", color: C.cream3, cursor: "pointer", fontSize: isMobile ? 11.5 : 12, textAlign: "left", borderRadius: 3, minHeight: isMobile ? 44 : "auto" }}
             onMouseEnter={e => e.currentTarget.style.background = C.bg4} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-            <span>{s.label}</span>{s.pg && <span style={{ color: C.cream5, fontSize: 10 }}>{s.pg}</span>}
+            <span>{s.label}</span>{s.pg && <span style={{ color: C.cream5, fontSize: isMobile ? 9.5 : 10 }}>{s.pg}</span>}
           </button>
         ))}
       </div>}
