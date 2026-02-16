@@ -1,0 +1,809 @@
+import React from 'react';
+import './WoundTeamDossier.css'; // Optional: Add a separate CSS file for styling (provided below)
+
+const WoundTeamDossier = () => {
+  return (
+    <div className="dossier-container">
+      <header className="dossier-header">
+        <h1>Methodist North Wound Healing & Limb Preservation Team Dossier</h1>
+        <p className="prepared-for">Prepared for Nightingale Biotech Leadership (Luke & Team) | February 16, 2026</p>
+        <p className="objective">
+          Comprehensive resource to build rapport with Sandy Deimund (KOL), Tonya Rountree, and Dr. Vladimir Chachanidze. 
+          Goal: Accelerate ActiGraft adoption by creating genuine value through education, outcomes, visibility, and community impact.
+        </p>
+      </header>
+
+      {/* Visual Gallery */}
+      <section className="image-gallery">
+        <h2>Team & Center Visuals</h2>
+        <div className="gallery-grid">
+          <div className="gallery-item">
+            <img src="https://media.licdn.com/dms/image/sync/v2/D5627AQEKN2PoyJjzgg/articleshare-shrink_800/B56ZjOAgc9HMAM-/0/1755802896799?e=2147483647&v=beta&t=pvwETNbiUIbrdBXbfwdz0KFy9s5srqZryLQ_aXWb-Ow" alt="Tonya Rountree, MSN, RN - Wound Care Director" />
+            <p>Tonya Rountree, MSN, RN – Wound Care Director</p>
+          </div>
+          <div className="gallery-item">
+            <img src="https://bestcare.org/sites/default/files/styles/featured_media/public/best_care_today/featured_image/MJEH_Wound_Clinic_Cover.jpg.webp?itok=BXjuvRbZ" alt="Hyperbaric Oxygen Therapy Chambers (representative of center capabilities)" />
+            <p>Hyperbaric Oxygen Therapy Chambers – Core to Limb Salvage</p>
+          </div>
+          <div className="gallery-item">
+            <img src="https://cdn.greatnews.life/wp-content/uploads/2024/08/Methodist-Hospitals-Wound-Treatment-Center-Ribbon-Cutting-Open-House-2024.jpg" alt="Wound Center team at ribbon cutting event" />
+            <p>Wound Center Team Celebration (representative)</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Personnel Chart */}
+      <section className="personnel-chart">
+        <h2>Key Personnel Overview</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Personnel</th>
+              <th>Role & Position</th>
+              <th>Key Background & Accomplishments</th>
+              <th>Professional Drivers & Loves</th>
+              <th>Rapport Opportunities & Value-Add Ideas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sondra "Sandy" Deimund, FNP, CWS</strong></td>
+              <td>Lead Nurse Practitioner & Certified Wound Specialist; Primary Clinical KOL</td>
+              <td>20+ years in wound care; "Power of One" Award (2010); NAWC Preceptor; Co-author 2018 DFU education paper; Featured in Methodist media on HBO & limb salvage</td>
+              <td>Limb salvage mission (prevent amputations in Shelby County); Patient education & empowerment; Data-driven innovation; Precepting legacy</td>
+              <td>Reference her 2018 paper/media; Co-host NAWC webinars; Joint abstracts/posters; Sponsor community diabetes events</td>
+            </tr>
+            <tr>
+              <td><strong>Tonya Rountree, MSN, RN</strong></td>
+              <td>Wound Care Director / Clinical Manager; Oversees operations & education programs</td>
+              <td>MSN Executive Leadership (2020); Leads diabetes education classes; 2025 NightinGala nominee; Featured in blogs/news on chronic wounds</td>
+              <td>Prevention & accessible education; Operational efficiency; Community impact; Nutrition & resilience focus</td>
+              <td>Compliment diabetes class innovations; Co-sponsor education series; Provide nutrition materials; Support RN training/recruitment</td>
+            </tr>
+            <tr>
+              <td><strong>Dr. Vladimir Chachanidze, MD</strong></td>
+              <td>Infectious Disease Specialist; Key Multidisciplinary Collaborator</td>
+              <td>Board-certified ID; Expertise in cellulitis, osteomyelitis; Frequently praised in patient testimonials for limb-saving outcomes</td>
+              <td>Complex infection management; Collaborative limb preservation; Patient gratitude in tough cases</td>
+              <td>Reference patient "saved my leg" stories; Joint protocols on infected wounds; Co-data tracking for infection resolution</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* Rapport Strategies */}
+      <section className="rapport-strategies">
+        <h2>Expanded Rapport-Building Strategies</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Team Member</th>
+              <th>Initial Outreach</th>
+              <th>Sample Opener Scripts</th>
+              <th>Key Rapport Builders & Value-Add Offers</th>
+              <th>Follow-Up Tactics</th>
+              <th>Timeline</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sandy Deimund</td>
+              <td>LinkedIn → Email/Phone</td>
+              <td>"Sandy, your 2018 DFU paper brilliantly highlighted provider training gaps—it's guided our work at Nightingale."</td>
+              <td>Compliment precepting; Offer co-webinars, joint abstracts; Tie to patient empowerment</td>
+              <td>Send articles; Propose lunch-and-learn; Invite to advisory call</td>
+              <td>Rapport: 1–2 weeks | Visit: 4–6 weeks</td>
+            </tr>
+            <tr>
+              <td>Tonya Rountree</td>
+              <td>LinkedIn + Email</td>
+              <td>"Tonya, your diabetes class adaptations are making real impact—excited to support your prevention goals."</td>
+              <td>Praise innovations; Sponsor classes; Nutrition materials; Metrics templates</td>
+              <td>Share stats; Co-branded handouts; Webinar invite</td>
+              <td>Rapport: 1 week | Co-sponsorship: 4 weeks</td>
+            </tr>
+            <tr>
+              <td>Dr. Vladimir Chachanidze</td>
+              <td>Via Sandy/Tonya intro</td>
+              <td>"Dr. Chachanidze, patients praise your infection expertise—ActiGraft complements osteomyelitis cases."</td>
+              <td>Reference testimonials; Joint case reviews; Infection data studies</td>
+              <td>Forward studies; Shadowed discussions; Include in team events</td>
+              <td>Rapport: 4–6 weeks | Buy-in: 8 weeks</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* Team-Wide Strategies */}
+      <section className="team-wide">
+        <h2>Team-Wide Value Creation Ideas</h2>
+        <ul>
+          <li><strong>Value Lunch-and-Learn</strong>: 70% their wins, 30% ActiGraft demo tied to HBO/infection/education</li>
+          <li><strong>Community Sponsorship</strong>: Memphis diabetes events; Co-create FB content</li>
+          <li><strong>Internal Leverage</strong>: Position North as "ActiGraft Center of Excellence" vs. South</li>
+          <li><strong>Morale Boosters</strong>: "Limb Saver" swag; Burnout resources</li>
+        </ul>
+      </section>
+
+      <footer className="dossier-footer">
+        <p>ActiGraft fits perfectly as an adjunct to HBO, DFU education, and infection protocols. Focus on helping them "look great and win."</p>
+      </footer>
+    </div>
+  );
+};
+
+export default WoundTeamDossier;
+.dossier-container { max-width: 1200px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; line-height: 1.6; }
+.dossier-header { text-align: center; margin-bottom: 40px; }
+.dossier-header h1 { color: #003087; }
+.prepared-for { font-style: italic; color: #555; }
+.objective { background: #f0f7ff; padding: 15px; border-left: 5px solid #003087; }
+
+.image-gallery .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.gallery-item img { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.gallery-item p { text-align: center; font-weight: bold; margin-top: 8px; }
+
+section { margin-bottom: 50px; }
+h2 { color: #003087; border-bottom: 2px solid #003087; padding-bottom: 10px; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #003087; color: white; }
+tr:nth-child(even) { background-color: #f9f9f9; }
+
+ul { list-style: disc; padding-left: 40px; }
+.dossier-footer { text-align: center; font-style: italic; color: #555; margin-top: 50px; padding: 20px; background: #f0f7ff; }
+import React, { useState, useEffect } from 'react';
+import './WoundTeamDossier.css'; // Reuse/extend previous CSS (updated below)
+
+const WoundTeamDossier = () => {
+  // State for personal notes (persisted in localStorage)
+  const [notes, setNotes] = useState({
+    sandy: '',
+    tonya: '',
+    vladimir: '',
+  });
+
+  // Load notes from localStorage on mount
+  useEffect(() => {
+    const savedNotes = localStorage.getItem('woundTeamNotes');
+    if (savedNotes) {
+      setNotes(JSON.parse(savedNotes));
+    }
+  }, []);
+
+  // Save notes to localStorage on change
+  useEffect(() => {
+    localStorage.setItem('woundTeamNotes', JSON.stringify(notes));
+  }, [notes]);
+
+  const handleNoteChange = (person, value) => {
+    setNotes(prev => ({ ...prev, [person]: value }));
+  };
+
+  // Personnel data (centralized for easy updates)
+  const personnel = [
+    {
+      id: 'sandy',
+      name: 'Sondra "Sandy" Deimund, FNP, CWS',
+      role: 'Lead Nurse Practitioner & Certified Wound Specialist (Primary KOL)',
+      imageUrl: 'https://via.placeholder.com/200x200?text=Sandy+Deimund+(No+Public+Headshot)',
+      background: '20+ years in wound care; "Power of One" Award (2010); NAWC Preceptor; Co-author 2018 DFU education paper; Featured in Methodist media on HBO & limb salvage.',
+      drivers: 'Limb salvage mission (prevent amputations in Shelby County); Patient education & empowerment; Data-driven innovation; Precepting legacy.',
+      rapport: 'Reference her 2018 paper/media; Co-host NAWC webinars; Joint abstracts/posters; Sponsor community diabetes events.',
+      opener: 'Sandy, your 2018 DFU paper brilliantly highlighted provider training gaps—it's guided our work at Nightingale.',
+    },
+    {
+      id: 'tonya',
+      name: 'Tonya Rountree, MSN, RN',
+      role: 'Wound Care Director / Clinical Manager',
+      imageUrl: 'https://media.licdn.com/dms/image/sync/v2/D5627AQEKN2PoyJjzgg/articleshare-shrink_800/B56ZjOAgc9HMAM-/0/1755802896799?e=2147483647&v=beta&t=pvwETNbiUIbrdBXbfwdz0KFy9s5srqZryLQ_aXWb-Ow', // Clear professional headshot
+      background: 'MSN Executive Leadership (2020); Leads diabetes education classes; 2025 NightinGala nominee; Featured in blogs/news on chronic wounds.',
+      drivers: 'Prevention & accessible education; Operational efficiency; Community impact; Nutrition & resilience focus.',
+      rapport: 'Compliment diabetes class innovations; Co-sponsor education series; Provide nutrition materials; Support RN training/recruitment.',
+      opener: 'Tonya, your diabetes class adaptations are making real impact—excited to support your prevention goals.',
+    },
+    {
+      id: 'vladimir',
+      name: 'Dr. Vladimir Chachanidze, MD',
+      role: 'Infectious Disease Specialist (Key Collaborator)',
+      imageUrl: 'https://via.placeholder.com/200x200?text=Dr.+Vladimir+Chachanidze+(Limited+Public+Image)',
+      background: 'Board-certified ID; Expertise in cellulitis, osteomyelitis; Frequently praised in patient testimonials for limb-saving outcomes.',
+      drivers: 'Complex infection management; Collaborative limb preservation; Patient gratitude in tough cases.',
+      rapport: 'Reference patient "saved my leg" stories; Joint protocols on infected wounds; Co-data tracking for infection resolution.',
+      opener: 'Dr. Chachanidze, patients praise your infection expertise—ActiGraft complements osteomyelitis cases.',
+    },
+  ];
+
+  return (
+    <div className="dossier-container">
+      <header className="dossier-header">
+        <h1>Methodist North Wound Healing & Limb Preservation Team</h1>
+        <p className="prepared-for">Prepared for Nightingale Biotech Leadership | February 16, 2026</p>
+        <p className="objective">
+          Interactive consultant dossier to maximize rapport & value as partners. Use notes sections for follow-up tracking.
+        </p>
+      </header>
+
+      {/* Center Visuals */}
+      <section className="center-visuals">
+        <h2>Center & Capabilities</h2>
+        <div className="gallery-grid">
+          <img src="https://www.oswegohealth.org/media/a9343602536c4cf5806b0e9e40e4d772/wound-care-nurse-patient-in-chamber.jpg" alt="Hyperbaric Oxygen Therapy in action" />
+          <img src="https://www.methodisthealth.org/images/careers/image-cards/locations/north_hospital_location_image.png" alt="Methodist North Hospital exterior" />
+        </div>
+      </section>
+
+      {/* Interactive Org Chart (Simple Visualization) */}
+      <section className="org-chart">
+        <h2>Team Structure Overview</h2>
+        <div className="chart">
+          <div className="node primary">Sandy Deimund<br />Lead NP / KOL</div>
+          <div className="connectors">
+            <div className="node secondary">Tonya Rountree<br />Director / Operations</div>
+            <div className="node secondary">Dr. Vladimir Chachanidze<br />Infectious Disease</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Personnel Cards */}
+      <section className="personnel-cards">
+        <h2>Key Personnel Files (Click to Expand • Add Notes)</h2>
+        <div className="cards-grid">
+          {personnel.map(person => (
+            <div key={person.id} className="person-card">
+              <img src={person.imageUrl} alt={person.name} className="headshot" />
+              <h3>{person.name}</h3>
+              <p className="role">{person.role}</p>
+              
+              <details className="accordion">
+                <summary>View Full Profile & Rapport Strategy</summary>
+                <div className="details-content">
+                  <p><strong>Background:</strong> {person.background}</p>
+                  <p><strong>Drivers & Loves:</strong> {person.drivers}</p>
+                  <p><strong>Rapport Ideas:</strong> {person.rapport}</p>
+                  <p><strong>Sample Opener:</strong> "{person.opener}"</p>
+                </div>
+              </details>
+
+              <div className="notes-section">
+                <label>Follow-Up Notes / Interaction Log:</label>
+                <textarea
+                  value={notes[person.id]}
+                  onChange={(e) => handleNoteChange(person.id, e.target.value)}
+                  placeholder="e.g., Called 2/20 - positive response to education offer..."
+                  rows="5"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Team-Wide Strategies */}
+      <section className="team-wide">
+        <h2>Team-Wide Value Creation</h2>
+        <ul>
+          <li>Value Lunch-and-Learn: 70% their wins, 30% ActiGraft demo</li>
+          <li>Community Sponsorship: Diabetes events + FB content</li>
+          <li>Internal Leverage: Position North as ActiGraft Center of Excellence</li>
+          <li>Morale Boosters: "Limb Saver" swag & resources</li>
+        </ul>
+      </section>
+
+      <footer className="dossier-footer">
+        <p>ActiGraft enhances HBO, education, and infection protocols. Notes persist across sessions for easy follow-up.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default WoundTeamDossier;
+.dossier-container { max-width: 1400px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; }
+
+.dossier-header { text-align: center; background: #003087; color: white; padding: 30px; border-radius: 10px; }
+.objective { background: #e6f2ff; color: #003087; padding: 15px; border-radius: 8px; margin-top: 20px; }
+
+.center-visuals .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
+.center-visuals img { width: 100%; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+.org-chart { text-align: center; margin: 40px 0; }
+.chart { display: inline-block; }
+.node { padding: 15px 25px; background: #003087; color: white; border-radius: 50px; margin: 10px; display: inline-block; min-width: 200px; }
+.primary { background: #0050b3; font-weight: bold; }
+.secondary { background: #1890ff; }
+.connectors { position: relative; margin-top: 20px; }
+.connectors:before { content: ''; position: absolute; top: -30px; left: 50%; width: 2px; height: 30px; background: #003087; }
+
+.personnel-cards .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 30px; }
+.person-card { background: white; border: 1px solid #ddd; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; }
+.headshot { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin-bottom: 15px; border: 4px solid #003087; }
+.role { font-style: italic; color: #555; margin-bottom: 15px; }
+
+.accordion summary { cursor: pointer; background: #f0f7ff; padding: 12px; border-radius: 8px; font-weight: bold; }
+.details-content { text-align: left; padding: 15px 0; background: #f9f9f9; border-radius: 8px; margin-top: 10px; }
+
+.notes-section { margin-top: 20px; }
+.notes-section label { display: block; font-weight: bold; margin-bottom: 8px; }
+.notes-section textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; }
+
+.team-wide ul { background: #f0f7ff; padding: 20px 40px; border-radius: 10px; }
+.dossier-footer { text-align: center; background: #003087; color: white; padding: 20px; margin-top: 50px; border-radius: 10px; }
+import React, { useState, useEffect } from 'react';
+import './WoundTeamDossier.css'; // Updated CSS below
+
+const WoundTeamDossier = () => {
+  // State for personal notes (persisted in localStorage)
+  const [notes, setNotes] = useState({
+    sandy: '',
+    tonya: '',
+    vladimir: '',
+    general: '',
+  });
+
+  // Load/save notes
+  useEffect(() => {
+    const savedNotes = localStorage.getItem('woundTeamNotes');
+    if (savedNotes) setNotes(JSON.parse(savedNotes));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('woundTeamNotes', JSON.stringify(notes));
+  }, [notes]);
+
+  const handleNoteChange = (key, value) => {
+    setNotes(prev => ({ ...prev, [key]: value }));
+  };
+
+  // Personnel data
+  const personnel = [
+    {
+      id: 'tonya',
+      name: 'Tonya Rountree, MSN, RN',
+      role: 'Wound Care Director / Clinical Manager',
+      imageUrl: 'https://media.licdn.com/dms/image/sync/v2/D5627AQEKN2PoyJjzgg/articleshare-shrink_800/B56ZjOAgc9HMAM-/0/1755802896799?e=2147483647&v=beta&t=pvwETNbiUIbrdBXbfwdz0KFy9s5srqZryLQ_aXWb-Ow',
+      background: 'MSN Executive Leadership (2020); Leads diabetes education classes; 2025 NightinGala nominee; Featured in blogs/news on chronic wounds.',
+      drivers: 'Prevention & accessible education; Operational efficiency; Community impact; Nutrition & resilience focus.',
+      rapport: 'Compliment diabetes class innovations; Co-sponsor education series; Provide nutrition materials; Support RN training/recruitment.',
+      opener: 'Tonya, your diabetes class adaptations are making real impact—excited to support your prevention goals.',
+    },
+    {
+      id: 'sandy',
+      name: 'Sondra "Sandy" Deimund, FNP, CWS',
+      role: 'Lead Nurse Practitioner & Certified Wound Specialist (Primary KOL)',
+      imageUrl: 'https://via.placeholder.com/200x200?text=Sandy+Deimund+(No+Public+Headshot)',
+      background:DEBUT '20+ years in wound ingresos care; "Power of One" Award (2010); NAWC Preceptor; Co-author 2018 DFU education paper; Featured in media on HBO & limb salvage.',
+      drivers: 'Limb salvage mission; Patient education & empowerment; Data-driven innovation; Precepting legacy.',
+      rapport: 'Reference her 2018 paper/media; Co-host NAWC webinars; Joint abstracts/posters; Sponsor community diabetes events.',
+      opener: 'Sandy, your 2018 DFU paper brilliantly highlighted provider training gaps—it's guided our work at Nightingale.',
+    },
+    {
+      id: 'vladimir',
+      name: 'Dr. Vladimir Chachanidze, MD',
+      role: 'Infectious Disease Specialist (Key Collaborator)',
+      imageUrl: 'https://via.placeholder.com/200x200?text=Dr.+Vladimir+Chachanidze+(Limited+Public+Image)',
+      background: 'Board-certified ID; Expertise in cellulitis, osteomyelitis; Praised in patient testimonials for limb-saving outcomes.',
+      drivers: 'Complex infection management; Collaborative limb preservation; Patient gratitude in tough cases.',
+      rapport: 'Reference patient "saved my leg" stories; Joint protocols on infected wounds; Co-data tracking for infection resolution.',
+      opener: 'Dr. Chachanidze, patients praise your infection expertise—ActiGraft complements osteomyelitis cases.',
+    },
+  ];
+
+  return (
+    <div className="dossier-container">
+      <header className="dossier-header">
+        <h1>Methodist North Wound Healing & Limb Preservation Team</h1>
+        <p className="prepared-for">Prepared for Nightingale Biotech Leadership | February 16, 2026</p>
+        <p className="objective">
+          Interactive consultant dossier with detailed organizational view, personnel files, and note-taking for follow-ups.
+        </p>
+      </header>
+
+      {/* Center Visuals */}
+      <section className="center-visuals">
+        <h2>Center & Capabilities</h2>
+        <div className="gallery-grid">
+          <img src="https://www.oswegohealth.org/media/a9343602536c4cf5806b0e9e40e4d772/wound-care-nurse-patient-in-chamber.jpg" alt="Hyperbaric Oxygen Therapy" />
+          <img src="https://bestcare.org/sites/default/files/styles/featured_media/public/best_care_today/featured_image/MJEH_Wound_Clinic_Cover.jpg.webp?itok=BXjuvRbZ" alt="Wound Center Team Environment" />
+          <img src="https://www.methodisthealth.org/images/careers/image-cards/locations/north_hospital_location_image.png" alt="Methodist North Hospital" />
+        </div>
+      </section>
+
+      {/* Detailed Interactive Org Chart */}
+      <section className="org-chart-detailed">
+        <h2>Detailed Team Structure (Multidisciplinary Wound Healing Center)</h2>
+        <div className="tree">
+          <ul>
+            <li>
+              <div className="node director">
+                <img src={personnel.find(p => p.id === 'tonya').imageUrl} alt="Tonya Rountree" className="tree-headshot" />
+                <strong>Tonya Rountree, MSN, RN</strong><br />Wound Care Director<br /><span>Operations, Education Programs, Diabetes Classes</span>
+              </div>
+              <ul>
+                <li>
+                  <div className="node clinical-lead">
+                    <img src={personnel.find(p => p.id === 'sandy').imageUrl} alt="Sandy Deimund" className="tree-headshot" />
+                    <strong>Sandy Deimund, FNP, CWS</strong><br />Lead NP / Clinical KOL<br /><span>Patient Care, HBO Coordination, Limb Salvage</span>
+                  </div>
+                  <ul>
+                    <li>
+                      <div className="node specialist">
+                        <img src={personnel.find(p => p.id === 'vladimir').imageUrl} alt="Dr. Vladimir Chachanidze" className="tree-headshot" />
+                        <strong>Dr. Vladimir Chachanidze, MD</strong><br />Infectious Disease<br /><span>Cellulitis, Osteomyelitis, Complex Infections</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="node specialist generic">
+                        Vascular Surgery / Podiatry<br /><span>PAD Management, Revascularization</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="node specialist generic">
+                        Endocrinology<br /><span>Diabetes Management</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="node specialist generic">
+                        Nutrition / Dermatology / Plastics<br /><span>Holistic Wound Support</span>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <div className="node support">
+                    Hyperbaric Oxygen (HBO) Staff<br /><span>2 Monoplace Chambers, Refractory Cases</span>
+                  </div>
+                </li>
+                <li>
+                  <div className="node support">
+                    Support Nursing & Rehab Team<br /><span>Daily Care, Patient Education, Follow-up</span>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div className="notes-section general-notes">
+          <label>General Team / Org Chart Notes:</label>
+          <textarea
+            value={notes.general}
+            onChange={(e) => handleNoteChange('general', e.target.value)}
+            placeholder="e.g., Potential new contacts in vascular/podiatry..."
+            rows="4"
+          />
+        </div>
+      </section>
+
+      {/* Interactive Personnel Cards (Named Individuals) */}
+      <section className="personnel-cards">
+        <h2>Key Named Personnel Files</h2>
+        <div className="cards-grid">
+          {personnel.map(person => (
+            <div key={person.id} className="person-card">
+              <img src={person.imageUrl} alt={person.name} className="headshot" />
+              <h3>{person.name}</h3>
+              <p className="role">{person.role}</p>
+              
+              <details className="accordion">
+                <summary>View Full Profile & Rapport Strategy</summary>
+                <div className="details-content">
+                  <p><strong>Background:</strong> {person.background}</p>
+                  <p><strong>Drivers & Loves:</strong> {person.drivers}</p>
+                  <p><strong>Rapport Ideas:</strong> {person.rapport}</p>
+                  <p><strong>Sample Opener:</strong> "{person.opener}"</p>
+                </div>
+              </details>
+
+              <div className="notes-section">
+                <label>Follow-Up Notes:</label>
+                <textarea
+                  value={notes[person.id]}
+                  onChange={(e) => handleNoteChange(person.id, e.target.value)}
+                  placeholder="e.g., Called 2/20 - interested in webinar..."
+                  rows="5"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Team-Wide Strategies */}
+      <section className="team-wide">
+        <h2>Team-Wide Value Creation</h2>
+        <ul>
+          <li>Value Lunch-and-Learn (70% their wins, 30% ActiGraft demo)</li>
+          <li>Community Sponsorship (Diabetes events + Methodist FB content)</li>
+          <li>Position North as "ActiGraft Center of Excellence" (internal leverage vs. South)</li>
+          <li>Morale Boosters ("Limb Saver" swag & resources)</li>
+        </ul>
+      </section>
+
+      <footer className="dossier-footer">
+        <p>ActiGraft enhances HBO, education, and infection protocols. Use this tool for ongoing rapport tracking.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default WoundTeamDossier;
+/* Detailed Org Chart Tree */
+.org-chart-detailed { margin: 50px 0; text-align: center; }
+.tree { display: inline-block; }
+.tree ul { padding-top: 30px; position: relative; display: flex; justify-content: center; }
+.tree li { list-style-type: none; position: relative; padding: 40px 20px 0; text-align: center; flex: 1; }
+.tree li::before, .tree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #003087; width: 50%; height: 30px; }
+.tree li::after { right: auto; left: 50%; border-left: 2px solid #003087; }
+.tree li:only-child::after, .tree li:only-child::before { display: none; }
+.tree li:only-child { padding-top: 0; }
+.tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+.tree li:last-child::before { border-right: 2px solid #003087; border-radius: 0 5px 0 0; }
+.tree li:first-child::after { border-radius: 5px 0 0 0; }
+
+.tree .node { background: #003087; color: white; padding: 15px; border-radius: 12px; display: inline-block; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.node.director { background: #0050b3; font-size: 1.1em; }
+.node.clinical-lead { background: #1890ff; }
+.node.specialist { background: #52c41a; min-width: 160px; }
+.node.specialist.generic { background: #91d050; }
+.node.support { background: #fa8c16; min-width: 160px; }
+
+.tree-headshot { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; margin-bottom: 10px; object-fit: cover; }
+.node span { display: block; font-size: 0.85em; opacity: 0.9; margin-top: 5px; }
+
+/* General notes under chart */
+.general-notes { max-width: 800px; margin: 30px auto; }
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .tree ul { flex-direction: column; }
+  .tree li { padding: 20px 0; }
+  .tree li::before, .tree li::after { display: none; }
+  .tree li { border-left: 2px solid #003087; margin-left: 20px; }
+}
+import React, { useState, useEffect } from 'react';
+import './WoundTeamDossier.css'; // Updated CSS below
+
+const WoundTeamDossier = () => {
+  // Collapsible state for tree branches
+  const [collapsed, setCollapsed] = useState({
+    director: false,  // Tonya's direct reports
+    clinical: false,  // Sandy's specialists
+  });
+
+  // Notes state (persisted)
+  const [notes, setNotes] = useState({
+    sandy: '',
+    tonya: '',
+    vladimir: '',
+    general: '',
+  });
+
+  useEffect(() => {
+    const savedNotes = localStorage.getItem('woundTeamNotes');
+    if (savedNotes) setNotes(JSON.parse(savedNotes));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('woundTeamNotes', JSON.stringify(notes));
+  }, [notes]);
+
+  const handleNoteChange = (key, value) => {
+    setNotes(prev => ({ ...prev, [key]: value }));
+  };
+
+  // Toggle collapse
+  const toggleCollapse = (key) => {
+    setCollapsed(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Personnel data
+  const personnel = [
+    {
+      id: 'tonya',
+      name: 'Tonya Rountree, MSN, RN',
+      role: 'Wound Care Director / Clinical Manager',
+      imageUrl: 'https://media.licdn.com/dms/image/sync/v2/D5627AQEKN2PoyJjzgg/articleshare-shrink_800/B56ZjOAgc9HMAM-/0/1755802896799?e=2147483647&v=beta&t=pvwETNbiUIbrdBXbfwdz0KFy9s5srqZryLQ_aXWb-Ow',
+      background: 'MSN Executive Leadership (2020); Leads diabetes education classes; 2025 NightinGala nominee; Featured in blogs/news on chronic wounds.',
+      drivers: 'Prevention & accessible education; Operational efficiency; Community impact; Nutrition & resilience focus.',
+      rapport: 'Compliment diabetes class innovations; Co-sponsor education series; Provide nutrition materials; Support RN training/recruitment.',
+      opener: 'Tonya, your diabetes class adaptations are making real impact—excited to support your prevention goals.',
+    },
+    {
+      id: 'sandy',
+      name: 'Sondra "Sandy" Deimund, FNP, CWS',
+      role: 'Lead Nurse Practitioner & Certified Wound Specialist (Primary KOL)',
+      imageUrl: 'https://via.placeholder.com/200x200?text=Sandy+Deimund+(No+Clear+Public+Headshot)',
+      background: '20+ years in wound care; "Power of One" Award (2010); NAWC Preceptor; Co-author 2018 DFU education paper; Featured in media on HBO & limb salvage.',
+      drivers: 'Limb salvage mission; Patient education & empowerment; Data-driven innovation; Precepting legacy.',
+      rapport: 'Reference her 2018 paper/media; Co-host NAWC webinars; Joint abstracts/posters; Sponsor community diabetes events.',
+      opener: 'Sandy, your 2018 DFU paper brilliantly highlighted provider training gaps—it's guided our work at Nightingale.',
+    },
+    {
+      id: 'vladimir',
+      name: 'Dr. Vladimir Chachanidze, MD',
+      role: 'Infectious Disease Specialist (Key Collaborator)',
+      imageUrl: 'https://via.placeholder.com/200x200?text=Dr.+Vladimir+Chachanidze+(No+Clear+Public+Headshot)',
+      background: 'Board-certified ID; Expertise in cellulitis, osteomyelitis; Praised in patient testimonials for limb-saving outcomes.',
+      drivers: 'Complex infection management; Collaborative limb preservation; Patient gratitude in tough cases.',
+      rapport: 'Reference patient "saved my leg" stories; Joint protocols on infected wounds; Co-data tracking for infection resolution.',
+      opener: 'Dr. Chachanidze, patients praise your infection expertise—ActiGraft complements osteomyelitis cases.',
+    },
+  ];
+
+  return (
+    <div className="dossier-container">
+      <header className="dossier-header">
+        <h1>Methodist North Wound Healing & Limb Preservation Team</h1>
+        <p className="prepared-for">Prepared for Nightingale Biotech Leadership | February 16, 2026</p>
+        <p className="objective">
+          Interactive consultant dossier with collapsible org chart, personnel files, and persistent note-taking.
+        </p>
+      </header>
+
+      {/* Center Visuals */}
+      <section className="center-visuals">
+        <h2>Center & Capabilities</h2>
+        <div className="gallery-grid">
+          <img src="https://www.oswegohealth.org/media/a9343602536c4cf5806b0e9e40e4d772/wound-care-nurse-patient-in-chamber.jpg" alt="Hyperbaric Oxygen Therapy" />
+          <img src="https://bestcare.org/sites/default/files/styles/featured_media/public/best_care_today/featured_image/MJEH_Wound_Clinic_Cover.jpg.webp?itok=BXjuvRbZ" alt="Wound Center Team Environment" />
+          <img src="https://yourhealth.methodisthealth.org/site-assets/images/embeded_limb_preservation.jpg?language_id=1" alt="Limb Preservation Focus" />
+        </div>
+      </section>
+
+      {/* Detailed Collapsible Org Chart */}
+      <section className="org-chart-detailed">
+        <h2>Detailed Team Structure (Click Nodes to Collapse/Expand Branches)</h2>
+        <div className="tree">
+          <ul>
+            <li>
+              <div 
+                className="node director" 
+                onClick={() => toggleCollapse('director')}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className="toggle-icon">{collapsed.director ? '▶' : '▼'}</span>
+                <img src={personnel.find(p => p.id === 'tonya').imageUrl} alt="Tonya Rountree" className="tree-headshot" />
+                <strong>Tonya Rountree, MSN, RN</strong><br />Wound Care Director<br /><span>Operations, Education Programs, Diabetes Classes</span>
+              </div>
+              {!collapsed.director && (
+                <ul>
+                  <li>
+                    <div 
+                      className="node clinical-lead"
+                      onClick={() => toggleCollapse('clinical')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <span className="toggle-icon">{collapsed.clinical ? '▶' : '▼'}</span>
+                      <img src={personnel.find(p => p.id === 'sandy').imageUrl} alt="Sandy Deimund" className="tree-headshot" />
+                      <strong>Sandy Deimund, FNP, CWS</strong><br />Lead NP / Clinical KOL<br /><span>Patient Care, HBO Coordination, Limb Salvage</span>
+                    </div>
+                    {!collapsed.clinical && (
+                      <ul>
+                        <li>
+                          <div className="node specialist">
+                            <img src={personnel.find(p => p.id === 'vladimir').imageUrl} alt="Dr. Vladimir Chachanidze" className="tree-headshot" />
+                            <strong>Dr. Vladimir Chachanidze, MD</strong><br />Infectious Disease<br /><span>Cellulitis, Osteomyelitis, Complex Infections</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="node specialist generic">
+                            Vascular Surgery / Podiatry<br /><span>PAD Management, Revascularization</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="node specialist generic">
+                            Endocrinology<br /><span>Diabetes Management</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="node specialist generic">
+                            Nutrition / Dermatology / Plastics<br /><span>Holistic Wound Support</span>
+                          </div>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                  <li>
+                    <div className="node support">
+                      Hyperbaric Oxygen (HBO) Staff<br /><span>2 Monoplace Chambers, Refractory Cases</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="node support">
+                      Support Nursing & Rehab Team<br /><span>Daily Care, Patient Education, Follow-up</span>
+                    </div>
+                  </li>
+                </ul>
+              )}
+            </li>
+          </ul>
+        </div>
+        <div className="notes-section general-notes">
+          <label>General Team / Org Chart Notes:</label>
+          <textarea
+            value={notes.general}
+            onChange={(e) => handleNoteChange('general', e.target.value)}
+            placeholder="e.g., Potential new contacts in vascular/podiatry, follow-up ideas..."
+            rows="4"
+          />
+        </div>
+      </section>
+
+      {/* Interactive Personnel Cards */}
+      <section className="personnel-cards">
+        <h2>Key Named Personnel Files</h2>
+        <div className="cards-grid">
+          {personnel.map(person => (
+            <div key={person.id} className="person-card">
+              <img src={person.imageUrl} alt={person.name} className="headshot" />
+              <h3>{person.name}</h3>
+              <p className="role">{person.role}</p>
+              
+              <details className="accordion">
+                <summary>View Full Profile & Rapport Strategy</summary>
+                <div className="details-content">
+                  <p><strong>Background:</strong> {person.background}</p>
+                  <p><strong>Drivers & Loves:</strong> {person.drivers}</p>
+                  <p><strong>Rapport Ideas:</strong> {person.rapport}</p>
+                  <p><strong>Sample Opener:</strong> "{person.opener}"</p>
+                </div>
+              </details>
+
+              <div className="notes-section">
+                <label>Follow-Up Notes:</label>
+                <textarea
+                  value={notes[person.id]}
+                  onChange={(e) => handleNoteChange(person.id, e.target.value)}
+                  placeholder="e.g., Called 2/20 - interested in webinar..."
+                  rows="5"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Team-Wide Strategies */}
+      <section className="team-wide">
+        <h2>Team-Wide Value Creation</h2>
+        <ul>
+          <li>Value Lunch-and-Learn (70% their wins, 30% ActiGraft demo)</li>
+          <li>Community Sponsorship (Diabetes events + Methodist FB content)</li>
+          <li>Position North as "ActiGraft Center of Excellence" (internal leverage vs. South)</li>
+          <li>Morale Boosters ("Limb Saver" swag & resources)</li>
+        </ul>
+      </section>
+
+      <footer className="dossier-footer">
+        <p>ActiGraft enhances HBO, education, and infection protocols. Use collapsible branches and notes for strategic planning.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default WoundTeamDossier;
+/* Toggle icon styling */
+.toggle-icon {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+  min-width: 20px;
+}
+
+/* Improve clickable node appearance */
+.node.director, .node.clinical-lead {
+  transition: background 0.2s;
+}
+.node.director:hover, .node.clinical-lead:hover {
+  background: #0066cc !important;
+}
+
+/* Tree headshots */
+.tree-headshot {
+  object-fit: cover;
+}
+
+/* When collapsed, reduce stub lines (optional improvement) */
+.tree li > ul {
+  transition: all 0.3s ease;
+}

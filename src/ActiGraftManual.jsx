@@ -6,78 +6,79 @@ import { useState, useRef, useEffect } from "react";
    Design Reference: Legacy Medical Consultants ActiGraft Playbook
    + Master Training Guide | 2026 Edition
    Brand Ownership: Nightingale BioTech (bird watermark)
-   Product Lines: ActiGraft (teal) · Legacy Medical (gold)
+   Product Lines: ActiGraft (teal/cyan) · Legacy Medical (purple/magenta)
    ═══════════════════════════════════════════════════════════════════ */
 
-// ─── DESIGN TOKENS (Legacy Medical Consultants palette) ───
+// ─── DESIGN TOKENS (Enhanced Legacy Medical Consultants palette) ───
 const C = {
-  // Backgrounds — deep purple to teal gradient layers
-  bg0: "#1A0F1F",   // deepest (body) — dark purple
-  bg1: "#2A1A35",   // page base — purple
-  bg2: "#3A2550",   // page content — purple-teal transition
-  bg3: "#2A4055",   // elevated sections — teal-gray
-  bg4: "#1E384D",   // card dark — teal
-  bg5: "#2A4860",   // card hover — lighter teal
+  // Backgrounds — deep magenta/purple to bright teal/cyan gradient layers
+  bg0: "#1D0B1F",   // deepest (body) — dark purple/magenta base
+  bg1: "#2B1435",   // page base — rich purple
+  bg2: "#3A1D4B",   // page content — purple-magenta
+  bg3: "#2A3D52",   // elevated sections — purple-teal transition
+  bg4: "#1E4555",   // card dark — teal
+  bg5: "#26516B",   // card hover — brighter teal
 
   // Cream text hierarchy (matches Legacy Medical typography)
-  cream1: "#F5F3F0", // primary headings — pure ivory
-  cream2: "#E8E4DD", // body text — warm cream
-  cream3: "#C8C0B8", // secondary text
-  cream4: "#A8A098", // muted/captions
-  cream5: "#888078", // very muted
+  cream1: "#F7F5F2", // primary headings — pure ivory
+  cream2: "#EBE7DF", // body text — warm cream
+  cream3: "#CCC4BA", // secondary text
+  cream4: "#ACA49A", // muted/captions
+  cream5: "#8C847A", // very muted
 
   // Cream card backgrounds (matches the light info boxes)
-  cardCream: "#F5F3ED",
-  cardCreamBorder: "#D8D0C8",
-  cardCreamText: "#2A2520",
-  cardCreamMuted: "#5A5248",
+  cardCream: "#F7F4ED",
+  cardCreamBorder: "#DDD4C8",
+  cardCreamText: "#2C2520",
+  cardCreamMuted: "#5C5448",
 
-  // Teal/Cyan accents (matches brand guide teal)
-  teal: "#5BB8C8",
-  tealDark: "#4AA6B6",
-  tealDeep: "#388898",
-  tealBright: "#7CD4E4",
-  tealGlow: "rgba(91,184,200,0.10)",
+  // Teal/Cyan accents (enhanced — brighter, more electric)
+  teal: "#00D4D4",        // bright teal/cyan core
+  tealDark: "#00B8C5",    // darker teal
+  tealDeep: "#009BAD",    // deep teal
+  tealBright: "#1BFFFF",  // electric cyan highlight
+  tealGlow: "rgba(0,212,212,0.12)",
 
-  // Purple accent cards (matches brand guide purple)
-  purple: "#5E2A5E",
-  purpleBorder: "#8A4A8A",
-  purpleLight: "#7A3A7A",
-  purpleDark: "#3A1A3A",
+  // Purple/Magenta accent cards (enhanced — more vibrant)
+  purple: "#6B2E7D",      // rich purple
+  purpleBorder: "#9D4BB8", // bright magenta border
+  purpleLight: "#8A3D9E", // light purple
+  purpleDark: "#451B52",  // dark purple
+  magenta: "#B84BB8",     // vibrant magenta
 
   // Gold accents (Legacy Medical product line)
-  gold: "#C4A868",
-  goldDark: "#A08850",
-  goldLight: "#E0C888",
-  goldGlow: "rgba(196,168,104,0.12)",
+  gold: "#D4B870",
+  goldDark: "#B09858",
+  goldLight: "#ECD890",
+  goldGlow: "rgba(212,184,112,0.14)",
 
   // Status
-  green: "#7BAA8E",
-  red: "#C07070",
-  redLight: "#D09090",
-  amber: "#C4A868",
+  green: "#7FBA9A",
+  red: "#D07878",
+  redLight: "#E09898",
+  amber: "#D4B870",
 
   // Borders
-  border: "#3A2850",
-  borderLight: "#4A3860",
+  border: "#3D2454",
+  borderLight: "#4D3464",
 };
 
 // ─── NIGHTINGALE BIRD SVG WATERMARK ───
 const BirdWatermark = ({ style }) => (
-  <svg viewBox="0 0 400 440" style={{ position: "absolute", opacity: 0.035, pointerEvents: "none", ...style }} fill="none">
+  <svg viewBox="0 0 400 440" style={{ position: "absolute", opacity: 0.04, pointerEvents: "none", ...style }} fill="none">
     {/* Hummingbird / Nightingale silhouette — wings spread, facing right, digital particle aesthetic */}
     <path d="M200 40 C220 20, 260 10, 300 30 C340 50, 360 90, 340 130 C320 170, 280 180, 260 200 L340 160 C370 140, 395 150, 390 180 C385 210, 360 230, 330 240 L260 260 C280 280, 310 310, 320 350 C325 370, 315 395, 290 400 C265 405, 245 390, 240 370 C235 350, 225 330, 210 320 L200 310 L190 320 C175 330, 165 350, 160 370 C155 390, 135 405, 110 400 C85 395, 75 370, 80 350 C90 310, 120 280, 140 260 L70 240 C40 230, 15 210, 10 180 C5 150, 30 140, 60 160 L140 200 C120 180, 80 170, 60 130 C40 90, 60 50, 100 30 C140 10, 180 20, 200 40Z" fill={C.teal} />
     {/* Eye */}
     <circle cx="220" cy="65" r="6" fill={C.cream1} />
     {/* Beak */}
-    <path d="M260 55 L310 40 L270 65 Z" fill={C.gold} />
+    <path d="M260 55 L310 40 L270 65 Z" fill={C.magenta} />
     {/* Wing detail lines */}
-    <path d="M140 160 C160 140, 200 130, 240 140" stroke={C.tealBright} strokeWidth="1" opacity="0.4" />
-    <path d="M130 180 C160 155, 210 145, 260 160" stroke={C.tealBright} strokeWidth="0.8" opacity="0.3" />
-    <path d="M120 200 C155 175, 220 165, 280 185" stroke={C.tealBright} strokeWidth="0.6" opacity="0.2" />
+    <path d="M140 160 C160 140, 200 130, 240 140" stroke={C.tealBright} strokeWidth="1.2" opacity="0.5" />
+    <path d="M130 180 C160 155, 210 145, 260 160" stroke={C.tealBright} strokeWidth="1" opacity="0.4" />
+    <path d="M120 200 C155 175, 220 165, 280 185" stroke={C.tealBright} strokeWidth="0.8" opacity="0.3" />
     {/* Tail feather details */}
-    <path d="M200 310 C210 340, 215 365, 210 390" stroke={C.teal} strokeWidth="1" opacity="0.3" />
-    <path d="M200 310 C190 340, 185 365, 190 390" stroke={C.teal} strokeWidth="1" opacity="0.3" />
+    <path d="M200 310 C210 340, 215 365, 210 390" stroke={C.teal} strokeWidth="1.2" opacity="0.4" />
+    <path d="M200 310 C190 340, 185 365, 190 390" stroke={C.teal} strokeWidth="1.2" opacity="0.4" />
   </svg>
 );
 
@@ -109,7 +110,7 @@ const MolecularBg = ({ variant = 0 }) => {
     const x = ((seed >>> 0) % 1000) / 10;
     const y = ((seed * 31 >>> 0) % 1000) / 10;
     const r = 0.5 + ((seed * 17 >>> 0) % 8) / 10;
-    const op = 0.04 + ((seed * 7 >>> 0) % 15) / 100;
+    const op = 0.05 + ((seed * 7 >>> 0) % 18) / 100;
     dots.push({ x, y, r, op });
   }
 
@@ -119,39 +120,47 @@ const MolecularBg = ({ variant = 0 }) => {
         {/* Hexagon path definition */}
         <path id="hexagon" d="M 0,-10 L 8.66,-5 L 8.66,5 L 0,10 L -8.66,5 L -8.66,-5 Z" />
 
-        {/* Purple to teal gradient for background */}
+        {/* Enhanced purple/magenta to teal/cyan gradient for background */}
         <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={C.purple} stopOpacity="0.08" />
-          <stop offset="100%" stopColor={C.teal} stopOpacity="0.08" />
+          <stop offset="0%" stopColor={C.purple} stopOpacity="0.12" />
+          <stop offset="50%" stopColor={C.magenta} stopOpacity="0.10" />
+          <stop offset="100%" stopColor={C.teal} stopOpacity="0.12" />
         </linearGradient>
+
+        {/* Radial glow for holographic effect */}
+        <radialGradient id="glowGradient" cx="50%" cy="50%">
+          <stop offset="0%" stopColor={C.tealBright} stopOpacity="0.08" />
+          <stop offset="50%" stopColor={C.magenta} stopOpacity="0.04" />
+          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+        </radialGradient>
       </defs>
 
       {/* Hexagonal grid pattern */}
-      <g opacity="0.035">
+      <g opacity="0.04">
         {hexagons.map((hex, i) => (
-          <use key={i} href="#hexagon" x={hex.x} y={hex.y} stroke={C.teal} strokeWidth="0.5" fill="none" />
+          <use key={i} href="#hexagon" x={hex.x} y={hex.y} stroke={i % 3 === 0 ? C.teal : C.magenta} strokeWidth="0.6" fill="none" />
         ))}
       </g>
 
       {/* Luminous dot field */}
       {dots.map((d, i) => (
-        <circle key={i} cx={`${d.x}%`} cy={`${d.y}%`} r={d.r} fill={C.tealBright} opacity={d.op} />
+        <circle key={i} cx={`${d.x}%`} cy={`${d.y}%`} r={d.r} fill={i % 2 === 0 ? C.tealBright : C.magenta} opacity={d.op} />
       ))}
 
       {/* Double helix structure */}
-      <g transform={`translate(${helixOffsetX}, ${helixOffsetY})`} opacity="0.05">
-        <path d={`M0,0 C40,50 -40,100 0,150 C40,200 -40,250 0,300 C40,350 -40,400 0,450 C40,500 -40,550 0,600 C40,650 -40,700 0,750 C40,800 -40,850 0,900`} stroke={C.tealBright} strokeWidth="2" fill="none" />
-        <path d={`M80,0 C40,50 120,100 80,150 C40,200 120,250 80,300 C40,350 120,400 80,450 C40,500 120,550 80,600 C40,650 120,700 80,750 C40,800 120,850 80,900`} stroke={C.tealBright} strokeWidth="2" fill="none" />
+      <g transform={`translate(${helixOffsetX}, ${helixOffsetY})`} opacity="0.06">
+        <path d={`M0,0 C40,50 -40,100 0,150 C40,200 -40,250 0,300 C40,350 -40,400 0,450 C40,500 -40,550 0,600 C40,650 -40,700 0,750 C40,800 -40,850 0,900`} stroke={C.tealBright} strokeWidth="2.5" fill="none" />
+        <path d={`M80,0 C40,50 120,100 80,150 C40,200 120,250 80,300 C40,350 120,400 80,450 C40,500 120,550 80,600 C40,650 120,700 80,750 C40,800 120,850 80,900`} stroke={C.magenta} strokeWidth="2.5" fill="none" />
         {[0,75,150,225,300,375,450,525,600,675,750,825].map((y, i) => {
           const phase = Math.sin((y / 150) * Math.PI);
           const x1 = 40 + phase * 40;
           const x2 = 40 - phase * 40 + 80;
-          return <line key={i} x1={x1} y1={y} x2={x2} y2={y} stroke={C.cream4} strokeWidth="1" opacity="0.5" />;
+          return <line key={i} x1={x1} y1={y} x2={x2} y2={y} stroke={C.cream4} strokeWidth="1.2" opacity="0.6" />;
         })}
       </g>
 
       {/* Diagonal geometric overlays (brand guide style) */}
-      <g opacity="0.04">
+      <g opacity="0.06">
         {variant === 0 ? (
           <>
             <path d="M 0,0 L 200,0 L 0,200 Z" fill="url(#bgGradient)" />
@@ -164,6 +173,9 @@ const MolecularBg = ({ variant = 0 }) => {
           </>
         )}
       </g>
+
+      {/* Holographic overlay effect */}
+      <rect width="820" height="1100" fill="url(#glowGradient)" opacity="0.3" />
     </svg>
   );
 };
@@ -197,10 +209,10 @@ const GlobalStyle = () => (
 
       /* ── PURPLE / TEAL DARK CARDS → white bg with teal left border ── */
       .page div[style*="background: ${C.purple}"],
-      .page div[style*="background: rgb(94, 42, 94)"] {
+      .page div[style*="background: rgb(107, 46, 125)"] {
         background: #fff !important;
-        border: 1px solid #5BB8C8 !important;
-        border-left: 3px solid #5BB8C8 !important;
+        border: 1px solid #00D4D4 !important;
+        border-left: 3px solid #00D4D4 !important;
       }
 
       /* ── ALERT CARDS → white bg, keep left accent border ── */
@@ -210,17 +222,17 @@ const GlobalStyle = () => (
 
       /* ── DARK INFO PANELS (bg3, bg4 component cards) → light gray ── */
       .page div[style*="background: ${C.bg3}"],
-      .page div[style*="background: rgb(26, 40, 56)"],
+      .page div[style*="background: rgb(42, 61, 82)"],
       .page div[style*="background: ${C.bg4}"],
-      .page div[style*="background: rgb(30, 48, 69)"] {
+      .page div[style*="background: rgb(30, 69, 85)"] {
         background: #f5f5f5 !important;
         border-color: #ccc !important;
       }
 
       /* ── TABLES ── */
       .tbl th {
-        background: linear-gradient(135deg, #5E2A5E, #7A3A7A) !important;
-        color: #5BB8C8 !important;
+        background: linear-gradient(135deg, #6B2E7D, #B84BB8, #00D4D4) !important;
+        color: #1BFFFF !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -240,13 +252,13 @@ const GlobalStyle = () => (
       }
 
       /* ── STEP BADGES → keep teal fill (small, worth the ink) ── */
-      .page div[style*="background: ${C.teal}"][style*="min-width: 30px"] {
+      .page div[style*="background: linear-gradient"][style*="min-width: 32px"] {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
 
       /* ── SECTION HEADER BADGES (small teal pills) → keep ── */
-      .page div[style*="background: ${C.teal}"][style*="padding: 3px"] {
+      .page div[style*="background: linear-gradient"][style*="padding: 4px"] {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -274,13 +286,11 @@ const GlobalStyle = () => (
 
 // ─── PAGE WRAPPER (each "page" of the e-PDF) ───
 // Using static variant based on pageNum to ensure consistent rendering
-const Page = ({ children, pageNum }) => {
+const Page = ({ children, pageNum, isMobile }) => {
   // Derive variant from page number for consistent background patterns
   const variant = typeof pageNum === 'string' && pageNum !== '' && pageNum !== 'i'
     ? parseInt(pageNum) % 2
     : (pageNum === 'i' ? 1 : 0);
-
-  const isMobile = window.innerWidth < 768;
 
   return (
     <div className="page" style={{
@@ -289,7 +299,7 @@ const Page = ({ children, pageNum }) => {
       margin: isMobile ? "0 auto 20px" : "0 auto 32px",
       background: C.bg1,
       borderRadius: isMobile ? 0 : 8,
-      boxShadow: isMobile ? "none" : `0 8px 32px ${C.purpleDark}60, 0 2px 8px ${C.teal}20`,
+      boxShadow: isMobile ? "none" : `0 8px 32px ${C.purpleDark}80, 0 2px 12px ${C.teal}30, 0 0 40px ${C.magenta}15`,
       overflow: "hidden",
       minHeight: 400,
       border: `1px solid ${C.border}`
@@ -335,15 +345,15 @@ const Page = ({ children, pageNum }) => {
 // Section header with geometric corner accents (Legacy Medical brand)
 const SectionHead = ({ num, title, sub }) => (
   <div style={{ marginBottom: 28, position: "relative" }}>
-    {/* Geometric corner accents */}
+    {/* Enhanced geometric corner accents with gradient */}
     <div style={{
       position: "absolute",
       top: -6,
       left: -6,
       width: 40,
       height: 40,
-      borderTop: `2px solid ${C.teal}30`,
-      borderLeft: `2px solid ${C.teal}30`,
+      borderTop: `2px solid ${C.teal}50`,
+      borderLeft: `2px solid ${C.teal}50`,
       borderTopLeftRadius: 2
     }} />
     <div style={{
@@ -352,14 +362,14 @@ const SectionHead = ({ num, title, sub }) => (
       right: -6,
       width: 40,
       height: 40,
-      borderTop: `2px solid ${C.purple}30`,
-      borderRight: `2px solid ${C.purple}30`,
+      borderTop: `2px solid ${C.magenta}50`,
+      borderRight: `2px solid ${C.magenta}50`,
       borderTopRightRadius: 2
     }} />
 
     {num && <div style={{
       display: "inline-block",
-      background: `linear-gradient(135deg, ${C.purple}, ${C.teal})`,
+      background: `linear-gradient(135deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
       color: "#fff",
       fontSize: 9,
       fontWeight: 800,
@@ -368,7 +378,7 @@ const SectionHead = ({ num, title, sub }) => (
       letterSpacing: 2,
       marginBottom: 12,
       textTransform: "uppercase",
-      boxShadow: `0 2px 6px ${C.teal}30`
+      boxShadow: `0 2px 8px ${C.teal}40, 0 1px 16px ${C.magenta}30`
     }}>Section {num}</div>}
 
     <h2 style={{
@@ -385,9 +395,10 @@ const SectionHead = ({ num, title, sub }) => (
     <div style={{
       width: 80,
       height: 3,
-      background: `linear-gradient(90deg, ${C.purple}, ${C.teal}, transparent)`,
+      background: `linear-gradient(90deg, ${C.purple}, ${C.magenta}, ${C.teal}, transparent)`,
       marginTop: 12,
-      borderRadius: 2
+      borderRadius: 2,
+      boxShadow: `0 1px 8px ${C.teal}30`
     }} />
   </div>
 );
@@ -409,7 +420,14 @@ const CreamCard = ({ title, children, borderColor }) => (
 
 // Dark purple-teal card (matches Legacy Medical brand)
 const TealCard = ({ title, children, icon }) => (
-  <div style={{ background: C.purple, border: `1px solid ${C.purpleBorder}`, borderRadius: 8, padding: "18px 20px", marginBottom: 12, boxShadow: `0 2px 8px ${C.purpleDark}40` }}>
+  <div style={{
+    background: C.purple,
+    border: `1px solid ${C.purpleBorder}`,
+    borderRadius: 8,
+    padding: "18px 20px",
+    marginBottom: 12,
+    boxShadow: `0 2px 8px ${C.purpleDark}60, 0 1px 12px ${C.magenta}20`
+  }}>
     {title && <div style={{ fontSize: 11, fontWeight: 700, color: C.tealBright, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{title}</div>}
     <div style={{ fontSize: 12.5, color: C.cream2, lineHeight: 1.65 }}>{children}</div>
   </div>
@@ -418,20 +436,20 @@ const TealCard = ({ title, children, icon }) => (
 // Alert / callout card (Legacy Medical brand: purple-teal gradient theme)
 const AlertCard = ({ title, children, type }) => {
   const colors = {
-    warn: { bg: "rgba(196,168,104,0.08)", border: C.gold, text: C.goldLight },
-    danger: { bg: "rgba(192,112,112,0.08)", border: C.red, text: C.redLight },
-    info: { bg: `linear-gradient(135deg, ${C.purple}15, ${C.tealGlow})`, border: C.teal, text: C.tealBright }
+    warn: { bg: `linear-gradient(135deg, ${C.gold}15, ${C.goldGlow})`, border: C.gold, text: C.goldLight },
+    danger: { bg: `linear-gradient(135deg, ${C.red}15, rgba(208,120,120,0.08))`, border: C.red, text: C.redLight },
+    info: { bg: `linear-gradient(135deg, ${C.purple}18, ${C.magenta}12, ${C.tealGlow})`, border: C.teal, text: C.tealBright }
   };
   const c = colors[type] || colors.info;
   return (
     <div style={{
       background: c.bg,
-      border: `1px solid ${c.border}40`,
+      border: `1px solid ${c.border}50`,
       borderLeft: `3px solid ${c.border}`,
       borderRadius: 8,
       padding: "14px 18px",
       marginBottom: 12,
-      boxShadow: `0 2px 8px ${C.purpleDark}20`
+      boxShadow: `0 2px 8px ${C.purpleDark}30, 0 1px 12px ${c.border}20`
     }}>
       {title && <div style={{ fontSize: 11, fontWeight: 700, color: c.text, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 }}>{title}</div>}
       <div style={{ fontSize: 12, color: C.cream3, lineHeight: 1.65 }}>{children}</div>
@@ -445,7 +463,7 @@ const StepBadge = ({ n }) => (
     minWidth: 32,
     height: 32,
     borderRadius: 6,
-    background: `linear-gradient(135deg, ${C.purple}, ${C.teal})`,
+    background: `linear-gradient(135deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -454,7 +472,7 @@ const StepBadge = ({ n }) => (
     fontSize: 15,
     flexShrink: 0,
     fontFamily: "'Georgia', serif",
-    boxShadow: `0 2px 8px ${C.teal}40, inset 0 1px 0 rgba(255,255,255,0.1)`
+    boxShadow: `0 2px 8px ${C.teal}50, 0 1px 16px ${C.magenta}30, inset 0 1px 0 rgba(255,255,255,0.15)`
   }}>{n}</div>
 );
 
@@ -476,12 +494,13 @@ const BigStat = ({ value, label, sub }) => (
     <div style={{
       fontSize: 36,
       fontWeight: 800,
-      background: `linear-gradient(135deg, ${C.cream1}, ${C.tealBright})`,
+      background: `linear-gradient(135deg, ${C.cream1}, ${C.tealBright}, ${C.magenta})`,
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
       backgroundClip: "text",
       lineHeight: 1,
-      fontFamily: "'Georgia', serif"
+      fontFamily: "'Georgia', serif",
+      filter: `drop-shadow(0 2px 4px ${C.teal}30)`
     }}>{value}</div>
     <div style={{
       fontSize: 11,
@@ -495,7 +514,7 @@ const BigStat = ({ value, label, sub }) => (
   </div>
 );
 
-// Table (Legacy Medical brand: purple-teal gradient header)
+// Table (Legacy Medical brand: purple-magenta-teal gradient header)
 const Tbl = ({ h, rows, compact }) => (
   <div style={{
     overflowX: "auto",
@@ -508,7 +527,7 @@ const Tbl = ({ h, rows, compact }) => (
       <thead>
         <tr>{h.map((x, i) => <th key={i} style={{
           padding: compact ? "8px 10px" : "10px 14px",
-          background: `linear-gradient(135deg, ${C.purple}, ${C.purpleLight})`,
+          background: `linear-gradient(135deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
           color: C.tealBright,
           textAlign: "left",
           borderBottom: `2px solid ${C.teal}`,
@@ -561,7 +580,7 @@ const SendModal = ({ open, onClose }) => {
         padding: 28,
         width: "100%",
         maxWidth: 440,
-        boxShadow: `0 8px 32px ${C.purpleDark}60, 0 2px 8px ${C.teal}20`
+        boxShadow: `0 8px 32px ${C.purpleDark}80, 0 2px 12px ${C.teal}40, 0 0 60px ${C.magenta}20`
       }}>
         <h3 style={{ color: C.cream1, fontSize: 16, fontWeight: 700, margin: "0 0 16px", fontFamily: "'Georgia', serif" }}>Quick Send Manual</h3>
         <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
@@ -571,7 +590,7 @@ const SendModal = ({ open, onClose }) => {
         <textarea value={msg} onChange={e => setMsg(e.target.value)} rows={3} style={{ ...inp, marginBottom: 14, resize: "vertical", fontSize: 12 }} />
         <div style={{ display: "flex", gap: 8 }}>
           <button onClick={onClose} style={{ flex: 1, padding: 9, borderRadius: 4, border: `1px solid ${C.border}`, background: "transparent", color: C.cream4, cursor: "pointer" }}>Cancel</button>
-          <button onClick={fire} style={{ flex: 1, padding: 9, borderRadius: 4, border: "none", background: C.teal, color: "#fff", fontWeight: 700, cursor: "pointer" }}>Send</button>
+          <button onClick={fire} style={{ flex: 1, padding: 9, borderRadius: 4, border: "none", background: `linear-gradient(135deg, ${C.teal}, ${C.magenta})`, color: "#fff", fontWeight: 700, cursor: "pointer", boxShadow: `0 2px 8px ${C.teal}40` }}>Send</button>
         </div>
       </div>
     </div>
@@ -585,6 +604,15 @@ const SendModal = ({ open, onClose }) => {
 export default function ActiGraftManual() {
   const [sendOpen, setSendOpen] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(isMobile);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Scroll to top when component mounts (tab is opened)
   useEffect(() => {
@@ -624,46 +652,47 @@ export default function ActiGraftManual() {
       {/* ═══ FLOATING TOOLBAR ═══ */}
       <div className="toolbar-float no-print" style={{
         position: "fixed",
-        top: window.innerWidth < 768 ? 8 : 16,
-        right: window.innerWidth < 768 ? 8 : 16,
+        top: isMobile ? 8 : 16,
+        right: isMobile ? 8 : 16,
         zIndex: 500,
         display: "flex",
-        gap: window.innerWidth < 768 ? 4 : 6,
+        gap: isMobile ? 4 : 6,
         flexWrap: "wrap"
       }}>
         <button onClick={() => setTocOpen(!tocOpen)} style={{
-          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          padding: isMobile ? "6px 10px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.borderLight}`,
           background: C.bg3,
           color: C.cream3,
           cursor: "pointer",
-          fontSize: window.innerWidth < 768 ? 10 : 11,
+          fontSize: isMobile ? 10 : 11,
           fontWeight: 600
         }}>
           {tocOpen ? "✕" : "☰"}
         </button>
         <button onClick={() => window.print()} style={{
-          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          padding: isMobile ? "6px 10px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.borderLight}`,
           background: C.bg3,
           color: C.cream3,
           cursor: "pointer",
-          fontSize: window.innerWidth < 768 ? 10 : 11,
+          fontSize: isMobile ? 10 : 11,
           fontWeight: 600
         }}>
           🖨
         </button>
         <button onClick={() => setSendOpen(true)} style={{
-          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          padding: isMobile ? "6px 10px" : "7px 14px",
           borderRadius: 4,
-          border: `1px solid ${C.teal}40`,
-          background: C.blue,
+          border: `1px solid ${C.teal}50`,
+          background: `linear-gradient(135deg, ${C.purple}, ${C.teal})`,
           color: C.tealBright,
           cursor: "pointer",
-          fontSize: window.innerWidth < 768 ? 10 : 11,
-          fontWeight: 700
+          fontSize: isMobile ? 10 : 11,
+          fontWeight: 700,
+          boxShadow: `0 2px 8px ${C.teal}40`
         }}>
           ✉
         </button>
@@ -680,37 +709,61 @@ export default function ActiGraftManual() {
         ))}
       </div>}
 
-      <div style={{ padding: window.innerWidth < 768 ? "12px 8px 0" : "24px 16px 0" }}>
+      <div style={{ padding: isMobile ? "12px 8px 0" : "24px 16px 0" }}>
 
         {/* ════════════════════════════════════
             COVER PAGE
         ════════════════════════════════════ */}
         <div id="cover">
-          <Page pageNum="">
+          <Page isMobile={isMobile} pageNum="">
             {/* Nightingale ownership watermark — large, centered */}
-            <BirdWatermark style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 360, height: 400, opacity: 0.04 }} />
+            <BirdWatermark style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 360, height: 400, opacity: 0.05 }} />
             <div style={{ textAlign: "center", padding: "60px 0 40px", position: "relative" }}>
               {/* Nightingale brand mark */}
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32, padding: "8px 20px", border: `1px solid ${C.border}`, borderRadius: 40 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32, padding: "8px 20px", border: `1px solid ${C.border}`, borderRadius: 40, boxShadow: `0 2px 12px ${C.teal}20, 0 1px 20px ${C.magenta}15` }}>
                 <svg viewBox="0 0 24 24" style={{ width: 18, height: 18, fill: C.teal }}>
                   <path d="M12 2C14 1,18 3,19 6C20 9,18 12,16 13L20 11C22 10,23 12,22 14C21 16,18 17,16 17L12 19C13 21,12 23,10 23C8 23,7 21,8 19L4 17C2 17,0 16,0 14C0 12,2 10,4 11L8 13C6 12,4 9,5 6C6 3,10 1,12 2Z" />
                 </svg>
                 <span style={{ fontSize: 11, fontWeight: 700, color: C.cream4, letterSpacing: 3, textTransform: "uppercase" }}>Nightingale BioTech</span>
               </div>
 
-              <div style={{ fontSize: 10, fontWeight: 700, color: C.gold, letterSpacing: 3, textTransform: "uppercase", marginBottom: 20 }}>Legacy Medical Consultants Presents</div>
+              <div style={{
+                fontSize: 10,
+                fontWeight: 700,
+                background: `linear-gradient(135deg, ${C.magenta}, ${C.gold})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                marginBottom: 20
+              }}>Legacy Medical Consultants Presents</div>
 
               <h1 style={{ fontSize: 38, fontWeight: 800, color: C.cream1, margin: "0 0 8px", lineHeight: 1.2, fontFamily: "'Georgia', 'Times New Roman', serif" }}>ActiGraft Playbook</h1>
               <h2 style={{ fontSize: 20, fontWeight: 400, color: C.cream3, margin: "0 0 8px", fontFamily: "'Georgia', serif" }}>for Distributor & Physician Partners</h2>
-              <p style={{ fontSize: 13, color: C.teal, fontWeight: 600, margin: 0 }}>Comprehensive Training for Market Excellence</p>
+              <p style={{
+                fontSize: 13,
+                background: `linear-gradient(135deg, ${C.teal}, ${C.magenta})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                fontWeight: 600,
+                margin: 0
+              }}>Comprehensive Training for Market Excellence</p>
 
-              <div style={{ width: 80, height: 1, background: C.gold, margin: "28px auto" }} />
+              <div style={{
+                width: 80,
+                height: 2,
+                background: `linear-gradient(90deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
+                margin: "28px auto",
+                boxShadow: `0 1px 12px ${C.teal}40, 0 1px 12px ${C.magenta}30`
+              }} />
 
               <div style={{ fontSize: 12, color: C.cream4, marginBottom: 6 }}>2026 Edition</div>
               <div style={{ fontSize: 10, color: C.cream5, letterSpacing: 1 }}>Palmetto GBA (TN) · Novitas Solutions (AR, MS, TX) · WPS J5 (MO)</div>
               <div style={{ fontSize: 10, color: C.cream5, marginTop: 4 }}>Memphis CSRA · Jonesboro–Little Rock Corridor</div>
 
-              <div style={{ marginTop: 40, padding: "12px 24px", display: "inline-block", border: `1px solid ${C.border}`, borderRadius: 4 }}>
+              <div style={{ marginTop: 40, padding: "12px 24px", display: "inline-block", border: `1px solid ${C.border}`, borderRadius: 4, boxShadow: `0 2px 8px ${C.teal}20` }}>
                 <div style={{ fontSize: 9, color: C.cream5, letterSpacing: 1.5, textTransform: "uppercase" }}>Transforming Healthcare Through Innovation</div>
               </div>
             </div>
@@ -721,7 +774,7 @@ export default function ActiGraftManual() {
             TABLE OF CONTENTS
         ════════════════════════════════════ */}
         <div id="toc">
-          <Page pageNum="i">
+          <Page isMobile={isMobile} pageNum="i">
             <SectionHead title="Table of Contents" />
             <div style={{ marginTop: 10 }}>
               {sections.filter(s => s.pg && s.pg !== "i").map((s, i) => (
@@ -731,8 +784,8 @@ export default function ActiGraftManual() {
                 </button>
               ))}
             </div>
-            <div style={{ marginTop: 28, padding: "14px 18px", background: C.tealGlow, border: `1px solid ${C.teal}30`, borderRadius: 4 }}>
-              <div style={{ fontSize: 11, color: C.teal, fontWeight: 700, marginBottom: 4 }}>CONFIDENTIAL — AUTHORIZED DISTRIBUTORS ONLY</div>
+            <div style={{ marginTop: 28, padding: "14px 18px", background: `linear-gradient(135deg, ${C.purple}15, ${C.tealGlow})`, border: `1px solid ${C.teal}40`, borderRadius: 4, boxShadow: `0 2px 8px ${C.teal}20` }}>
+              <div style={{ fontSize: 11, color: C.tealBright, fontWeight: 700, marginBottom: 4 }}>CONFIDENTIAL — AUTHORIZED DISTRIBUTORS ONLY</div>
               <div style={{ fontSize: 11, color: C.cream4 }}>This training manual contains proprietary sales strategies, territory intelligence, and competitive positioning data. Unauthorized distribution is prohibited. © 2026 Nightingale BioTech / Legacy Medical Consultants.</div>
             </div>
           </Page>
@@ -742,7 +795,7 @@ export default function ActiGraftManual() {
             SECTION 1 — THE 2026 LANDSCAPE
         ════════════════════════════════════ */}
         <div id="s1">
-          <Page pageNum="1">
+          <Page isMobile={isMobile} pageNum="1">
             <SectionHead num="I" title="The 2026 Medicare Wound Care Landscape" sub="The market shift that creates your opportunity" />
             <P>The Medicare wound care market is undergoing its most significant restructuring in a decade. Effective January 1, 2026, CMS reduced covered skin substitute products from over 210 to just 18 — a <strong style={{ color: C.cream1 }}>91% reduction</strong> that has disrupted treatment protocols nationwide. Meanwhile, PRP wound care under NCD 270.3 remains completely untouched, creating a stable, high-reimbursement alternative.</P>
 
@@ -766,7 +819,7 @@ export default function ActiGraftManual() {
             SECTION 2 — TECHNOLOGY & SCIENCE
         ════════════════════════════════════ */}
         <div id="s2">
-          <Page pageNum="3">
+          <Page isMobile={isMobile} pageNum="3">
             <SectionHead num="II" title="ActiGraft Technology & Whole Blood Science" sub="The biological foundation of clinical superiority" />
             <P>ActiGraft is fundamentally different from conventional PRP systems. Rather than concentrating platelets by centrifugation — which discards red blood cells, most white blood cells, and disrupts the plasma protein profile — ActiGraft preserves the patient's <strong style={{ color: C.cream1 }}>whole blood in its natural physiologic ratios</strong> to create a biological wound matrix.</P>
 
@@ -778,7 +831,7 @@ export default function ActiGraftManual() {
                 { t: "White Blood Cells", d: "Full immune response including neutrophils, macrophages, and lymphocytes. Infection defense at wound site.", c: C.green },
                 { t: "Plasma Proteins", d: "Fibrinogen, albumin, and immunoglobulins in physiologic balance. Natural scaffold formation.", c: C.gold },
               ].map((item, i) => (
-                <div key={i} style={{ background: C.bg3, borderRadius: 6, padding: "14px 16px", border: `1px solid ${C.border}`, borderTop: `3px solid ${item.c}` }}>
+                <div key={i} style={{ background: C.bg3, borderRadius: 6, padding: "14px 16px", border: `1px solid ${C.border}`, borderTop: `3px solid ${item.c}`, boxShadow: `0 1px 8px ${item.c}20` }}>
                   <div style={{ color: item.c, fontWeight: 700, fontSize: 13, marginBottom: 4, fontFamily: "'Georgia', serif" }}>{item.t}</div>
                   <div style={{ color: C.cream4, fontSize: 11.5, lineHeight: 1.55 }}>{item.d}</div>
                 </div>
@@ -799,7 +852,7 @@ export default function ActiGraftManual() {
                   <span style={{ fontSize: 11, color: b.c, fontWeight: 700 }}>{b.v}%</span>
                 </div>
                 <div style={{ height: 6, background: C.bg4, borderRadius: 3 }}>
-                  <div style={{ height: "100%", width: `${b.v}%`, background: b.c, borderRadius: 3 }} />
+                  <div style={{ height: "100%", width: `${b.v}%`, background: b.c, borderRadius: 3, boxShadow: `0 1px 6px ${b.c}40` }} />
                 </div>
               </div>
             ))}
@@ -813,7 +866,7 @@ export default function ActiGraftManual() {
             SECTION 3 — CLINICAL PROTOCOL
         ════════════════════════════════════ */}
         <div id="s3">
-          <Page pageNum="5">
+          <Page isMobile={isMobile} pageNum="5">
             <SectionHead num="III" title="Clinical Application Protocol" sub="15-minute total procedure — from blood draw to dressing" />
             <P>ActiGraft's streamlined protocol allows wound care providers to treat up to 12 patients per day without adding clinical staff. Each application follows a standardized six-phase workflow that any trained RN/LPN can execute with confidence.</P>
 
@@ -838,7 +891,7 @@ export default function ActiGraftManual() {
             SECTION 4 — BILLING & CODING
         ════════════════════════════════════ */}
         <div id="s4">
-          <Page pageNum="7">
+          <Page isMobile={isMobile} pageNum="7">
             <SectionHead num="IV" title="Billing, Coding & Reimbursement Mastery" sub="HCPCS codes, payment architecture, and claim requirements" />
             <P>PRP wound care applications use <strong style={{ color: C.cream1 }}>HCPCS codes, NOT CPT codes</strong>. This fundamental distinction creates both compliance opportunities and denial risks if misunderstood. The most critical codes for your practice are G0465 (diabetic) and G0460 (non-diabetic).</P>
 
@@ -871,7 +924,7 @@ export default function ActiGraftManual() {
             SECTION 5 — MAC COVERAGE
         ════════════════════════════════════ */}
         <div id="s5">
-          <Page pageNum="9">
+          <Page isMobile={isMobile} pageNum="9">
             <SectionHead num="V" title="MAC-Specific Coverage & Requirements" sub="Regional billing variations that make or break your claims" />
 
             <AlertCard type="danger" title="Memphis Tri-State Dual-MAC Alert">The Memphis CSRA straddles two MAC jurisdictions. Shelby, Tipton, and Fayette counties (TN) bill through Palmetto GBA JJ. DeSoto, Marshall, Tate, and Tunica counties (MS) plus Crittenden County (AR) bill through Novitas JH. Always verify treatment location — not patient home address — for MAC assignment.</AlertCard>
@@ -910,7 +963,7 @@ export default function ActiGraftManual() {
             SECTION 6 — DOCUMENTATION & AUDIT
         ════════════════════════════════════ */}
         <div id="s6">
-          <Page pageNum="11">
+          <Page isMobile={isMobile} pageNum="11">
             <SectionHead num="VI" title="Documentation & Audit Protection" sub="Your compliance moat against denials and OIG audits" />
             <P>OIG increased wound care audits 8% in 2025 with a projected 15% increase for 2026. Focus areas include medical necessity narratives, diagnosis code validity, and conservative care documentation. Superior documentation templates are your competitive moat — facilities choose the distributor who makes compliance effortless.</P>
 
@@ -935,7 +988,7 @@ export default function ActiGraftManual() {
             SECTION 7 — FINANCIAL IMPACT
         ════════════════════════════════════ */}
         <div id="s7">
-          <Page pageNum="13">
+          <Page isMobile={isMobile} pageNum="13">
             <SectionHead num="VII" title="Financial Impact & Revenue Modeling" sub="Three volume scenarios at CY2026 reimbursement rates" />
 
             <Tbl h={["Scenario", "Monthly Apps", "Monthly Revenue", "Annual Revenue", "Product Cost"]} rows={[
@@ -963,7 +1016,7 @@ export default function ActiGraftManual() {
             SECTION 8 — COMPETITIVE INTEL
         ════════════════════════════════════ */}
         <div id="s8">
-          <Page pageNum="15">
+          <Page isMobile={isMobile} pageNum="15">
             <SectionHead num="VIII" title="Competitive Intelligence Matrix" sub="Know every competitor's weakness and how to exploit it" />
 
             <Tbl h={["Feature", "ActiGraft", "SkinDisc", "RegenKit", "3C Patch", "AutoGel"]} rows={[
@@ -997,7 +1050,7 @@ export default function ActiGraftManual() {
             SECTION 9 — SALES & OBJECTIONS
         ════════════════════════════════════ */}
         <div id="s9">
-          <Page pageNum="17">
+          <Page isMobile={isMobile} pageNum="17">
             <SectionHead num="IX" title="Sales Strategy & Objection Handling" sub="From prospect to signed contract — the proven playbook" />
 
             <H3>Account Prioritization Framework</H3>
@@ -1015,8 +1068,15 @@ export default function ActiGraftManual() {
               { o: "I'm worried about Medicare coverage.", r: "That's actually our strongest positioning. NCD 270.3 provides guaranteed national coverage for 20 weeks, no prior auth. G0465 increased 38% for 2026. While skin substitutes face 91% coverage reduction, PRP is the most stable reimbursement pathway in wound care." },
               { o: "We need to go through our GPO.", r: "ActiGraft has active contracts with Vizient (Oct 2022), Premier (March 2022), and Healogics iSupply (Oct 2024 — covering 600+ centers). Which GPO does your facility use? We likely already have access." },
             ].map((item, i) => (
-              <div key={i} style={{ background: C.bg3, border: `1px solid ${C.border}`, borderRadius: 4, padding: "12px 16px", marginBottom: 8 }}>
-                <div style={{ color: C.gold, fontSize: 10, fontWeight: 700, marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.6 }}>Objection: "{item.o}"</div>
+              <div key={i} style={{ background: C.bg3, border: `1px solid ${C.border}`, borderRadius: 4, padding: "12px 16px", marginBottom: 8, boxShadow: `0 1px 6px ${C.teal}10` }}>
+                <div style={{
+                  color: C.gold,
+                  fontSize: 10,
+                  fontWeight: 700,
+                  marginBottom: 4,
+                  textTransform: "uppercase",
+                  letterSpacing: 0.6
+                }}>Objection: "{item.o}"</div>
                 <div style={{ color: C.cream3, fontSize: 12, lineHeight: 1.65 }}>{item.r}</div>
               </div>
             ))}
@@ -1027,7 +1087,7 @@ export default function ActiGraftManual() {
             SECTION 10 — TERRITORY INTEL
         ════════════════════════════════════ */}
         <div id="s10">
-          <Page pageNum="19">
+          <Page isMobile={isMobile} pageNum="19">
             <SectionHead num="X" title="Territory Intel: Memphis & Arkansas Corridor" sub="Ground-level facility intelligence for your market" />
 
             <H3>Memphis CSRA — Priority Targets</H3>
@@ -1061,7 +1121,7 @@ export default function ActiGraftManual() {
             SECTION 11 — IMPLEMENTATION
         ════════════════════════════════════ */}
         <div id="s11">
-          <Page pageNum="21">
+          <Page isMobile={isMobile} pageNum="21">
             <SectionHead num="XI" title="Implementation & Getting Started" sub="From commitment to first patient in 5 business days" />
 
             <H3>5-Day Go-Live Timeline</H3>
@@ -1087,7 +1147,7 @@ export default function ActiGraftManual() {
             SECTION 12 — QUICK REFERENCE
         ════════════════════════════════════ */}
         <div id="s12">
-          <Page pageNum="22">
+          <Page isMobile={isMobile} pageNum="22">
             <SectionHead num="XII" title="Quick Reference & Resources" sub="Everything you need at a glance" />
 
             <Grid2>
@@ -1137,7 +1197,7 @@ export default function ActiGraftManual() {
             <div style={{ textAlign: "center", marginTop: 36, padding: "24px 0", borderTop: `1px solid ${C.border}` }}>
               <div style={{ fontSize: 18, fontWeight: 800, color: C.cream1, fontFamily: "'Georgia', serif", marginBottom: 6 }}>Master This Manual. Dominate Your Territory.</div>
               <div style={{ fontSize: 12, color: C.cream4, maxWidth: 500, margin: "0 auto 16px", lineHeight: 1.6 }}>Your competitive advantage is not ActiGraft's technology alone — it's superior technology combined with superior distributor execution in billing, documentation, and strategic sales.</div>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", border: `1px solid ${C.border}`, borderRadius: 20 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", border: `1px solid ${C.border}`, borderRadius: 20, boxShadow: `0 1px 8px ${C.teal}20` }}>
                 <svg viewBox="0 0 24 24" style={{ width: 14, height: 14, fill: C.teal }}><path d="M12 2C14 1,18 3,19 6C20 9,18 12,16 13L20 11C22 10,23 12,22 14C21 16,18 17,16 17L12 19C13 21,12 23,10 23C8 23,7 21,8 19L4 17C2 17,0 16,0 14C0 12,2 10,4 11L8 13C6 12,4 9,5 6C6 3,10 1,12 2Z" /></svg>
                 <span style={{ fontSize: 9, color: C.cream5, letterSpacing: 1.5, textTransform: "uppercase" }}>Nightingale BioTech · Legacy Medical Consultants</span>
               </div>
