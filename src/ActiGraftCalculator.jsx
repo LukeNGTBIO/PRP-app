@@ -30,7 +30,7 @@ const CMS_DATA = {
     laborShare: 0.60,
     nonLaborShare: 0.40,
     budgetNeutralityFactor: 0.9990,
-    skinSub_flatRate_perCm2: 127.28,
+    skinSub_flatRate_perCm2: 127.14,  // CMS 2026 Final Rule flat rate (incident-to supplies)
     skinSub_apc5053: 1875,       // ≤100cm² bundled (estimated)
     skinSub_apc5054: 3753,       // >100cm² bundled (estimated)
   },
@@ -52,6 +52,90 @@ const SKIN_SUB_PRODUCTS = [
   { name: "Kerecis Omega3", hcpcs: "Q4158", aspPerCm2: 200, type: "510(k)", exempt: false, mfg: "Coloplast" },
   { name: "Artacent", hcpcs: "Q4190", aspPerCm2: 2068, type: "361 HCT/P", exempt: false, mfg: "Tides Medical" },
   { name: "Revita", hcpcs: "Q4180", aspPerCm2: 656, type: "361 HCT/P", exempt: false, mfg: "StimLabs" },
+];
+
+// PRP Competitor Products (FDA 510(k) Cleared for Platelet-Rich Plasma)
+const PRP_COMPETITOR_PRODUCTS = [
+  {
+    name: "Reapplix 3C Patch",
+    mfg: "Reapplix",
+    clearance: "K192784",
+    dfuIndication: true,
+    recoveryRate: "Not specified",
+    automation: "Point-of-care",
+    processingTime: 30,
+    note: "ONLY PRP system with explicit DFU indication in 510(k)",
+  },
+  {
+    name: "Arthrex Angel System",
+    mfg: "Arthrex, Inc.",
+    clearance: "Multiple K-numbers",
+    dfuIndication: false,
+    recoveryRate: "Up to 18x baseline",
+    automation: "Fully automated",
+    processingTime: 15,
+    note: "3-sensor technology, adjustable concentrations",
+  },
+  {
+    name: "EmCyte PurePRP II",
+    mfg: "EmCyte Corporation",
+    clearance: "BK190317",
+    dfuIndication: false,
+    recoveryRate: "81%",
+    automation: "Manual centrifuge",
+    processingTime: 20,
+    note: "High platelet recovery, low RBC contamination",
+  },
+  {
+    name: "Harvest SmartPReP 2",
+    mfg: "Terumo BCT",
+    clearance: "Multiple K-numbers",
+    dfuIndication: false,
+    recoveryRate: "62%",
+    automation: "Semi-automated",
+    processingTime: 15,
+    note: "Established system with long track record",
+  },
+  {
+    name: "PRiSM PRP System",
+    mfg: "Bahia Medical",
+    clearance: "BK251248",
+    dfuIndication: false,
+    recoveryRate: "Not specified",
+    automation: "Automated",
+    processingTime: null,
+    note: "Recently cleared (December 2025)",
+  },
+  {
+    name: "DR.PRP-30",
+    mfg: "Rmedical Co., Ltd",
+    clearance: "BK251201",
+    dfuIndication: false,
+    recoveryRate: "Not specified",
+    automation: "Centrifuge-based",
+    processingTime: null,
+    note: "Recently cleared (October 2025), compact design",
+  },
+  {
+    name: "ENDORET Kit (PRGF)",
+    mfg: "B.T.I. Biotechnology",
+    clearance: "BK251157",
+    dfuIndication: false,
+    recoveryRate: "Not specified",
+    automation: "Manual centrifuge",
+    processingTime: 15,
+    note: "European market leader, extensive clinical evidence",
+  },
+  {
+    name: "Innoveren Blood Processor",
+    mfg: "Innoveren Scientific",
+    clearance: "BK241079",
+    dfuIndication: false,
+    recoveryRate: "Not specified",
+    automation: "Automated",
+    processingTime: null,
+    note: "Cleared for wound management applications",
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -227,9 +311,10 @@ export default function ActiGraftCalculator() {
 
   // ─── Calculator inputs ─────────────────────────────
   const [wageIndex, setWageIndex] = useState(1.00);
-  const [paymentYear, setPaymentYear] = useState("cy2025");
+  const paymentYear = "cy2026"; // CY 2026 rules are now permanent (policy changed)
   const [siteOfService, setSiteOfService] = useState("hopd"); // 'hopd' or 'office'
   const [woundSizeCm2, setWoundSizeCm2] = useState(10);
+  const [unitsPerApplication, setUnitsPerApplication] = useState(1); // Number of pieces/grafts per treatment
   const [prpApplications, setPrpApplications] = useState(20);
   const [skinSubApplications, setSkinSubApplications] = useState(6);
   const [selectedSkinSub, setSelectedSkinSub] = useState("EpiFix");
@@ -242,6 +327,19 @@ export default function ActiGraftCalculator() {
   const [kitsPerOrder, setKitsPerOrder] = useState(10);
   const [volumeDiscountPct, setVolumeDiscountPct] = useState(15);
   const [skinSubInvoiceCostPerCm2, setSkinSubInvoiceCostPerCm2] = useState(100);
+
+  // ─── Competitor product costs (optional) ───────────
+  const [competitorCosts, setCompetitorCosts] = useState({
+    "EpiFix": null,
+    "EpiCord": null,
+    "Affinity": null,
+    "NuShield": null,
+    "Grafix/StravixPL": null,
+    "Kerecis Omega3": null,
+    "Artacent": null,
+    "Revita": null,
+  });
+  const [showCompetitorCosts, setShowCompetitorCosts] = useState(false);
 
   // ─── Derived calculations ──────────────────────────
   const calc = useMemo(() => {
@@ -276,9 +374,12 @@ export default function ActiGraftCalculator() {
     const prp20WeekMargin = prpWeeklyMargin * 20;
 
     // Skin substitute economics
+    // CMS Methodology: Calculate total cm², multiply by units, round UP
+    const billableCm2 = Math.ceil(woundSizeCm2 * unitsPerApplication);
+
     const product = SKIN_SUB_PRODUCTS.find((p) => p.name === selectedSkinSub) || SKIN_SUB_PRODUCTS[0];
-    const skinSubProductCostPerApp = product.aspPerCm2 * woundSizeCm2;
-    const skinSubInvoiceCostPerApp = skinSubInvoiceCostPerCm2 * woundSizeCm2;
+    const skinSubProductCostPerApp = product.aspPerCm2 * billableCm2;
+    const skinSubInvoiceCostPerApp = skinSubInvoiceCostPerCm2 * billableCm2;
 
     let skinSubReimbPerApp;
     if (siteOfService === "office") {
@@ -288,14 +389,14 @@ export default function ActiGraftCalculator() {
       skinSubReimbPerApp = Math.min(officeRate, skinSubProductCostPerApp * 1.08); // Closer margin in office
     } else if (paymentYear === "cy2025") {
       // HOPD Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
-      const bundledBase = woundSizeCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
+      const bundledBase = billableCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
       // HOPD starts at 80% of bundled rate, adjusted for wage index
       const bundled80Pct = bundledBase * 0.80;
       skinSubReimbPerApp = (bundled80Pct * yr.laborShare * wageIndex) + (bundled80Pct * yr.nonLaborShare);
     } else {
       // CY 2026 HOPD: Separate product payment + application procedure
-      const productPayment = yr.skinSub_flatRate_perCm2 * woundSizeCm2;
-      const appProcedure = woundSizeCm2 <= 100 ? 800 : 1200; // Approximate application-only APC
+      const productPayment = yr.skinSub_flatRate_perCm2 * billableCm2;
+      const appProcedure = billableCm2 <= 100 ? 800 : 1200; // Approximate application-only APC
       const appProcedureAdj = (appProcedure * yr.laborShare * wageIndex) + (appProcedure * yr.nonLaborShare);
       skinSubReimbPerApp = productPayment + appProcedureAdj;
     }
@@ -356,8 +457,9 @@ export default function ActiGraftCalculator() {
       newRate2026,
       productChangeDir,
       productChangePct,
+      billableCm2,
     };
-  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
+  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, unitsPerApplication, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
 
   // ─── Sub-tab definitions ───────────────────────────
   const tabs = [
@@ -436,36 +538,6 @@ export default function ActiGraftCalculator() {
           </div>
         </div>
 
-        {/* Payment Year */}
-        <div>
-          <label style={{
-            display: "block", fontSize: N.fontSize.sm, color: N.text.silver,
-            fontWeight: 600, marginBottom: 6, fontFamily: N.font.primary,
-          }}>Payment Year</label>
-          <div style={{ display: "flex", gap: 8 }}>
-            {["cy2025", "cy2026"].map((yr) => (
-              <button
-                key={yr}
-                onClick={() => setPaymentYear(yr)}
-                style={{
-                  flex: 1, padding: "10px 16px", borderRadius: 6,
-                  border: `1px solid ${paymentYear === yr ? N.cyan.borderGlow : N.border.default}`,
-                  background: paymentYear === yr ? N.cyan.bgActive : N.bg.input,
-                  color: paymentYear === yr ? N.cyan.bright : N.text.pewter,
-                  fontSize: N.fontSize.base, fontWeight: 700, cursor: "pointer",
-                  fontFamily: N.font.primary,
-                  boxShadow: paymentYear === yr ? N.glow.tight : "none",
-                }}
-              >{yr === "cy2025" ? "CY 2025" : "CY 2026"}</button>
-            ))}
-          </div>
-          <div style={{
-            fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 6,
-          }}>
-            Conversion factor: ${paymentYear === "cy2025" ? "89.169" : "91.415"}
-          </div>
-        </div>
-
         {/* Site of Service */}
         <div>
           <label style={{
@@ -506,8 +578,17 @@ export default function ActiGraftCalculator() {
           label="Wound Size"
           value={woundSizeCm2}
           onChange={(v) => setWoundSizeCm2(Math.max(1, Math.min(200, v)))}
-          min={1} max={200} step={1} unit="cm²"
-          helpText="Typical DFU: 5–25 cm²"
+          min={1} max={200} step={0.1} unit="cm²"
+          helpText="Can be decimal (e.g., 2.5×1.5 = 3.75 cm²)"
+        />
+
+        {/* Units per Application */}
+        <InputGroup
+          label="Units/Pieces per Application"
+          value={unitsPerApplication}
+          onChange={(v) => setUnitsPerApplication(Math.max(1, Math.min(20, v)))}
+          min={1} max={20} step={1} unit="pieces"
+          helpText="Number of grafts/pieces applied per treatment"
         />
 
         {/* PRP Applications */}
@@ -678,6 +759,134 @@ export default function ActiGraftCalculator() {
   );
 
   // ═══════════════════════════════════════════════════
+  //  COMPETITOR COSTS PANEL (optional cost comparison)
+  // ═══════════════════════════════════════════════════
+
+  const CompetitorCostsPanel = () => (
+    <Card style={{ marginBottom: 20 }}>
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        cursor: "pointer",
+        padding: "4px 0",
+      }}
+      onClick={() => setShowCompetitorCosts(!showCompetitorCosts)}
+      >
+        <SectionHeader
+          icon={BarChart3}
+          title="Competitor Product Costs (Optional)"
+          subtitle="Enter acquisition costs for realistic margin comparisons"
+        />
+        <div style={{ marginRight: 8 }}>
+          {showCompetitorCosts ? <ChevronUp size={20} color={N.cyan.core} /> : <ChevronDown size={20} color={N.cyan.core} />}
+        </div>
+      </div>
+
+      {showCompetitorCosts && (
+        <div style={{
+          marginTop: 16,
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gap: 16,
+        }}>
+          {SKIN_SUB_PRODUCTS.filter(p => !p.exempt).map((product) => (
+            <div key={product.name} style={{
+              background: N.bg.panel,
+              borderRadius: 8,
+              padding: 16,
+              border: `1px solid ${N.border.subtle}`,
+            }}>
+              <div style={{
+                fontSize: N.fontSize.sm,
+                fontWeight: 700,
+                color: N.text.silver,
+                marginBottom: 8,
+                fontFamily: N.font.primary,
+              }}>
+                {product.name}
+              </div>
+              <InputGroup
+                label="Cost per cm²"
+                value={competitorCosts[product.name] || ""}
+                onChange={(v) => {
+                  setCompetitorCosts(prev => ({
+                    ...prev,
+                    [product.name]: v > 0 ? v : null
+                  }));
+                }}
+                min={0}
+                max={500}
+                step={5}
+                unit="$/cm²"
+                helpText={`${product.mfg} acquisition cost`}
+              />
+              {competitorCosts[product.name] && paymentYear === "cy2026" && (() => {
+                const billable = calc.billableCm2;
+                const totalCost = competitorCosts[product.name] * billable;
+                const totalReimb = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
+                const margin = totalReimb - totalCost;
+                return (
+                  <div style={{
+                    marginTop: 8,
+                    padding: "8px 10px",
+                    background: N.bg.base,
+                    borderRadius: 6,
+                    fontSize: N.fontSize.xs,
+                  }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                      <span style={{ color: N.text.pewter }}>Billable Size:</span>
+                      <span style={{ color: N.text.silver, fontFamily: N.font.mono }}>
+                        {billable} cm² {unitsPerApplication > 1 && `(${unitsPerApplication}×)`}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                      <span style={{ color: N.text.pewter }}>Total Cost:</span>
+                      <span style={{ color: N.text.pewter, fontFamily: N.font.mono }}>
+                        ${totalCost.toFixed(2)}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                      <span style={{ color: N.text.pewter }}>CY2026 Reimb:</span>
+                      <span style={{ color: N.text.silver, fontFamily: N.font.mono }}>
+                        ${totalReimb.toFixed(2)}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 4, borderTop: `1px solid ${N.border.subtle}` }}>
+                      <span style={{ color: N.text.pewter, fontWeight: 700 }}>Gross Margin:</span>
+                      <span style={{
+                        color: margin > 0 ? N.status.green.value : N.status.red.value,
+                        fontFamily: N.font.mono,
+                        fontWeight: 700,
+                      }}>
+                        {margin > 0 ? "+" : ""}${margin.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div style={{
+        marginTop: 16,
+        padding: "10px 14px",
+        background: N.status.amber.bg,
+        border: `1px solid ${N.status.amber.border}`,
+        borderRadius: 8,
+        fontSize: N.fontSize.xs,
+        color: N.text.silver,
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+      }}>
+        <Info size={14} color={N.status.amber.value} />
+        Enter costs when known or requested by physicians for realistic financial comparisons. Leave blank if unknown.
+      </div>
+    </Card>
+  );
+
+  // ═══════════════════════════════════════════════════
   //  TAB 1 — REIMBURSEMENT COMPARISON
   // ═══════════════════════════════════════════════════
 
@@ -789,9 +998,12 @@ export default function ActiGraftCalculator() {
               ) : (
                 <>
                   <div style={{ marginBottom: 8 }}>
-                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Product: $127.28/cm² × {woundSizeCm2} cm²:</span>
+                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
+                      Product: $127.14/cm² × {calc.billableCm2} cm²
+                      {unitsPerApplication > 1 && <span style={{ fontSize: N.fontSize.xs, color: N.text.slate }}> ({woundSizeCm2} × {unitsPerApplication} units, rounded up)</span>}:
+                    </span>
                     <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                      {fmtDec(CMS_DATA.cy2026.skinSub_flatRate_perCm2 * woundSizeCm2)}
+                      {fmtDec(CMS_DATA.cy2026.skinSub_flatRate_perCm2 * calc.billableCm2)}
                     </span>
                   </div>
                   <div style={{ marginBottom: 12 }}>
@@ -804,7 +1016,7 @@ export default function ActiGraftCalculator() {
                     fontSize: N.fontSize.xs, color: N.status.red.value, marginBottom: 12,
                     padding: "6px 10px", background: N.status.red.bg, borderRadius: 4,
                   }}>
-                    CY 2026: Products unpackaged — flat $127.28/cm² regardless of product ASP
+                    CY 2026: Products unpackaged — flat $127.14/cm² regardless of product ASP
                   </div>
                 </>
               )}
@@ -826,7 +1038,7 @@ export default function ActiGraftCalculator() {
               <AlertTriangle size={12} color={N.status.amber.value} />
               {calc.product.name}: Pre-2026 ASP ${calc.product.aspPerCm2}/cm² →
               {calc.product.exempt ? " BLA-exempt (ASP+6% continues)" :
-                ` flat $127.28/cm² (${calc.productChangeDir === "decrease" ? "-" : "+"}${(calc.productChangePct * 100).toFixed(0)}%)`}
+                ` flat $127.14/cm² (${calc.productChangeDir === "decrease" ? "-" : "+"}${(calc.productChangePct * 100).toFixed(0)}%)`}
             </div>
           </div>
         </div>
@@ -867,6 +1079,15 @@ export default function ActiGraftCalculator() {
             {SKIN_SUB_PRODUCTS.filter(p => !p.exempt).slice(0, 6).map((p) => {
               const change = ((CMS_DATA.cy2026.skinSub_flatRate_perCm2 - p.aspPerCm2) / p.aspPerCm2) * 100;
               const isIncrease = change > 0;
+              const hasCost = competitorCosts[p.name] != null;
+
+              // Calculate total cost and reimbursement using billable cm²
+              const billable = calc.billableCm2;
+              const totalCost = hasCost ? competitorCosts[p.name] * billable : null;
+              const totalReimb = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
+              const totalMargin = hasCost ? totalReimb - totalCost : null;
+              const marginPositive = totalMargin != null && totalMargin > 0;
+
               return (
                 <div key={p.name} style={{
                   background: N.bg.panel, borderRadius: 8, padding: 14,
@@ -879,10 +1100,40 @@ export default function ActiGraftCalculator() {
                       {isIncrease ? "+" : ""}{change.toFixed(0)}%
                     </Badge>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: N.fontSize.xs, color: N.text.pewter }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: N.fontSize.xs, color: N.text.pewter, marginBottom: hasCost ? 8 : 0 }}>
                     <span>Pre-2026: ${p.aspPerCm2}/cm²</span>
-                    <span>→ $127.28/cm²</span>
+                    <span>→ $127.14/cm²</span>
                   </div>
+                  {hasCost && (
+                    <div style={{
+                      borderTop: `1px solid ${N.border.subtle}`,
+                      paddingTop: 8,
+                      fontSize: N.fontSize.xs,
+                    }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                        <span style={{ color: N.text.slate }}>Cost ({billable} cm²):</span>
+                        <span style={{ color: N.text.pewter, fontFamily: N.font.mono }}>
+                          ${totalCost.toFixed(2)}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                        <span style={{ color: N.text.slate }}>Reimb ({billable} cm²):</span>
+                        <span style={{ color: N.text.silver, fontFamily: N.font.mono }}>
+                          ${totalReimb.toFixed(2)}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 4, borderTop: `1px solid ${N.border.subtle}` }}>
+                        <span style={{ color: N.text.slate, fontWeight: 700 }}>Margin:</span>
+                        <span style={{
+                          color: marginPositive ? N.status.green.value : N.status.red.value,
+                          fontFamily: N.font.mono,
+                          fontWeight: 700,
+                        }}>
+                          {marginPositive ? "+" : ""}${totalMargin.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -1418,7 +1669,7 @@ export default function ActiGraftCalculator() {
           {[
             { date: "Jan 1, 2026", event: "CMS directed all 7 MACs to issue updated LCDs", detail: "Would have limited coverage to 18 products, placed 154 in evaluation, designated 158 as non-covered", color: N.status.red.value },
             { date: "Dec 24, 2025", event: "CMS withdrew finalized LCDs — coverage in limbo", detail: "Previous MAC-specific LCDs remain in effect where they exist — massive regional variation", color: N.status.amber.value },
-            { date: "CY 2026", event: "Skin subs reclassified as 'incident-to supplies'", detail: "Products unpackaged: flat $127.28/cm² regardless of prior ASP — ~90% aggregate spending cut", color: N.status.red.value },
+            { date: "CY 2026", event: "Skin subs reclassified as 'incident-to supplies'", detail: "Products unpackaged: flat $127.14/cm² regardless of prior ASP — ~90% aggregate spending cut", color: N.status.red.value },
             { date: "Jun 2025", event: "DOJ charged $1.1 billion in skin sub fraud", detail: "OIG flagged 640% spending growth ($252M in 2019 → $10B+ in 2024)", color: N.status.red.value },
           ].map((item, i) => (
             <div key={i} style={{
@@ -1630,6 +1881,9 @@ export default function ActiGraftCalculator() {
 
       {/* Shared Inputs */}
       <InputPanel />
+
+      {/* Optional Competitor Costs */}
+      <CompetitorCostsPanel />
 
       {/* Sub-tab Navigation */}
       <div style={{
