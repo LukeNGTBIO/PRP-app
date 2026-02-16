@@ -233,6 +233,12 @@ export default function ActiGraftCalculator() {
   const [kitsPerDay, setKitsPerDay] = useState(2);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
+  // ─── Distributor-specific inputs ──────────────────
+  const [actigraftInvoiceCost, setActigraftInvoiceCost] = useState(650);
+  const [kitsPerOrder, setKitsPerOrder] = useState(10);
+  const [volumeDiscountPct, setVolumeDiscountPct] = useState(15);
+  const [skinSubInvoiceCostPerCm2, setSkinSubInvoiceCostPerCm2] = useState(100);
+
   // ─── Derived calculations ──────────────────────────
   const calc = useMemo(() => {
     const yr = paymentYear === "cy2025" ? CMS_DATA.cy2025 : CMS_DATA.cy2026;
@@ -268,6 +274,7 @@ export default function ActiGraftCalculator() {
     // Skin substitute economics
     const product = SKIN_SUB_PRODUCTS.find((p) => p.name === selectedSkinSub) || SKIN_SUB_PRODUCTS[0];
     const skinSubProductCostPerApp = product.aspPerCm2 * woundSizeCm2;
+    const skinSubInvoiceCostPerApp = skinSubInvoiceCostPerCm2 * woundSizeCm2;
 
     let skinSubReimbPerApp;
     if (siteOfService === "office") {
@@ -277,9 +284,10 @@ export default function ActiGraftCalculator() {
       skinSubReimbPerApp = Math.min(officeRate, skinSubProductCostPerApp * 1.08); // Closer margin in office
     } else if (paymentYear === "cy2025") {
       // HOPD Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
-      skinSubReimbPerApp = woundSizeCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
-      // Wage-index adjust the bundled rate
-      skinSubReimbPerApp = (skinSubReimbPerApp * yr.laborShare * wageIndex) + (skinSubReimbPerApp * yr.nonLaborShare);
+      const bundledBase = woundSizeCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
+      // HOPD starts at 80% of bundled rate, adjusted for wage index
+      const bundled80Pct = bundledBase * 0.80;
+      skinSubReimbPerApp = (bundled80Pct * yr.laborShare * wageIndex) + (bundled80Pct * yr.nonLaborShare);
     } else {
       // CY 2026 HOPD: Separate product payment + application procedure
       const productPayment = yr.skinSub_flatRate_perCm2 * woundSizeCm2;
@@ -292,6 +300,18 @@ export default function ActiGraftCalculator() {
     const skinSubTotalProductCost = skinSubProductCostPerApp * skinSubApplications;
     const skinSubFacilityMargin = skinSubTotalReimb - skinSubTotalProductCost;
     const skinSubMarginPct = skinSubTotalReimb > 0 ? skinSubFacilityMargin / skinSubTotalReimb : 0;
+
+    // Distributor profit margins (skin substitute)
+    const skinSubDistribInvoiceCost = skinSubInvoiceCostPerApp * skinSubApplications;
+    const skinSubDistribProfit = skinSubTotalReimb - skinSubDistribInvoiceCost;
+    const skinSubDistribMarginPct = skinSubTotalReimb > 0 ? skinSubDistribProfit / skinSubTotalReimb : 0;
+
+    // Distributor profit margins (ActiGraft)
+    const actigraftDiscountedCost = actigraftInvoiceCost * (1 - volumeDiscountPct / 100);
+    const actigraftOrderCost = actigraftDiscountedCost * kitsPerOrder;
+    const actigraftOrderReimbursement = adjustedG0465 * kitsPerOrder;
+    const actigraftDistribProfit = actigraftOrderReimbursement - actigraftOrderCost;
+    const actigraftDistribMarginPct = actigraftOrderReimbursement > 0 ? actigraftDistribProfit / actigraftOrderReimbursement : 0;
 
     // CY 2026 change for selected product
     const newRate2026 = product.exempt ? product.aspPerCm2 * 1.06 : CMS_DATA.cy2026.skinSub_flatRate_perCm2;
@@ -319,17 +339,27 @@ export default function ActiGraftCalculator() {
       skinSubFacilityMargin,
       skinSubMarginPct,
       skinSubProductCostPerApp,
+      skinSubInvoiceCostPerApp,
+      skinSubDistribInvoiceCost,
+      skinSubDistribProfit,
+      skinSubDistribMarginPct,
+      actigraftDiscountedCost,
+      actigraftOrderCost,
+      actigraftOrderReimbursement,
+      actigraftDistribProfit,
+      actigraftDistribMarginPct,
       product,
       newRate2026,
       productChangeDir,
       productChangePct,
     };
-  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay]);
+  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
 
   // ─── Sub-tab definitions ───────────────────────────
   const tabs = [
     { id: "reimbursement", label: "Reimbursement", icon: DollarSign },
     { id: "roi", label: "Facility ROI", icon: TrendingUp },
+    { id: "distributor", label: "Distributor Pricing", icon: Scale },
     { id: "coverage", label: "Coverage", icon: Shield },
     { id: "throughput", label: "Throughput", icon: BarChart3 },
   ];
@@ -535,26 +565,109 @@ export default function ActiGraftCalculator() {
       </button>
 
       {showAdvanced && (
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: 20, marginTop: 12, paddingTop: 12,
-          borderTop: `1px solid ${N.border.subtle}`,
-        }}>
-          <InputGroup
-            label="PRP Kit Cost (facility)"
-            value={prpKitCost}
-            onChange={(v) => setPrpKitCost(Math.max(0, Math.min(500, v)))}
-            min={0} max={500} step={5} unit="per kit"
-            helpText="Typical: $50–$150 per ActiGraft kit"
-          />
-          <InputGroup
-            label="Kits Per Day (throughput)"
-            value={kitsPerDay}
-            onChange={(v) => setKitsPerDay(Math.max(1, Math.min(10, v)))}
-            min={1} max={10} step={1} unit="kits/day"
-            helpText="NCD 270.3: up to 2 kits per day"
-          />
+        <div>
+          {/* Facility Economics */}
+          <div style={{
+            fontSize: N.fontSize.sm, fontWeight: 700, color: N.text.silver,
+            marginTop: 12, marginBottom: 8, fontFamily: N.font.primary,
+          }}>Facility Economics</div>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: 20, paddingBottom: 12,
+            borderBottom: `1px solid ${N.border.subtle}`,
+          }}>
+            <InputGroup
+              label="PRP Kit Cost (facility)"
+              value={prpKitCost}
+              onChange={(v) => setPrpKitCost(Math.max(0, Math.min(500, v)))}
+              min={0} max={500} step={5} unit="per kit"
+              helpText="Typical: $50–$150 per ActiGraft kit"
+            />
+            <InputGroup
+              label="Kits Per Day (throughput)"
+              value={kitsPerDay}
+              onChange={(v) => setKitsPerDay(Math.max(1, Math.min(10, v)))}
+              min={1} max={10} step={1} unit="kits/day"
+              helpText="NCD 270.3: up to 2 kits per day"
+            />
+          </div>
+
+          {/* Distributor Pricing */}
+          <div style={{
+            fontSize: N.fontSize.sm, fontWeight: 700, color: N.cyan.core,
+            marginTop: 16, marginBottom: 8, fontFamily: N.font.primary,
+            display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <DollarSign size={14} />
+            Distributor Pricing & Volume Discounts
+          </div>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: 20,
+          }}>
+            <InputGroup
+              label="ActiGraft Invoice Cost"
+              value={actigraftInvoiceCost}
+              onChange={(v) => setActigraftInvoiceCost(Math.max(0, Math.min(2000, v)))}
+              min={0} max={2000} step={10} unit="per kit"
+              helpText="Distributor cost before discount"
+            />
+            <InputGroup
+              label="Kits Per Order (volume)"
+              value={kitsPerOrder}
+              onChange={(v) => setKitsPerOrder(Math.max(1, Math.min(100, v)))}
+              min={1} max={100} step={1} unit="kits"
+              helpText="Wholesale order quantity"
+            />
+            <InputGroup
+              label="Volume Discount Rate"
+              value={volumeDiscountPct}
+              onChange={(v) => setVolumeDiscountPct(Math.max(0, Math.min(50, v)))}
+              min={0} max={50} step={0.5} unit="%"
+              helpText="Discount varies by volume & quarter"
+            />
+            <InputGroup
+              label="Skin Sub Invoice Cost"
+              value={skinSubInvoiceCostPerCm2}
+              onChange={(v) => setSkinSubInvoiceCostPerCm2(Math.max(0, Math.min(500, v)))}
+              min={0} max={500} step={5} unit="per cm²"
+              helpText="Distributor cost per square cm"
+            />
+          </div>
+
+          {/* Distributor Profit Summary */}
+          <div style={{
+            marginTop: 16, padding: "14px 18px",
+            background: N.bg.panel, borderRadius: 8,
+            border: `1px solid ${N.cyan.border}`,
+          }}>
+            <div style={{
+              display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20,
+              fontSize: N.fontSize.sm, fontFamily: N.font.primary,
+            }}>
+              <div>
+                <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 4 }}>
+                  ActiGraft Cost After {volumeDiscountPct}% Discount
+                </div>
+                <div style={{ color: N.cyan.bright, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.base }}>
+                  {fmtDec(calc.actigraftDiscountedCost)} per kit
+                </div>
+              </div>
+              <div>
+                <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 4 }}>
+                  Distributor Profit ({kitsPerOrder} kits)
+                </div>
+                <div style={{
+                  color: calc.actigraftDistribProfit >= 0 ? N.status.green.value : N.status.red.value,
+                  fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.base,
+                }}>
+                  {fmt(calc.actigraftDistribProfit)} ({pct(calc.actigraftDistribMarginPct)})
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </Card>
@@ -934,7 +1047,249 @@ export default function ActiGraftCalculator() {
   };
 
   // ═══════════════════════════════════════════════════
-  //  TAB 3 — COVERAGE COMPARISON
+  //  TAB 3 — DISTRIBUTOR PRICING
+  // ═══════════════════════════════════════════════════
+
+  const DistributorTab = () => {
+    // Calculate max profitable size for skin sub in HOPD (80% bundle rule)
+    const yr = paymentYear === "cy2025" ? CMS_DATA.cy2025 : CMS_DATA.cy2026;
+    const bundledBase = yr.skinSub_apc5053 || 1829;
+    const hopdReimb80Pct = bundledBase * 0.80;
+    const hopdReimbAdj = (hopdReimb80Pct * yr.laborShare * wageIndex) + (hopdReimb80Pct * yr.nonLaborShare);
+    const maxProfitableSize = Math.floor(hopdReimbAdj / skinSubInvoiceCostPerCm2);
+
+    return (
+      <div>
+        {/* Hero Stats */}
+        <div style={{
+          display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20,
+          marginBottom: 24,
+        }}>
+          <Card glowBorder>
+            <div style={{
+              textAlign: "center", marginBottom: 12,
+              fontSize: N.fontSize.base, color: N.text.silver, fontWeight: 700,
+              fontFamily: N.font.primary,
+            }}>
+              <Heart size={16} style={{ verticalAlign: "middle", marginRight: 6 }} color={N.cyan.core} />
+              ActiGraft Distributor Profit (Per Order)
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 16 }}>
+              <Stat label="Order Revenue" value={fmt(calc.actigraftOrderReimbursement)}
+                    sub={`${kitsPerOrder} kits × ${fmtDec(calc.adjustedG0465)}`} />
+              <Stat label="Invoice Cost" value={fmt(calc.actigraftOrderCost)}
+                    sub={`${fmtDec(calc.actigraftDiscountedCost)}/kit after ${volumeDiscountPct}% discount`}
+                    color={N.text.pewter} />
+              <Stat label="Distributor Profit" value={fmt(calc.actigraftDistribProfit)}
+                    sub={pct(calc.actigraftDistribMarginPct) + " margin"}
+                    color={calc.actigraftDistribProfit >= 0 ? N.status.green.value : N.status.red.value} large />
+            </div>
+          </Card>
+
+          <Card>
+            <div style={{
+              textAlign: "center", marginBottom: 12,
+              fontSize: N.fontSize.base, color: N.text.silver, fontWeight: 700,
+              fontFamily: N.font.primary,
+            }}>
+              <Activity size={16} style={{ verticalAlign: "middle", marginRight: 6 }} color={N.status.amber.value} />
+              Skin Sub Distributor Profit (Per Wound)
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 16 }}>
+              <Stat label="Total Reimbursement" value={fmt(calc.skinSubTotalReimb)}
+                    sub={`${skinSubApplications} apps × ${fmtDec(calc.skinSubReimbPerApp)}`}
+                    color={N.status.amber.value} />
+              <Stat label="Invoice Cost" value={fmt(calc.skinSubDistribInvoiceCost)}
+                    sub={`${fmtDec(calc.skinSubInvoiceCostPerApp)}/app (${skinSubInvoiceCostPerCm2}/cm²)`}
+                    color={N.status.red.value} />
+              <Stat label="Distributor Profit" value={fmt(calc.skinSubDistribProfit)}
+                    sub={pct(calc.skinSubDistribMarginPct) + " margin"}
+                    color={calc.skinSubDistribProfit >= 0 ? N.status.green.value : N.status.red.value} large />
+            </div>
+          </Card>
+        </div>
+
+        {/* HOPD 80% Bundle Rate Explanation */}
+        <Card style={{ marginBottom: 20 }}>
+          <SectionHeader
+            icon={Building2}
+            title="HOPD Skin Substitute Reimbursement Model"
+            subtitle="80% of bundled rate adjusted for local wage index — largest profitable size constraint"
+          />
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 16, marginTop: 12,
+          }}>
+            <div style={{
+              background: N.bg.panel, borderRadius: 8, padding: 16,
+              border: `1px solid ${N.border.subtle}`,
+            }}>
+              <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
+                Bundle Base Rate (APC 5053)
+              </div>
+              <div style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
+                {fmt(bundledBase)}
+              </div>
+            </div>
+            <div style={{
+              background: N.bg.panel, borderRadius: 8, padding: 16,
+              border: `1px solid ${N.cyan.border}`,
+            }}>
+              <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
+                80% Bundle (WI: {wageIndex.toFixed(2)})
+              </div>
+              <div style={{ color: N.cyan.bright, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
+                {fmtDec(hopdReimbAdj)}
+              </div>
+            </div>
+            <div style={{
+              background: N.bg.panel, borderRadius: 8, padding: 16,
+              border: `1px solid ${N.status.amber.border}`,
+            }}>
+              <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
+                Invoice Cost per cm²
+              </div>
+              <div style={{ color: N.status.amber.value, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
+                {fmtDec(skinSubInvoiceCostPerCm2)}
+              </div>
+            </div>
+            <div style={{
+              background: N.status.green.bg, borderRadius: 8, padding: 16,
+              border: `1px solid ${N.status.green.border}`,
+            }}>
+              <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
+                Max Profitable Size (2025)
+              </div>
+              <div style={{ color: N.status.green.value, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
+                ~{maxProfitableSize} cm²
+              </div>
+              <div style={{ color: N.text.slate, fontSize: N.fontSize.xs, marginTop: 4 }}>
+                Larger sizes lose money
+              </div>
+            </div>
+          </div>
+
+          <div style={{
+            marginTop: 16, padding: "12px 16px",
+            background: N.cyan.bg, border: `1px solid ${N.cyan.border}`,
+            borderRadius: 8, fontSize: N.fontSize.sm, color: N.text.silver,
+          }}>
+            <strong style={{ color: N.cyan.core }}>Formula:</strong> HOPD Reimbursement =
+            (Bundle Rate × 80% × 60% × WI) + (Bundle Rate × 80% × 40%)
+            <br />
+            Profit = Reimbursement − (Invoice Cost/cm² × Size in cm²)
+          </div>
+        </Card>
+
+        {/* Volume Discount Tiers */}
+        <Card style={{ marginBottom: 20 }}>
+          <SectionHeader
+            icon={TrendingUp}
+            title="ActiGraft Volume Discount Analysis"
+            subtitle="Wholesale pricing tiers — higher volume = lower cost per kit"
+          />
+          <div style={{ marginTop: 12 }}>
+            {[
+              { kits: 5, discount: 10 },
+              { kits: 10, discount: 15 },
+              { kits: 25, discount: 20 },
+              { kits: 50, discount: 25 },
+              { kits: 100, discount: 30 },
+            ].map((tier) => {
+              const discountedCost = actigraftInvoiceCost * (1 - tier.discount / 100);
+              const orderCost = discountedCost * tier.kits;
+              const orderReimb = calc.adjustedG0465 * tier.kits;
+              const profit = orderReimb - orderCost;
+              const marginPct = orderReimb > 0 ? profit / orderReimb : 0;
+
+              return (
+                <div key={tier.kits} style={{
+                  display: "grid", gridTemplateColumns: "100px 1fr 120px 120px 120px",
+                  gap: 16, padding: "12px 16px",
+                  borderBottom: `1px solid ${N.border.subtle}`,
+                  background: tier.kits === kitsPerOrder ? N.cyan.bg : "transparent",
+                  borderRadius: 6,
+                }}>
+                  <div>
+                    <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs }}>Volume</div>
+                    <div style={{ color: N.text.silver, fontWeight: 700, fontSize: N.fontSize.base }}>
+                      {tier.kits} kits
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs }}>Discount</div>
+                    <div style={{ color: N.cyan.core, fontWeight: 700, fontSize: N.fontSize.base }}>
+                      {tier.discount}% off → {fmtDec(discountedCost)}/kit
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs }}>Order Cost</div>
+                    <div style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.sm }}>
+                      {fmt(orderCost)}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs }}>Revenue</div>
+                    <div style={{ color: N.cyan.bright, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.sm }}>
+                      {fmt(orderReimb)}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs }}>Profit</div>
+                    <div style={{
+                      color: profit >= 0 ? N.status.green.value : N.status.red.value,
+                      fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.sm,
+                    }}>
+                      {fmt(profit)}
+                      <span style={{ fontSize: N.fontSize.xs, marginLeft: 4 }}>({pct(marginPct)})</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        {/* Profit Comparison */}
+        <Card>
+          <SectionHeader
+            icon={Scale}
+            title="Distributor Profit Comparison"
+            subtitle="ActiGraft vs. Skin Substitute per wound episode"
+          />
+          <div style={{ marginTop: 16 }}>
+            <ComparisonBar
+              label={`ActiGraft — ${kitsPerOrder} kit order`}
+              value={Math.max(0, calc.actigraftDistribProfit)}
+              maxValue={Math.max(Math.abs(calc.actigraftDistribProfit), Math.abs(calc.skinSubDistribProfit)) * 1.2}
+              color={N.status.green.value}
+            />
+            <ComparisonBar
+              label={`${calc.product.name} — ${skinSubApplications} applications`}
+              value={Math.max(0, calc.skinSubDistribProfit)}
+              maxValue={Math.max(Math.abs(calc.actigraftDistribProfit), Math.abs(calc.skinSubDistribProfit)) * 1.2}
+              color={calc.skinSubDistribProfit >= 0 ? N.status.amber.value : N.status.red.value}
+            />
+          </div>
+
+          {calc.skinSubDistribProfit < 0 && (
+            <div style={{
+              marginTop: 16, padding: "12px 16px",
+              background: N.status.red.bg, border: `1px solid ${N.status.red.border}`,
+              borderRadius: 8, fontSize: N.fontSize.sm, color: N.status.red.value,
+              display: "flex", alignItems: "center", gap: 8,
+            }}>
+              <AlertTriangle size={16} />
+              <strong>Negative margin:</strong> Skin substitute invoice cost exceeds HOPD reimbursement — distributor loses {fmt(Math.abs(calc.skinSubDistribProfit))} per wound
+            </div>
+          )}
+        </Card>
+      </div>
+    );
+  };
+
+  // ═══════════════════════════════════════════════════
+  //  TAB 4 — COVERAGE COMPARISON
   // ═══════════════════════════════════════════════════
 
   const CoverageTab = () => (
@@ -1293,6 +1648,7 @@ export default function ActiGraftCalculator() {
       {/* Active Tab Content */}
       {activeTab === "reimbursement" && <ReimbursementTab />}
       {activeTab === "roi" && <ROITab />}
+      {activeTab === "distributor" && <DistributorTab />}
       {activeTab === "coverage" && <CoverageTab />}
       {activeTab === "throughput" && <ThroughputTab />}
 
