@@ -2,27 +2,27 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { NIGHTINGALE } from './brandTheme'
 import nbLogoWhite from './assets/nb-logo-white.png'
 
-// ========== LEGACY MEDICAL CONSULTANTS BRAND TOKENS ==========
+// ========== NIGHTINGALE BIOTECH BRAND TOKENS (Website Matched) ==========
 const B = {
-  // Purple/Magenta to Teal/Cyan Gradient Backgrounds
-  bg: "#1D0B1F",           // Dark purple/magenta base
-  surface: "#2B1435",      // Rich purple
-  card: "#3A1D4B",         // Purple-magenta
-  cardHover: "#4A2A5F",    // Lighter purple-magenta
-  border: "#6B2E7D",       // Rich purple border
-  borderLight: "#9D4BB8",  // Bright magenta border
+  // Dark Steel Backgrounds (from Nightingale theme)
+  bg: NIGHTINGALE.bg.deepest,        // "#1A1E24" - Deepest steel
+  surface: NIGHTINGALE.bg.base,      // "#22262E" - Base steel
+  card: NIGHTINGALE.bg.card,         // "#2E343C" - Card steel
+  cardHover: NIGHTINGALE.bg.cardAlt, // "#343A44" - Lighter steel
+  border: NIGHTINGALE.border.default,     // "#38404C" - Steel border
+  borderLight: NIGHTINGALE.border.light,  // "#445060" - Light steel border
 
-  // Teal/Cyan Accents (enhanced - brighter, more electric)
-  teal: "#00D4D4",         // Bright teal/cyan core
-  tealBright: "#1BFFFF",   // Electric cyan highlight
-  tealDark: "#008C9E",     // Deep teal
-  tealGlow: "rgba(27,255,255,0.25)",
+  // Electric Cyan Accents (from Nightingale theme)
+  teal: NIGHTINGALE.cyan.core,       // "#00E5FF" - Electric cyan core
+  tealBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" - Bright cyan highlight
+  tealDark: NIGHTINGALE.cyan.dim,    // "#008C9E" - Deep cyan
+  tealGlow: NIGHTINGALE.cyan.bgActive, // Cyan glow
 
-  // Purple/Magenta Accents (enhanced - more vibrant)
-  purple: "#6B2E7D",       // Rich purple
-  purpleBright: "#9D4BB8", // Bright magenta
-  magenta: "#B84BB8",      // Vibrant magenta
-  magentaGlow: "rgba(184,75,184,0.25)",
+  // Steel/Cyan Accents (replacing purple/magenta)
+  purple: NIGHTINGALE.cyan.mid,      // "#00BCD4" - Mid cyan (was purple)
+  purpleBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" - Bright cyan (was magenta)
+  magenta: NIGHTINGALE.cyan.core,    // "#00E5FF" - Core cyan (was magenta)
+  magentaGlow: NIGHTINGALE.cyan.bgHover, // Cyan hover glow
 
   // Secondary Colors
   gold: "#FFB547",
@@ -32,15 +32,15 @@ const B = {
   redDark: "#CC3D55",
   blue: "#5BB8FF",
 
-  // Text Colors
-  text: "#F0E6F0",         // Warm white with slight purple tint
-  textSecondary: "#C8A8D8", // Purple-tinted secondary
-  textMuted: "#8B6A9E",    // Purple-tinted muted
+  // Text Colors (Silver/Platinum ramp from Nightingale)
+  text: NIGHTINGALE.text.platinum,      // "#C8D0DA" - Platinum text
+  textSecondary: NIGHTINGALE.text.silver, // "#A8B2BE" - Silver secondary
+  textMuted: NIGHTINGALE.text.pewter,   // "#788290" - Pewter muted
   white: "#FFFFFF",
 
-  // Gradients
-  gradientPurpleTeal: "linear-gradient(135deg, #6B2E7D, #B84BB8, #00D4D4)",
-  gradientTealMagenta: "linear-gradient(135deg, #00D4D4, #1BFFFF, #B84BB8)",
+  // Gradients (Steel + Electric Cyan)
+  gradientPurpleTeal: `linear-gradient(135deg, ${NIGHTINGALE.bg.card}, ${NIGHTINGALE.cyan.mid}, ${NIGHTINGALE.cyan.core})`,
+  gradientTealMagenta: `linear-gradient(135deg, ${NIGHTINGALE.cyan.core}, ${NIGHTINGALE.cyan.bright}, ${NIGHTINGALE.cyan.mid})`,
 }
 
 // ========== SVG GRAPHICS & VISUAL ELEMENTS ==========
@@ -50,8 +50,8 @@ const BloodCellIcon = ({ size = 60, color = B.teal }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
     <defs>
       <linearGradient id="bloodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor={B.purple} />
-        <stop offset="50%" stopColor={B.magenta} />
+        <stop offset="0%" stopColor={NIGHTINGALE.border.light} />
+        <stop offset="50%" stopColor={B.tealDark} />
         <stop offset="100%" stopColor={color} />
       </linearGradient>
     </defs>
@@ -59,8 +59,8 @@ const BloodCellIcon = ({ size = 60, color = B.teal }) => (
     <circle cx="50" cy="50" r="28" fill="none" stroke="url(#bloodGrad)" strokeWidth="3" />
     <circle cx="50" cy="50" r="20" fill="none" stroke={color} strokeWidth="2" opacity="0.6" />
     <circle cx="50" cy="50" r="12" fill={color} opacity="0.8" />
-    <circle cx="35" cy="35" r="6" fill={B.magenta} opacity="0.7" />
-    <circle cx="65" cy="35" r="6" fill={B.purple} opacity="0.7" />
+    <circle cx="35" cy="35" r="6" fill={B.tealDark} opacity="0.7" />
+    <circle cx="65" cy="35" r="6" fill={NIGHTINGALE.border.accent} opacity="0.7" />
     <circle cx="35" cy="65" r="6" fill={color} opacity="0.7" />
     <circle cx="65" cy="65" r="6" fill={B.tealBright} opacity="0.7" />
   </svg>
@@ -72,14 +72,14 @@ const WoundHealingIcon = ({ size = 60, color = B.teal }) => (
     <defs>
       <linearGradient id="healGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor={B.red} />
-        <stop offset="50%" stopColor={B.magenta} />
+        <stop offset="50%" stopColor={B.tealDark} />
         <stop offset="100%" stopColor={color} />
       </linearGradient>
     </defs>
     <path d="M 20 50 Q 35 20, 50 50 T 80 50" fill="none" stroke="url(#healGrad)" strokeWidth="4" strokeLinecap="round" />
     <path d="M 25 50 Q 40 35, 50 50 T 75 50" fill="none" stroke={color} strokeWidth="3" opacity="0.6" />
     <circle cx="50" cy="50" r="8" fill={color} />
-    <circle cx="30" cy="35" r="5" fill={B.magenta} opacity="0.8" />
+    <circle cx="30" cy="35" r="5" fill={B.tealDark} opacity="0.8" />
     <circle cx="70" cy="35" r="5" fill={B.tealBright} opacity="0.8" />
   </svg>
 )
@@ -89,14 +89,14 @@ const SyringeIcon = ({ size = 60, color = B.teal }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
     <defs>
       <linearGradient id="syringeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor={B.purple} />
+        <stop offset="0%" stopColor={NIGHTINGALE.border.accent} />
         <stop offset="100%" stopColor={color} />
       </linearGradient>
     </defs>
     <rect x="35" y="20" width="30" height="50" rx="3" fill="url(#syringeGrad)" opacity="0.3" />
     <rect x="38" y="23" width="24" height="44" rx="2" fill="none" stroke={color} strokeWidth="2" />
     <rect x="45" y="70" width="10" height="15" fill={color} opacity="0.8" />
-    <circle cx="50" cy="15" r="5" fill={B.magenta} />
+    <circle cx="50" cy="15" r="5" fill={B.tealDark} />
     <line x1="50" y1="30" x2="50" y2="60" stroke={B.tealBright} strokeWidth="2" />
   </svg>
 )
@@ -106,14 +106,14 @@ const ClockIcon = ({ size = 60, color = B.teal }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
     <defs>
       <linearGradient id="clockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor={B.purple} />
+        <stop offset="0%" stopColor={NIGHTINGALE.border.accent} />
         <stop offset="100%" stopColor={color} />
       </linearGradient>
     </defs>
     <circle cx="50" cy="50" r="35" fill="none" stroke="url(#clockGrad)" strokeWidth="3" />
     <circle cx="50" cy="50" r="28" fill={B.card} opacity="0.5" />
     <line x1="50" y1="50" x2="50" y2="30" stroke={color} strokeWidth="3" strokeLinecap="round" />
-    <line x1="50" y1="50" x2="65" y2="50" stroke={B.magenta} strokeWidth="3" strokeLinecap="round" />
+    <line x1="50" y1="50" x2="65" y2="50" stroke={B.tealDark} strokeWidth="3" strokeLinecap="round" />
     <circle cx="50" cy="50" r="4" fill={B.tealBright} />
     <text x="50" y="75" textAnchor="middle" fill={color} fontSize="14" fontWeight="bold">5 min</text>
   </svg>
@@ -124,15 +124,15 @@ const DNAIcon = ({ size = 60, color = B.teal }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
     <defs>
       <linearGradient id="dnaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor={B.magenta} />
+        <stop offset="0%" stopColor={B.tealDark} />
         <stop offset="50%" stopColor={color} />
-        <stop offset="100%" stopColor={B.purple} />
+        <stop offset="100%" stopColor={NIGHTINGALE.border.accent} />
       </linearGradient>
     </defs>
     <path d="M 30 10 Q 40 25, 30 40 Q 20 55, 30 70 Q 40 85, 30 100" fill="none" stroke="url(#dnaGrad)" strokeWidth="3" />
     <path d="M 70 10 Q 60 25, 70 40 Q 80 55, 70 70 Q 60 85, 70 100" fill="none" stroke="url(#dnaGrad)" strokeWidth="3" />
     <line x1="30" y1="25" x2="70" y2="25" stroke={color} strokeWidth="2" opacity="0.6" />
-    <line x1="30" y1="55" x2="70" y2="55" stroke={B.magenta} strokeWidth="2" opacity="0.6" />
+    <line x1="30" y1="55" x2="70" y2="55" stroke={B.tealDark} strokeWidth="2" opacity="0.6" />
     <line x1="30" y1="85" x2="70" y2="85" stroke={color} strokeWidth="2" opacity="0.6" />
   </svg>
 )
@@ -142,7 +142,7 @@ const DollarIcon = ({ size = 60, color = B.gold }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
     <defs>
       <linearGradient id="dollarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor={B.magenta} />
+        <stop offset="0%" stopColor={NIGHTINGALE.border.accent} />
         <stop offset="100%" stopColor={color} />
       </linearGradient>
     </defs>

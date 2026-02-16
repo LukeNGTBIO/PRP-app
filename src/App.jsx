@@ -7,6 +7,8 @@ import ActiGraftManual from './ActiGraftManual.jsx'
 import ActiGraftCalculator from './ActiGraftCalculator.jsx'
 import ActiGraftPresentationDeck from './ActiGraftPresentationDeck.jsx'
 import nbLogoWhite from './assets/nb-logo-white.png'
+import dnaHelixBg from './assets/dna-helix-bg.svg'
+import molecularBg from './assets/molecular-structure-bg.svg'
 import { NIGHTINGALE } from './brandTheme'
 
 // Force fresh deployment - Feb 16, 2026
@@ -44,8 +46,29 @@ function App() {
   return (
     <div style={{
       background: NIGHTINGALE.bg.base,
-      backgroundImage: NIGHTINGALE.texture.brushed,
-      minHeight: '100vh'
+      backgroundImage: activePage === 'prp'
+        ? `url(${dnaHelixBg}), ${NIGHTINGALE.texture.brushed}`
+        : activePage === 'methodist'
+        ? `url(${molecularBg}), ${NIGHTINGALE.texture.brushed}`
+        : NIGHTINGALE.texture.brushed,
+      backgroundSize: activePage === 'prp'
+        ? (isMobile ? 'cover, 100% auto' : '220% auto, 100% auto')
+        : activePage === 'methodist'
+        ? (isMobile ? 'cover, 100% auto' : '180% auto, 100% auto')
+        : '100% auto',
+      backgroundPosition: activePage === 'prp'
+        ? 'center -10%, center'
+        : activePage === 'methodist'
+        ? '120% 50%, center'
+        : 'center',
+      backgroundRepeat: (activePage === 'prp' || activePage === 'methodist')
+        ? 'no-repeat, repeat'
+        : 'repeat',
+      backgroundAttachment: (activePage === 'prp' || activePage === 'methodist')
+        ? (isMobile ? 'scroll, scroll' : 'fixed, scroll')
+        : 'scroll',
+      minHeight: '100vh',
+      transition: 'background-image 0.4s ease-in-out'
     }}>
       {/* Navigation Bar */}
       <nav style={{
