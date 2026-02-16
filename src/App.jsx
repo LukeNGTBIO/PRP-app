@@ -8,6 +8,7 @@ import ActiGraftCalculator from './ActiGraftCalculator.jsx'
 import nbLogoWhite from './assets/nb-logo-white.png'
 import { NIGHTINGALE } from './brandTheme'
 
+// Force fresh deployment - Feb 16, 2026
 function App() {
   const [activePage, setActivePage] = useState('prp')
   const [isMobile, setIsMobile] = useState(false)
