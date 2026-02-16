@@ -380,7 +380,7 @@ function OverviewTab() {
             }}>
               <div style={{
                 display: "inline-flex", width: "32px", height: "32px",
-                borderRadius: "4px", background: p.color, color: "#C8D0DA",
+                borderRadius: "4px", background: p.color, color: "#1E2228",
                 fontSize: "14px", fontWeight: 800, alignItems: "center",
                 justifyContent: "center", marginBottom: "6px", margin: "0 auto 6px"
               }}>{p.abbr}</div>
@@ -450,12 +450,17 @@ function ClinicalTab() {
           </div>
           {products.map(p => (
             <div key={p.id} style={{
-              padding: "10px", borderLeft: "1px solid #38404C", textAlign: "center"
+              padding: "12px 10px", borderLeft: `4px solid ${p.color}`,
+              background: p.lightColor, textAlign: "center"
             }}>
               <div style={{
-                display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#C8D0DA", textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6)", fontSize: "13px", fontWeight: 700
-              }}>{p.name}</div>
+                display: "inline-flex", width: "32px", height: "32px",
+                borderRadius: "4px", background: p.color, color: "#1E2228",
+                fontSize: "14px", fontWeight: 800, alignItems: "center",
+                justifyContent: "center", marginBottom: "6px", margin: "0 auto 6px"
+              }}>{p.abbr}</div>
+              <div style={{ fontSize: "16px", fontWeight: 800, marginTop: "2px", color: p.color }}>{p.name}</div>
+              <div style={{ fontSize: "12px", color: "#788290", marginTop: "2px" }}>{p.typeShort}</div>
             </div>
           ))}
         </div>
@@ -530,12 +535,17 @@ function AccessTab() {
           </div>
           {products.map(p => (
             <div key={p.id} style={{
-              padding: "10px", borderLeft: "1px solid #38404C", textAlign: "center"
+              padding: "12px 10px", borderLeft: `4px solid ${p.color}`,
+              background: p.lightColor, textAlign: "center"
             }}>
               <div style={{
-                display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#C8D0DA", textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6)", fontSize: "13px", fontWeight: 700
-              }}>{p.name}</div>
+                display: "inline-flex", width: "32px", height: "32px",
+                borderRadius: "4px", background: p.color, color: "#1E2228",
+                fontSize: "14px", fontWeight: 800, alignItems: "center",
+                justifyContent: "center", marginBottom: "6px", margin: "0 auto 6px"
+              }}>{p.abbr}</div>
+              <div style={{ fontSize: "16px", fontWeight: 800, marginTop: "2px", color: p.color }}>{p.name}</div>
+              <div style={{ fontSize: "12px", color: "#788290", marginTop: "2px" }}>{p.typeShort}</div>
             </div>
           ))}
         </div>
@@ -665,7 +675,7 @@ function StrategicTab() {
               <div style={{ gridColumn: "1 / -1", padding: "12px 16px", display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 4, background: p.color,
-                  color: "#C8D0DA", fontSize: 14, fontWeight: 800, display: "flex",
+                  color: "#1E2228", fontSize: 14, fontWeight: 800, display: "flex",
                   alignItems: "center", justifyContent: "center"
                 }}>{p.abbr}</div>
                 <div>
