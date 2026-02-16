@@ -15,14 +15,16 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "lucide-react": "^0.564.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "recharts": "^3.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@babel/plugin-syntax-jsx": "^7.28.6",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.0",
-    "@babel/plugin-syntax-jsx": "^7.28.6",
     "@vitejs/plugin-react": "^4.3.4"
   }
 }
