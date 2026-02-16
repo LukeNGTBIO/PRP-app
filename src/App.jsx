@@ -4,6 +4,7 @@ import PRP_Mobile from './PRP_Mobile.jsx'
 import MethodistIntelDashboard from './MethodistIntelDashboard.jsx'
 import MethodistIntelDashboard_Mobile from './MethodistIntelDashboard_Mobile.jsx'
 import ActiGraftManual from './ActiGraftManual.jsx'
+import ActiGraftCalculator from './ActiGraftCalculator.jsx'
 import nbLogoWhite from './assets/nb-logo-white.png'
 import { NIGHTINGALE } from './brandTheme'
 
@@ -80,12 +81,16 @@ function App() {
         <button onClick={() => setActivePage('manual')} style={tabStyle(activePage === 'manual')}>
           {isMobile ? 'Manual' : 'Manual & Training'}
         </button>
+        <button onClick={() => setActivePage('calculator')} style={tabStyle(activePage === 'calculator')}>
+          {isMobile ? 'ROI Calc' : 'ROI Calculator'}
+        </button>
       </nav>
 
       {/* Page Content */}
       {activePage === 'prp' && (isMobile ? <PRP_Mobile /> : <PRP />)}
       {activePage === 'methodist' && (isMobile ? <MethodistIntelDashboard_Mobile /> : <MethodistIntelDashboard />)}
       {activePage === 'manual' && <ActiGraftManual />}
+      {activePage === 'calculator' && <ActiGraftCalculator />}
     </div>
   )
 }
