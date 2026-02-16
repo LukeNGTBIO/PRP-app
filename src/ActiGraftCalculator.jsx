@@ -306,6 +306,15 @@ const pct = (n) => (n * 100).toFixed(1) + "%";
 // ═══════════════════════════════════════════════════════════════
 
 export default function ActiGraftCalculator() {
+  // ─── Mobile detection ──────────────────────────────
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // ─── Sub-tab state ─────────────────────────────────
   const [activeTab, setActiveTab] = useState("reimbursement");
 
@@ -921,7 +930,9 @@ export default function ActiGraftCalculator() {
           subtitle={`OPPS formula: (National Rate × 60% × WI) + (National Rate × 40%) | Your WI: ${wageIndex.toFixed(2)}`}
         />
         <div style={{
-          display: "grid", gridTemplateColumns: "1fr 1px 1fr", gap: 24,
+          display: isMobile ? "block" : "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1px 1fr",
+          gap: isMobile ? 16 : 24,
           marginTop: 16,
         }}>
           {/* PRP Column */}
@@ -1191,7 +1202,9 @@ export default function ActiGraftCalculator() {
       <div>
         {/* Hero stats */}
         <div style={{
-          display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20,
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: 20,
           marginBottom: 24,
         }}>
           <Card glowBorder>
@@ -1346,7 +1359,9 @@ export default function ActiGraftCalculator() {
       <div>
         {/* Hero Stats */}
         <div style={{
-          display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20,
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: 20,
           marginBottom: 24,
         }}>
           <Card glowBorder>
@@ -1488,8 +1503,10 @@ export default function ActiGraftCalculator() {
 
               return (
                 <div key={tier.kits} style={{
-                  display: "grid", gridTemplateColumns: "100px 1fr 120px 120px 120px",
-                  gap: 16, padding: "12px 16px",
+                  display: isMobile ? "block" : "grid",
+                  gridTemplateColumns: isMobile ? "1fr" : "100px 1fr 120px 120px 120px",
+                  gap: isMobile ? 8 : 16,
+                  padding: isMobile ? "10px 12px" : "12px 16px",
                   borderBottom: `1px solid ${N.border.subtle}`,
                   background: tier.kits === kitsPerOrder ? N.cyan.bg : "transparent",
                   borderRadius: 6,
