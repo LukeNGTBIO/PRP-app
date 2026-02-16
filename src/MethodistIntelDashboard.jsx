@@ -213,7 +213,7 @@ const Collapsible = ({ title, icon: Icon, children, defaultOpen = false }) => {
     <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, overflow: "hidden", marginBottom: 16 }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", background: "transparent", border: "none", padding: "16px 22px", display: "flex", alignItems: "center", gap: 10, cursor: "pointer", color: BRAND.textPrimary }}>
         <Icon size={18} color={BRAND.brightBlue} />
-        <span style={{ flex: 1, textAlign: "left", fontSize: 17, fontWeight: 600, letterSpacing: -0.2, fontFamily: "'Libre Caslon Display', Georgia, serif" }}>{title}</span>
+        <span style={{ flex: 1, textAlign: "left", fontSize: 19, fontWeight: 700, letterSpacing: -0.2, fontFamily: "'Libre Caslon Display', Georgia, serif" }}>{title}</span>
         {open ? <ChevronDown size={18} color={BRAND.textMuted} /> : <ChevronRight size={18} color={BRAND.textMuted} />}
       </button>
       {open && <div style={{ padding: "0 22px 20px", borderTop: `1px solid ${BRAND.border}` }}>{children}</div>}

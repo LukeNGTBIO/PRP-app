@@ -166,7 +166,7 @@ function Collapsible({ title, children, defaultOpen = false, isMobile }) {
         }}
       >
         <span style={{
-          fontSize: isMobile ? "15px" : "17px",
+          fontSize: isMobile ? "17px" : "19px",
           fontWeight: 700,
           fontFamily: "'Libre Caslon Display', Georgia, serif"
         }}>
