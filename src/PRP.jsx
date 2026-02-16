@@ -380,11 +380,11 @@ function OverviewTab() {
             }}>
               <div style={{
                 display: "inline-block", width: "28px", height: "28px",
-                borderRadius: "4px", background: p.color, color: "#C8D0DA",
+                borderRadius: "4px", background: p.color, color: "#1E2228", textShadow: NIGHTINGALE.emboss.text,
                 fontSize: "13px", fontWeight: 800, lineHeight: "28px",
                 marginBottom: "4px"
               }}>{p.abbr}</div>
-              <div style={{ fontSize: "14px", fontWeight: 700, marginTop: "2px" }}>{p.name}</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, marginTop: "2px", color: "#1E2228", textShadow: NIGHTINGALE.emboss.text }}>{p.name}</div>
               <div style={{ fontSize: "12px", color: "#788290", marginTop: "1px" }}>{p.typeShort}</div>
             </div>
           ))}
@@ -454,7 +454,7 @@ function ClinicalTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#C8D0DA", fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#1E2228", textShadow: NIGHTINGALE.emboss.text, fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
@@ -534,7 +534,7 @@ function AccessTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#788290", fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#1E2228", textShadow: NIGHTINGALE.emboss.text, fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}

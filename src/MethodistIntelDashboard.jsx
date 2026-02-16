@@ -22,8 +22,8 @@ const BRAND = {
   darkCard: "#2E343C",          // Card surfaces
   border: "#38404C",            // Steel border
   textPrimary: "#C8D0DA",      // White — headings
-  textSecondary: "#788290",    // Silver muted — body
-  textMuted: "#606A78",        // Silver dim — labels
+  textSecondary: "#A8B2BE",    // Silver light — body (brightened for readability)
+  textMuted: "#9AA4B0",        // Silver medium — labels (brightened for readability)
   confirmed: "#00E5FF",        // Green — positive/confirmed
   assessed: "#A8986C",         // Yellow — assessed/warning
   unconfirmed: "#B07878",      // Red — barriers/denied
@@ -271,12 +271,12 @@ export default function MethodistIntelDashboard() {
               <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#C8D0DA", fontFamily: "'Libre Caslon Display', Georgia, serif" }}>
                 Methodist University Hospital — Market Intelligence
               </h1>
-              <p style={{ margin: 0, fontSize: 14, color: "#788290", marginTop: 4 }}>
+              <p style={{ margin: 0, fontSize: 14, color: "#A8B2BE", marginTop: 4 }}>
                 ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026
               </p>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 13, color: "#788290", background: "#0C1018", padding: "6px 12px", borderRadius: 8, border: "1px solid #38404C" }}>
+              <span style={{ fontSize: 13, color: "#A8B2BE", background: "#0C1018", padding: "6px 12px", borderRadius: 8, border: "1px solid #38404C" }}>
                 <Clock size={12} style={{ verticalAlign: -2, marginRight: 4 }} /> Last Updated: Feb 15, 2026
               </span>
             </div>
@@ -288,7 +288,7 @@ export default function MethodistIntelDashboard() {
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? "#00E5FF" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#22262E" : "#606A78", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
+                  style={{ background: active ? "#00E5FF" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#22262E" : "#9AA4B0", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );
