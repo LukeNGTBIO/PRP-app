@@ -178,7 +178,7 @@ const ConfidenceBadge = ({ level }) => {
   const cfg = map[level] || map["Unconfirmed"];
   const Icon = cfg.icon;
   return (
-    <span style={{ background: cfg.bg, color: cfg.text, padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 4, letterSpacing: 0.3 }}>
+    <span style={{ background: cfg.bg, color: cfg.text, padding: "3px 10px", borderRadius: 6, fontSize: 13, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 4, letterSpacing: 0.3 }}>
       <Icon size={12} /> {level}
     </span>
   );
@@ -192,10 +192,10 @@ const MetricCard = ({ icon: Icon, label, value, sub, accent = BRAND.brightBlue }
   <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 4, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
       <Icon size={14} color={accent} />
-      <span style={{ color: BRAND.textMuted, fontSize: 11, fontWeight: 500, letterSpacing: 0.4, textTransform: "uppercase" }}>{label}</span>
+      <span style={{ color: BRAND.textMuted, fontSize: 13, fontWeight: 500, letterSpacing: 0.4, textTransform: "uppercase" }}>{label}</span>
     </div>
-    <div style={{ fontSize: 24, fontWeight: 700, color: BRAND.white, letterSpacing: -0.5 }}>{value}</div>
-    {sub && <div style={{ fontSize: 11, color: BRAND.textMuted }}>{sub}</div>}
+    <div style={{ fontSize: 28, fontWeight: 700, color: BRAND.white, letterSpacing: -0.5 }}>{value}</div>
+    {sub && <div style={{ fontSize: 13, color: BRAND.textMuted }}>{sub}</div>}
   </div>
 );
 
@@ -203,9 +203,9 @@ const SectionHeader = ({ icon: Icon, title, subtitle }) => (
   <div style={{ marginBottom: 18, paddingBottom: 12, borderBottom: `1px solid ${BRAND.border}` }}>
     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
       <Icon size={17} color={BRAND.brightBlue} />
-      <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: BRAND.white, letterSpacing: -0.2 }}>{title}</h2>
+      <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: BRAND.white, letterSpacing: -0.2 }}>{title}</h2>
     </div>
-    {subtitle && <p style={{ margin: 0, marginLeft: 25, fontSize: 12, color: BRAND.textMuted }}>{subtitle}</p>}
+    {subtitle && <p style={{ margin: 0, marginLeft: 25, fontSize: 14, color: BRAND.textMuted }}>{subtitle}</p>}
   </div>
 );
 
@@ -215,7 +215,7 @@ const Collapsible = ({ title, icon: Icon, children, defaultOpen = false }) => {
     <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, overflow: "hidden", marginBottom: 16 }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", background: "transparent", border: "none", padding: "16px 22px", display: "flex", alignItems: "center", gap: 10, cursor: "pointer", color: BRAND.textPrimary }}>
         <Icon size={18} color={BRAND.brightBlue} />
-        <span style={{ flex: 1, textAlign: "left", fontSize: 15, fontWeight: 600, letterSpacing: -0.2 }}>{title}</span>
+        <span style={{ flex: 1, textAlign: "left", fontSize: 17, fontWeight: 600, letterSpacing: -0.2 }}>{title}</span>
         {open ? <ChevronDown size={18} color={BRAND.textMuted} /> : <ChevronRight size={18} color={BRAND.textMuted} />}
       </button>
       {open && <div style={{ padding: "0 22px 20px", borderTop: `1px solid ${BRAND.border}` }}>{children}</div>}
@@ -225,8 +225,8 @@ const Collapsible = ({ title, icon: Icon, children, defaultOpen = false }) => {
 
 const DataRow = ({ label, value, confidence, highlight }) => (
   <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: `1px solid ${BRAND.border}22` }}>
-    <div style={{ flex: "0 0 200px", fontSize: 12, color: BRAND.textSecondary, fontWeight: 500, paddingTop: 2 }}>{label}</div>
-    <div style={{ flex: 1, fontSize: 13, color: highlight ? BRAND.brightBlue : BRAND.textPrimary, fontWeight: highlight ? 600 : 400, lineHeight: 1.5 }}>{value}</div>
+    <div style={{ flex: "0 0 200px", fontSize: 14, color: BRAND.textSecondary, fontWeight: 500, paddingTop: 2 }}>{label}</div>
+    <div style={{ flex: 1, fontSize: 15, color: highlight ? BRAND.brightBlue : BRAND.textPrimary, fontWeight: highlight ? 600 : 400, lineHeight: 1.5 }}>{value}</div>
     {confidence && <div style={{ flex: "0 0 auto" }}><ConfidenceBadge level={confidence} /></div>}
   </div>
 );
@@ -235,9 +235,9 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)" }}>
-      <div style={{ fontSize: 12, color: BRAND.textSecondary, marginBottom: 6 }}>{label}</div>
+      <div style={{ fontSize: 14, color: BRAND.textSecondary, marginBottom: 6 }}>{label}</div>
       {payload.map((p, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: p.color, fontWeight: 600 }}>
+        <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, color: p.color, fontWeight: 600 }}>
           <span style={{ width: 8, height: 8, borderRadius: "50%", background: p.color }} />
           {p.name}: ${p.value.toLocaleString()}
         </div>
@@ -269,17 +269,17 @@ export default function MethodistIntelDashboard() {
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
                 <img src={nbBirdWhite} alt="Nightingale Biotech" style={{ height: 28, width: "auto" }} />
-                <span style={{ color: "#D4A860", fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase" }}>NIGHTINGALE BIOTECH</span>
+                <span style={{ color: "#D4A860", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase" }}>NIGHTINGALE BIOTECH</span>
               </div>
-              <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: -0.3, color: "#fff" }}>
+              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#fff" }}>
                 Methodist University Hospital — Market Intelligence
               </h1>
-              <p style={{ margin: 0, fontSize: 12, color: "#aaa", marginTop: 4 }}>
+              <p style={{ margin: 0, fontSize: 14, color: "#aaa", marginTop: 4 }}>
                 ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026
               </p>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 11, color: "#aaa", background: "#232340", padding: "6px 12px", borderRadius: 8, border: "1px solid #2a2a3e" }}>
+              <span style={{ fontSize: 13, color: "#aaa", background: "#232340", padding: "6px 12px", borderRadius: 8, border: "1px solid #2a2a3e" }}>
                 <Clock size={12} style={{ verticalAlign: -2, marginRight: 4 }} /> Last Updated: Feb 15, 2026
               </span>
             </div>
@@ -291,7 +291,7 @@ export default function MethodistIntelDashboard() {
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? "#D4A860" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#1a1a2e" : "#aaa", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
+                  style={{ background: active ? "#D4A860" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#1a1a2e" : "#aaa", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );
@@ -321,8 +321,8 @@ export default function MethodistIntelDashboard() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                 <Zap size={18} color={BRAND.goldenYellow} style={{ flexShrink: 0, marginTop: 2 }} />
                 <div>
-                  <h3 style={{ margin: "0 0 6px", fontSize: 14, fontWeight: 700, color: BRAND.goldenYellow }}>Critical Strategic Finding</h3>
-                  <p style={{ margin: 0, fontSize: 13, color: BRAND.textSecondary, lineHeight: 1.6 }}>
+                  <h3 style={{ margin: "0 0 6px", fontSize: 16, fontWeight: 700, color: BRAND.goldenYellow }}>Critical Strategic Finding</h3>
+                  <p style={{ margin: 0, fontSize: 15, color: BRAND.textSecondary, lineHeight: 1.6 }}>
                     ActiGraft's classification as a <strong style={{ color: BRAND.brightBlue }}>blood-derived product (G0465)</strong> places it in a distinct product category from allografts and CTPs on HealthTrust's existing regenerative tissue contracts. This creates a <strong style={{ color: BRAND.white }}>category gap — not a compliance conflict</strong>. MLH may be able to procure ActiGraft through Vizient's contract without violating HealthTrust committed-model requirements, because HealthTrust has no competing contract in this product category.
                   </p>
                 </div>
@@ -337,7 +337,7 @@ export default function MethodistIntelDashboard() {
                   <thead>
                     <tr style={{ borderBottom: `2px solid ${BRAND.border}` }}>
                       {["GPO", "Status", "Contract Type", "Date", "Confidence"].map(h => (
-                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", color: BRAND.textSecondary, fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.6 }}>{h}</th>
+                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", color: BRAND.textSecondary, fontWeight: 600, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.6 }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -371,8 +371,8 @@ export default function MethodistIntelDashboard() {
                   return (
                     <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "10px 0", position: "relative" }}>
                       <div style={{ position: "absolute", left: -22, top: 14, width: 12, height: 12, borderRadius: "50%", background: colors[e.type], border: `2px solid ${BRAND.dark}`,  }} />
-                      <span style={{ flex: "0 0 90px", fontSize: 12, fontWeight: 600, color: colors[e.type] }}>{e.date}</span>
-                      <span style={{ fontSize: 13, color: BRAND.textPrimary }}>{e.event}</span>
+                      <span style={{ flex: "0 0 90px", fontSize: 14, fontWeight: 600, color: colors[e.type] }}>{e.date}</span>
+                      <span style={{ fontSize: 15, color: BRAND.textPrimary }}>{e.event}</span>
                     </div>
                   );
                 })}
@@ -391,8 +391,8 @@ export default function MethodistIntelDashboard() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                   <Shield size={18} color={BRAND.assessed} />
                   <div>
-                    <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: BRAND.white }}>HealthTrust (HPG)</h3>
-                    <span style={{ fontSize: 11, color: BRAND.assessed, fontWeight: 600 }}>PRIMARY GPO — Committed Model</span>
+                    <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: BRAND.white }}>HealthTrust (HPG)</h3>
+                    <span style={{ fontSize: 13, color: BRAND.assessed, fontWeight: 600 }}>PRIMARY GPO — Committed Model</span>
                   </div>
                 </div>
                 <DataRow label="Member Since" value="March 1, 2013" confidence="Confirmed" />
@@ -407,9 +407,9 @@ export default function MethodistIntelDashboard() {
                 <div style={{ marginTop: 16, background: `${BRAND.unconfirmed}12`, border: `1px solid ${BRAND.unconfirmed}33`, borderRadius: 10, padding: "14px 16px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                     <XCircle size={16} color={BRAND.unconfirmed} />
-                    <span style={{ fontSize: 13, fontWeight: 700, color: BRAND.unconfirmed }}>ActiGraft Contract: NOT FOUND</span>
+                    <span style={{ fontSize: 15, fontWeight: 700, color: BRAND.unconfirmed }}>ActiGraft Contract: NOT FOUND</span>
                   </div>
-                  <p style={{ margin: 0, fontSize: 12, color: BRAND.textSecondary, lineHeight: 1.5 }}>
+                  <p style={{ margin: 0, fontSize: 14, color: BRAND.textSecondary, lineHeight: 1.5 }}>
                     No public contract between RedDress/ActiGraft/LMC and HealthTrust HPG identified. GPO contracting expansion is an explicit goal per LMC-RedDress partnership (Aug 2025).
                   </p>
                 </div>
@@ -420,8 +420,8 @@ export default function MethodistIntelDashboard() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                   <CheckCircle size={18} color={BRAND.confirmed} />
                   <div>
-                    <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: BRAND.white }}>Vizient</h3>
-                    <span style={{ fontSize: 11, color: BRAND.confirmed, fontWeight: 600 }}>SECONDARY GPO — Active ActiGraft Contract</span>
+                    <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: BRAND.white }}>Vizient</h3>
+                    <span style={{ fontSize: 13, color: BRAND.confirmed, fontWeight: 600 }}>SECONDARY GPO — Active ActiGraft Contract</span>
                   </div>
                 </div>
                 <DataRow label="Contract Type" value="Innovative Technology Contract" confidence="Confirmed" />
@@ -433,9 +433,9 @@ export default function MethodistIntelDashboard() {
                 <div style={{ marginTop: 16, background: `${BRAND.confirmed}12`, border: `1px solid ${BRAND.confirmed}33`, borderRadius: 10, padding: "14px 16px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                     <CheckCircle size={16} color={BRAND.confirmed} />
-                    <span style={{ fontSize: 13, fontWeight: 700, color: BRAND.confirmed }}>ActiGraft Contract: ACTIVE</span>
+                    <span style={{ fontSize: 15, fontWeight: 700, color: BRAND.confirmed }}>ActiGraft Contract: ACTIVE</span>
                   </div>
-                  <p style={{ margin: 0, fontSize: 12, color: BRAND.textSecondary, lineHeight: 1.5 }}>
+                  <p style={{ margin: 0, fontSize: 14, color: BRAND.textSecondary, lineHeight: 1.5 }}>
                     Vizient Innovative Technology Contract awarded Oct 2022. ActiGraft PRO available through Vizient since Aug 2023. This is the primary GPO pathway into MLH for ActiGraft.
                   </p>
                 </div>
@@ -465,10 +465,10 @@ export default function MethodistIntelDashboard() {
                     { metric: "Hip/Knee Savings", value: 0.289, fill: BRAND.high },
                   ]} margin={{ top: 10, right: 20, bottom: 20, left: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={BRAND.border} />
-                    <XAxis dataKey="metric" tick={{ fontSize: 11, fill: BRAND.textSecondary }} />
-                    <YAxis tick={{ fontSize: 11, fill: BRAND.textSecondary }} tickFormatter={v => `$${v}M`} />
+                    <XAxis dataKey="metric" tick={{ fontSize: 13, fill: BRAND.textSecondary }} />
+                    <YAxis tick={{ fontSize: 13, fill: BRAND.textSecondary }} tickFormatter={v => `$${v}M`} />
                     <Tooltip content={({ active, payload }) => active && payload?.length ? (
-                      <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 13, color: BRAND.textPrimary }}>
+                      <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
                         <strong>{payload[0].payload.metric}</strong>: ${payload[0].value}M
                       </div>
                     ) : null} />
@@ -481,7 +481,7 @@ export default function MethodistIntelDashboard() {
                 </ResponsiveContainer>
               </div>
               <div style={{ display: "flex", gap: 20, justifyContent: "center", marginTop: 10 }}>
-                <span style={{ fontSize: 12, color: BRAND.textSecondary }}>
+                <span style={{ fontSize: 14, color: BRAND.textSecondary }}>
                   <strong style={{ color: BRAND.textPrimary }}>102</strong> total initiatives · <strong style={{ color: BRAND.brightBlue }}>86</strong> tied to HealthTrust contracts
                 </span>
               </div>
@@ -513,7 +513,7 @@ export default function MethodistIntelDashboard() {
                         {PER_APP_ECONOMICS.map((e, i) => <Cell key={i} fill={e.fill} />)}
                       </Pie>
                       <Tooltip content={({ active, payload }) => active && payload?.length ? (
-                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 13, color: BRAND.textPrimary }}>
+                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
                           <strong>{payload[0].name}</strong>: ${payload[0].value.toLocaleString()}
                         </div>
                       ) : null} />
@@ -521,7 +521,7 @@ export default function MethodistIntelDashboard() {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-                <div style={{ textAlign: "center", fontSize: 12, color: BRAND.textMuted, marginTop: 8 }}>
+                <div style={{ textAlign: "center", fontSize: 14, color: BRAND.textMuted, marginTop: 8 }}>
                   Total Reimbursement: <strong style={{ color: BRAND.brightBlue }}>${REIMBURSEMENT.hospitalOutpatient.toLocaleString()}</strong> per application
                 </div>
               </div>
@@ -533,10 +533,10 @@ export default function MethodistIntelDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={WOUND_CLOSURE_DATA} margin={{ top: 10, right: 30, bottom: 20, left: 30 }} layout="vertical">
                       <CartesianGrid strokeDasharray="3 3" stroke={BRAND.border} />
-                      <XAxis type="number" tick={{ fontSize: 11, fill: BRAND.textSecondary }} tickFormatter={v => `${v}%`} domain={[0, 100]} />
-                      <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: BRAND.textSecondary }} width={120} />
+                      <XAxis type="number" tick={{ fontSize: 13, fill: BRAND.textSecondary }} tickFormatter={v => `${v}%`} domain={[0, 100]} />
+                      <YAxis type="category" dataKey="name" tick={{ fontSize: 14, fill: BRAND.textSecondary }} width={120} />
                       <Tooltip content={({ active, payload }) => active && payload?.length ? (
-                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 13, color: BRAND.textPrimary }}>
+                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
                           <strong>{payload[0].payload.name}</strong>: {payload[0].value}% closure
                         </div>
                       ) : null} />
@@ -547,8 +547,8 @@ export default function MethodistIntelDashboard() {
                   </ResponsiveContainer>
                 </div>
                 <div style={{ textAlign: "center", marginTop: 8 }}>
-                  <span style={{ fontSize: 24, fontWeight: 800, color: BRAND.brightBlue }}>3.3×</span>
-                  <span style={{ fontSize: 13, color: BRAND.textSecondary, marginLeft: 8 }}>better closure rate vs. standard of care</span>
+                  <span style={{ fontSize: 28, fontWeight: 800, color: BRAND.brightBlue }}>3.3×</span>
+                  <span style={{ fontSize: 15, color: BRAND.textSecondary, marginLeft: 8 }}>better closure rate vs. standard of care</span>
                 </div>
               </div>
             </div>
@@ -570,8 +570,8 @@ export default function MethodistIntelDashboard() {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke={BRAND.border} />
-                    <XAxis dataKey="week" tick={{ fontSize: 11, fill: BRAND.textSecondary }} />
-                    <YAxis tick={{ fontSize: 11, fill: BRAND.textSecondary }} tickFormatter={v => `$${(v / 1000).toFixed(0)}K`} />
+                    <XAxis dataKey="week" tick={{ fontSize: 13, fill: BRAND.textSecondary }} />
+                    <YAxis tick={{ fontSize: 13, fill: BRAND.textSecondary }} tickFormatter={v => `$${(v / 1000).toFixed(0)}K`} />
                     <Tooltip content={<CustomTooltip />} />
                     <Area type="monotone" dataKey="combined" stroke={BRAND.brightBlue} fill="url(#gradCombined)" strokeWidth={3} name="ActiGraft + HBOT" />
                     <Area type="monotone" dataKey="hbotOnly" stroke={BRAND.textMuted} fill="url(#gradHbot)" strokeWidth={2} strokeDasharray="6 4" name="HBOT Only" />
@@ -581,16 +581,16 @@ export default function MethodistIntelDashboard() {
               </div>
               <div style={{ display: "flex", justifyContent: "center", gap: 40, marginTop: 10 }}>
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: 11, color: BRAND.textMuted, textTransform: "uppercase", letterSpacing: 0.6 }}>HBOT Only</div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: BRAND.textSecondary }}>${REIMBURSEMENT.hbotOnly.toLocaleString()}</div>
+                  <div style={{ fontSize: 13, color: BRAND.textMuted, textTransform: "uppercase", letterSpacing: 0.6 }}>HBOT Only</div>
+                  <div style={{ fontSize: 26, fontWeight: 700, color: BRAND.textSecondary }}>${REIMBURSEMENT.hbotOnly.toLocaleString()}</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: 11, color: BRAND.brightBlue, textTransform: "uppercase", letterSpacing: 0.6 }}>Combined Protocol</div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: BRAND.brightBlue }}>${REIMBURSEMENT.combinedProtocol.toLocaleString()}</div>
+                  <div style={{ fontSize: 13, color: BRAND.brightBlue, textTransform: "uppercase", letterSpacing: 0.6 }}>Combined Protocol</div>
+                  <div style={{ fontSize: 26, fontWeight: 700, color: BRAND.brightBlue }}>${REIMBURSEMENT.combinedProtocol.toLocaleString()}</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: 11, color: BRAND.confirmed, textTransform: "uppercase", letterSpacing: 0.6 }}>Revenue Increase</div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: BRAND.confirmed }}>+{REIMBURSEMENT.revenueIncrease}%</div>
+                  <div style={{ fontSize: 13, color: BRAND.confirmed, textTransform: "uppercase", letterSpacing: 0.6 }}>Revenue Increase</div>
+                  <div style={{ fontSize: 26, fontWeight: 700, color: BRAND.confirmed }}>+{REIMBURSEMENT.revenueIncrease}%</div>
                 </div>
               </div>
             </div>
@@ -603,7 +603,7 @@ export default function MethodistIntelDashboard() {
                   <thead>
                     <tr style={{ borderBottom: `2px solid ${BRAND.border}` }}>
                       {["Metric", "Value"].map(h => (
-                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", color: BRAND.textSecondary, fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.6 }}>{h}</th>
+                        <th key={h} style={{ textAlign: "left", padding: "10px 14px", color: BRAND.textSecondary, fontWeight: 600, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.6 }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -641,9 +641,9 @@ export default function MethodistIntelDashboard() {
                   <div key={i} style={{ background: BRAND.darkPanel, border: `1px solid ${f.hbo ? BRAND.brightBlue + "44" : BRAND.border}`, borderRadius: 8, padding: 18 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                       <Building2 size={16} color={f.hbo ? BRAND.brightBlue : BRAND.textSecondary} />
-                      <span style={{ fontSize: 14, fontWeight: 600, color: BRAND.textPrimary }}>{f.name}</span>
+                      <span style={{ fontSize: 16, fontWeight: 600, color: BRAND.textPrimary }}>{f.name}</span>
                     </div>
-                    <div style={{ fontSize: 12, color: BRAND.textSecondary, lineHeight: 1.6 }}>
+                    <div style={{ fontSize: 14, color: BRAND.textSecondary, lineHeight: 1.6 }}>
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 6, marginBottom: 4 }}>
                         <MapPin size={12} style={{ flexShrink: 0, marginTop: 2 }} /> {f.address}
                       </div>
@@ -698,8 +698,8 @@ export default function MethodistIntelDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart data={STRATEGIC_SCORES} cx="50%" cy="50%" outerRadius="70%">
                       <PolarGrid stroke={BRAND.border} />
-                      <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10, fill: BRAND.textSecondary }} />
-                      <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 9, fill: BRAND.textMuted }} />
+                      <PolarAngleAxis dataKey="axis" tick={{ fontSize: 12, fill: BRAND.textSecondary }} />
+                      <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 11, fill: BRAND.textMuted }} />
                       <Radar name="Score" dataKey="value" stroke={BRAND.brightBlue} fill={BRAND.brightBlue} fillOpacity={0.2} strokeWidth={2} />
                     </RadarChart>
                   </ResponsiveContainer>
@@ -710,7 +710,7 @@ export default function MethodistIntelDashboard() {
               <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
                 <SectionHeader icon={AlertTriangle} title="Barriers & Enablers" subtitle="Critical factors for MLH market entry" />
                 <div style={{ marginBottom: 16 }}>
-                  <h4 style={{ fontSize: 13, color: BRAND.confirmed, fontWeight: 700, margin: "0 0 10px", display: "flex", alignItems: "center", gap: 6 }}>
+                  <h4 style={{ fontSize: 15, color: BRAND.confirmed, fontWeight: 700, margin: "0 0 10px", display: "flex", alignItems: "center", gap: 6 }}>
                     <CheckCircle size={14} /> Enablers
                   </h4>
                   {[
@@ -722,13 +722,13 @@ export default function MethodistIntelDashboard() {
                     "Product category gap in HealthTrust wound care contracts",
                     "72% wound closure (3.3× standard of care)",
                   ].map((e, i) => (
-                    <div key={i} style={{ fontSize: 12, color: BRAND.textSecondary, padding: "5px 0", paddingLeft: 20, position: "relative", lineHeight: 1.5 }}>
+                    <div key={i} style={{ fontSize: 14, color: BRAND.textSecondary, padding: "5px 0", paddingLeft: 20, position: "relative", lineHeight: 1.5 }}>
                       <span style={{ position: "absolute", left: 0, color: BRAND.confirmed }}>✓</span> {e}
                     </div>
                   ))}
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 13, color: BRAND.unconfirmed, fontWeight: 700, margin: "0 0 10px", display: "flex", alignItems: "center", gap: 6 }}>
+                  <h4 style={{ fontSize: 15, color: BRAND.unconfirmed, fontWeight: 700, margin: "0 0 10px", display: "flex", alignItems: "center", gap: 6 }}>
                     <XCircle size={14} /> Barriers
                   </h4>
                   {[
@@ -738,7 +738,7 @@ export default function MethodistIntelDashboard() {
                     "No public statements from MLH wound care leadership on ActiGraft",
                     "System-wide wound care director not publicly identified",
                   ].map((e, i) => (
-                    <div key={i} style={{ fontSize: 12, color: BRAND.textSecondary, padding: "5px 0", paddingLeft: 20, position: "relative", lineHeight: 1.5 }}>
+                    <div key={i} style={{ fontSize: 14, color: BRAND.textSecondary, padding: "5px 0", paddingLeft: 20, position: "relative", lineHeight: 1.5 }}>
                       <span style={{ position: "absolute", left: 0, color: BRAND.unconfirmed }}>✗</span> {e}
                     </div>
                   ))}
@@ -759,13 +759,13 @@ export default function MethodistIntelDashboard() {
                 { priority: 7, title: "Present Combined Protocol Economics", desc: "Show $72,445 per-patient revenue (20-wk protocol) vs. $20,665 HBOT-only — a 250% increase. 74% gross margin at $450/kit vs. $1,726 reimbursement.", confidence: "Recommendation" },
               ].map((r, i) => (
                 <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 6 ? `1px solid ${BRAND.border}22` : "none" }}>
-                  <div style={{ flex: "0 0 32px", height: 32, borderRadius: 6, background: `${BRAND.brightBlue}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: BRAND.brightBlue }}>{r.priority}</div>
+                  <div style={{ flex: "0 0 32px", height: 32, borderRadius: 6, background: `${BRAND.brightBlue}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, color: BRAND.brightBlue }}>{r.priority}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                      <span style={{ fontSize: 15, fontWeight: 700, color: BRAND.textPrimary }}>{r.title}</span>
+                      <span style={{ fontSize: 17, fontWeight: 700, color: BRAND.textPrimary }}>{r.title}</span>
                       <ConfidenceBadge level={r.confidence} />
                     </div>
-                    <p style={{ margin: 0, fontSize: 13, color: BRAND.textSecondary, lineHeight: 1.6 }}>{r.desc}</p>
+                    <p style={{ margin: 0, fontSize: 15, color: BRAND.textSecondary, lineHeight: 1.6 }}>{r.desc}</p>
                   </div>
                 </div>
               ))}
@@ -863,7 +863,7 @@ export default function MethodistIntelDashboard() {
 
         {/* Footer */}
         <div style={{ marginTop: 40, paddingTop: 20, borderTop: `1px solid ${BRAND.border}`, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: BRAND.textMuted, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13, color: BRAND.textMuted, lineHeight: 1.6 }}>
             Methodist University Hospital ActiGraft GPO Intelligence Dashboard · Compiled Feb 15, 2026<br />
             Nightingale BioTech × Legacy Medical Consultants · Confidential — For Internal Strategic Use Only<br />
             Data sourced from public records, press releases, HealthTrust/Vizient publications, CMS, and web intelligence

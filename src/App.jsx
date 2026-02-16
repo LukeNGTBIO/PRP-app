@@ -6,6 +6,20 @@ import nbBirdWhite from './assets/nb-bird-white.png'
 function App() {
   const [activePage, setActivePage] = useState('prp')
 
+  const tabStyle = (isActive) => ({
+    background: isActive ? '#D4A860' : 'transparent',
+    border: '2px solid transparent',
+    borderBottom: isActive ? '2px solid #D4A860' : '2px solid transparent',
+    color: isActive ? '#1a1a2e' : '#aaa',
+    padding: '12px 20px',
+    fontSize: 14,
+    fontWeight: 700,
+    cursor: 'pointer',
+    transition: 'all 0.15s ease',
+    borderRadius: '6px 6px 0 0',
+    letterSpacing: 0.5,
+  })
+
   return (
     <div style={{ background: '#f0efe8', minHeight: '100vh' }}>
       {/* Navigation Bar */}
@@ -35,7 +49,7 @@ function App() {
           />
           <span style={{
             color: '#D4A860',
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 700,
             letterSpacing: 1.5,
             textTransform: 'uppercase',
@@ -44,40 +58,10 @@ function App() {
             NIGHTINGALE<br />BIOTECH
           </span>
         </div>
-        <button
-          onClick={() => setActivePage('prp')}
-          style={{
-            background: activePage === 'prp' ? '#D4A860' : 'transparent',
-            border: '2px solid transparent',
-            borderBottom: activePage === 'prp' ? '2px solid #D4A860' : '2px solid transparent',
-            color: activePage === 'prp' ? '#1a1a2e' : '#aaa',
-            padding: '12px 20px',
-            fontSize: 12,
-            fontWeight: 700,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-            borderRadius: '6px 6px 0 0',
-            letterSpacing: 0.5,
-          }}
-        >
+        <button onClick={() => setActivePage('prp')} style={tabStyle(activePage === 'prp')}>
           PRP Competitive Landscape
         </button>
-        <button
-          onClick={() => setActivePage('methodist')}
-          style={{
-            background: activePage === 'methodist' ? '#D4A860' : 'transparent',
-            border: '2px solid transparent',
-            borderBottom: activePage === 'methodist' ? '2px solid #D4A860' : '2px solid transparent',
-            color: activePage === 'methodist' ? '#1a1a2e' : '#aaa',
-            padding: '12px 20px',
-            fontSize: 12,
-            fontWeight: 700,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-            borderRadius: '6px 6px 0 0',
-            letterSpacing: 0.5,
-          }}
-        >
+        <button onClick={() => setActivePage('methodist')} style={tabStyle(activePage === 'methodist')}>
           Methodist Hospital Intel
         </button>
       </nav>

@@ -303,7 +303,7 @@ const tabs = [
 function Badge({ children, color = "#555", bg = "#f0f0f0" }) {
   return (
     <span style={{
-      display: "inline-block", fontSize: "10px", fontWeight: 700,
+      display: "inline-block", fontSize: "12px", fontWeight: 700,
       padding: "2px 7px", borderRadius: "3px", color, background: bg,
       letterSpacing: "0.3px", textTransform: "uppercase", lineHeight: "16px"
     }}>{children}</span>
@@ -311,8 +311,8 @@ function Badge({ children, color = "#555", bg = "#f0f0f0" }) {
 }
 
 function Check({ yes, partial }) {
-  if (yes) return <span style={{ color: "#0D6E3F", fontSize: "18px", fontWeight: 900 }}>✓</span>;
-  if (partial) return <span style={{ color: "#D4A017", fontSize: "18px", fontWeight: 900 }}>◐</span>;
+  if (yes) return <span style={{ color: "#0D6E3F", fontSize: "20px", fontWeight: 900 }}>✓</span>;
+  if (partial) return <span style={{ color: "#D4A017", fontSize: "20px", fontWeight: 900 }}>◐</span>;
   return <span style={{ color: "#ccc", fontSize: "18px" }}>✗</span>;
 }
 
@@ -330,7 +330,7 @@ function SectionHeader({ children }) {
   return (
     <div style={{
       padding: "6px 12px", background: "#1a1a2e", color: "#D4A860",
-      fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px",
+      fontSize: "12px", fontWeight: 700, letterSpacing: "1.5px",
       textTransform: "uppercase", borderBottom: "1px solid #2a2a3e"
     }}>{children}</div>
   );
@@ -344,7 +344,7 @@ function DataRow({ label, values, highlight, mono }) {
       background: highlight ? "#fafaf5" : "#fff"
     }}>
       <div style={{
-        padding: "8px 12px", fontSize: "11px", fontWeight: 700,
+        padding: "8px 12px", fontSize: "13px", fontWeight: 700,
         color: "#444", background: highlight ? "#f5f5ed" : "#f9f9f9",
         borderRight: "1px solid #eee", display: "flex", alignItems: "center"
       }}>{label}</div>
@@ -369,7 +369,7 @@ function OverviewTab() {
           display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
           background: "#1a1a2e", color: "#fff", position: "sticky", top: 0, zIndex: 2
         }}>
-          <div style={{ padding: "12px", fontSize: "10px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
+          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
             PRODUCT ATTRIBUTE
           </div>
           {products.map(p => (
@@ -380,11 +380,11 @@ function OverviewTab() {
               <div style={{
                 display: "inline-block", width: "28px", height: "28px",
                 borderRadius: "4px", background: p.color, color: "#fff",
-                fontSize: "11px", fontWeight: 800, lineHeight: "28px",
+                fontSize: "13px", fontWeight: 800, lineHeight: "28px",
                 marginBottom: "4px"
               }}>{p.abbr}</div>
-              <div style={{ fontSize: "12px", fontWeight: 700, marginTop: "2px" }}>{p.name}</div>
-              <div style={{ fontSize: "10px", color: "#aaa", marginTop: "1px" }}>{p.typeShort}</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, marginTop: "2px" }}>{p.name}</div>
+              <div style={{ fontSize: "12px", color: "#aaa", marginTop: "1px" }}>{p.typeShort}</div>
             </div>
           ))}
         </div>
@@ -444,7 +444,7 @@ function ClinicalTab() {
           display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
           background: "#1a1a2e", color: "#fff", position: "sticky", top: 0, zIndex: 2
         }}>
-          <div style={{ padding: "12px", fontSize: "10px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
+          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
             CLINICAL & MOA
           </div>
           {products.map(p => (
@@ -453,7 +453,7 @@ function ClinicalTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#fff", fontSize: "11px", fontWeight: 700
+                background: p.color, color: "#fff", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
@@ -493,7 +493,7 @@ function ClinicalTab() {
           <span style={{ fontWeight: 700, color: p.color }}>{p.rctResult}</span>
         ))} />
         <DataRow label="RCT Citation" values={products.map(p => (
-          <span style={{ fontSize: "11px", fontStyle: "italic" }}>{p.rctCitation}</span>
+          <span style={{ fontSize: "13px", fontStyle: "italic" }}>{p.rctCitation}</span>
         ))} highlight />
         <DataRow label="Total Patients / Uses" values={products.map(p => p.totalPatients)} />
         <DataRow label="Evidence Tier" values={[
@@ -524,7 +524,7 @@ function AccessTab() {
           display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
           background: "#1a1a2e", color: "#fff", position: "sticky", top: 0, zIndex: 2
         }}>
-          <div style={{ padding: "12px", fontSize: "10px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
+          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
             MARKET ACCESS
           </div>
           {products.map(p => (
@@ -533,7 +533,7 @@ function AccessTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#fff", fontSize: "11px", fontWeight: 700
+                background: p.color, color: "#fff", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
@@ -541,13 +541,13 @@ function AccessTab() {
 
         <SectionHeader>GPO & Formulary Contracts</SectionHeader>
         <DataRow label="Vizient" values={products.map(p => (
-          <span><Check yes={p.vizient} /> {p.vizientDate && <span style={{ fontSize: "10px", color: "#666", marginLeft: 4 }}>{p.vizientDate}</span>}</span>
+          <span><Check yes={p.vizient} /> {p.vizientDate && <span style={{ fontSize: "12px", color: "#666", marginLeft: 4 }}>{p.vizientDate}</span>}</span>
         ))} />
         <DataRow label="Healogics iSupply" values={products.map(p => (
-          <span><Check yes={p.healogics} /> {p.healogicsDate && <span style={{ fontSize: "10px", color: "#666", marginLeft: 4 }}>{p.healogicsDate}</span>}</span>
+          <span><Check yes={p.healogics} /> {p.healogicsDate && <span style={{ fontSize: "12px", color: "#666", marginLeft: 4 }}>{p.healogicsDate}</span>}</span>
         ))} highlight />
         <DataRow label="WCA Formulary" values={products.map(p => (
-          <span><Check yes={p.wca} /> {p.wcaDate && <span style={{ fontSize: "10px", color: "#666", marginLeft: 4 }}>{p.wcaDate}</span>}</span>
+          <span><Check yes={p.wca} /> {p.wcaDate && <span style={{ fontSize: "12px", color: "#666", marginLeft: 4 }}>{p.wcaDate}</span>}</span>
         ))} />
         <DataRow label="Premier" values={products.map(p => <Check yes={p.premier} />)} highlight />
         <DataRow label="HealthTrust" values={products.map(p => <Check yes={p.healthTrust} />)} />
@@ -605,7 +605,7 @@ function MACTab() {
     <div>
       <div style={{
         padding: "16px", background: "#1a1a2e", color: "#D4A860",
-        fontSize: "11px", fontWeight: 600, lineHeight: 1.5
+        fontSize: "13px", fontWeight: 600, lineHeight: 1.5
       }}>
         NCD 270.3 mandates national coverage for G0465 (diabetic wounds, first 20 weeks) — no MAC can deny.
         Variation exists only for: G0460 (non-diabetic), coverage beyond 20 weeks, and documentation requirements.
@@ -617,7 +617,7 @@ function MACTab() {
               {["MAC", "Jurisdiction", "States", "LCD #", "Rating", "Notes"].map(h => (
                 <th key={h} style={{
                   padding: "10px 12px", textAlign: "left", fontWeight: 700,
-                  fontSize: "10px", letterSpacing: "0.5px", textTransform: "uppercase",
+                  fontSize: "12px", letterSpacing: "0.5px", textTransform: "uppercase",
                   color: "#555", borderBottom: "2px solid #ddd"
                 }}>{h}</th>
               ))}
@@ -627,19 +627,19 @@ function MACTab() {
             {macData.map((m, i) => (
               <tr key={m.mac} style={{ background: i % 2 ? "#fafafa" : "#fff" }}>
                 <td style={{ padding: "10px 12px", fontWeight: 700, color: "#333", borderBottom: "1px solid #eee" }}>{m.mac}</td>
-                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "11px", borderBottom: "1px solid #eee" }}>{m.jx}</td>
-                <td style={{ padding: "10px 12px", fontSize: "11px", color: "#555", borderBottom: "1px solid #eee", maxWidth: "200px" }}>{m.states}</td>
-                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "11px", borderBottom: "1px solid #eee" }}>{m.lcd}</td>
+                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "13px", borderBottom: "1px solid #eee" }}>{m.jx}</td>
+                <td style={{ padding: "10px 12px", fontSize: "13px", color: "#555", borderBottom: "1px solid #eee", maxWidth: "200px" }}>{m.states}</td>
+                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "13px", borderBottom: "1px solid #eee" }}>{m.lcd}</td>
                 <td style={{ padding: "10px 12px", borderBottom: "1px solid #eee" }}><RatingBadge rating={m.rating} /></td>
-                <td style={{ padding: "10px 12px", fontSize: "11px", color: "#666", borderBottom: "1px solid #eee", lineHeight: 1.4 }}>{m.note}</td>
+                <td style={{ padding: "10px 12px", fontSize: "13px", color: "#666", borderBottom: "1px solid #eee", lineHeight: 1.4 }}>{m.note}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div style={{ padding: "16px", background: "#fff", borderTop: "2px solid #eee" }}>
-        <div style={{ fontSize: "11px", fontWeight: 700, color: "#1a1a2e", marginBottom: "8px" }}>KEY BILLING REQUIREMENTS (ALL MACs)</div>
-        <div style={{ fontSize: "11px", color: "#555", lineHeight: 1.7 }}>
+        <div style={{ fontSize: "13px", fontWeight: 700, color: "#1a1a2e", marginBottom: "8px" }}>KEY BILLING REQUIREMENTS (ALL MACs)</div>
+        <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.7 }}>
           <div><strong>G0465</strong> — Autologous PRP/blood-derived for diabetic chronic wounds (NCD-mandated nationally)</div>
           <div><strong>G0460</strong> — Non-diabetic chronic wounds (MAC discretion; strongest coverage in Palmetto GBA, First Coast, Novitas)</div>
           <div><strong>KX Modifier</strong> — Required for treatments beyond 20 weeks (all MACs accept this mechanism)</div>
@@ -664,39 +664,39 @@ function StrategicTab() {
               <div style={{ gridColumn: "1 / -1", padding: "12px 16px", display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 4, background: p.color,
-                  color: "#fff", fontSize: 12, fontWeight: 800, display: "flex",
+                  color: "#fff", fontSize: 14, fontWeight: 800, display: "flex",
                   alignItems: "center", justifyContent: "center"
                 }}>{p.abbr}</div>
                 <div>
-                  <div style={{ fontSize: "14px", fontWeight: 800, color: p.color }}>{p.name}</div>
-                  <div style={{ fontSize: "11px", color: "#666" }}>{p.manufacturer} — {p.type}</div>
+                  <div style={{ fontSize: "16px", fontWeight: 800, color: p.color }}>{p.name}</div>
+                  <div style={{ fontSize: "13px", color: "#666" }}>{p.manufacturer} — {p.type}</div>
                 </div>
               </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 0 }}>
               <div style={{ padding: "12px 16px", borderRight: "1px solid #eee" }}>
-                <div style={{ fontSize: "10px", fontWeight: 700, color: "#0D6E3F", letterSpacing: "0.5px", marginBottom: 8 }}>STRATEGIC ADVANTAGES</div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#0D6E3F", letterSpacing: "0.5px", marginBottom: 8 }}>STRATEGIC ADVANTAGES</div>
                 {p.strategicAdvantages.map((a, i) => (
-                  <div key={i} style={{ fontSize: "11px", color: "#333", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
+                  <div key={i} style={{ fontSize: "13px", color: "#333", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
                     <span style={{ color: "#0D6E3F", fontWeight: 700 }}>+</span> {a}
                   </div>
                 ))}
               </div>
               <div style={{ padding: "12px 16px", borderRight: "1px solid #eee" }}>
-                <div style={{ fontSize: "10px", fontWeight: 700, color: "#1A3A6B", letterSpacing: "0.5px", marginBottom: 8 }}>RECENT NEWS (2024–2026)</div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#1A3A6B", letterSpacing: "0.5px", marginBottom: 8 }}>RECENT NEWS (2024–2026)</div>
                 {p.recentNews.map((n, i) => (
-                  <div key={i} style={{ fontSize: "11px", color: "#333", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
+                  <div key={i} style={{ fontSize: "13px", color: "#333", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
                     <span style={{ color: "#1A3A6B", fontWeight: 700 }}>→</span> {n}
                   </div>
                 ))}
                 <div style={{ marginTop: 10 }}>
-                  <div style={{ fontSize: "10px", fontWeight: 700, color: "#666", marginBottom: 4 }}>STRONGHOLDS</div>
-                  <div style={{ fontSize: "11px", color: "#555", lineHeight: 1.4 }}>{p.strongholds}</div>
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: "#666", marginBottom: 4 }}>STRONGHOLDS</div>
+                  <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.4 }}>{p.strongholds}</div>
                 </div>
               </div>
               <div style={{ padding: "12px 16px" }}>
-                <div style={{ fontSize: "10px", fontWeight: 700, color: "#B71C1C", letterSpacing: "0.5px", marginBottom: 8 }}>WEAKNESSES & VULNERABILITIES</div>
-                <div style={{ fontSize: "11px", color: "#555", lineHeight: 1.5 }}>{p.weaknesses}</div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#B71C1C", letterSpacing: "0.5px", marginBottom: 8 }}>WEAKNESSES & VULNERABILITIES</div>
+                <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.5 }}>{p.weaknesses}</div>
               </div>
             </div>
           </div>
@@ -711,7 +711,7 @@ function AdditionalTab() {
     <div>
       <div style={{
         padding: "16px", background: "#1a1a2e", color: "#D4A860",
-        fontSize: "11px", fontWeight: 600, lineHeight: 1.5
+        fontSize: "13px", fontWeight: 600, lineHeight: 1.5
       }}>
         Three additional FDA 510(k)-cleared products qualify under NCD 270.3 but have minimal U.S. commercial presence.
         None have confirmed GPO contracts, VA access, or significant revenue. Listed for competitive awareness.
@@ -725,21 +725,21 @@ function AdditionalTab() {
             padding: "16px", borderRight: "1px solid #eee",
             display: "flex", flexDirection: "column", justifyContent: "center"
           }}>
-            <div style={{ fontSize: "14px", fontWeight: 800, color: "#333" }}>{p.name}</div>
-            <div style={{ fontSize: "11px", color: "#666", marginTop: 2 }}>{p.manufacturer}</div>
+            <div style={{ fontSize: "16px", fontWeight: 800, color: "#333" }}>{p.name}</div>
+            <div style={{ fontSize: "13px", color: "#666", marginTop: 2 }}>{p.manufacturer}</div>
             <div style={{ marginTop: 6 }}>
               <Badge color="#0D6E3F" bg="#E8F5ED">{p.code}</Badge>
-              <span style={{ fontSize: "10px", color: "#999", marginLeft: 6 }}>{p.clearance}</span>
+              <span style={{ fontSize: "12px", color: "#999", marginLeft: 6 }}>{p.clearance}</span>
             </div>
           </div>
           <div style={{ padding: "16px" }}>
-            <div style={{ fontSize: "12px", color: "#333", lineHeight: 1.5 }}>
+            <div style={{ fontSize: "14px", color: "#333", lineHeight: 1.5 }}>
               <strong>Type:</strong> {p.type}
             </div>
-            <div style={{ fontSize: "12px", color: "#333", lineHeight: 1.5, marginTop: 4 }}>
+            <div style={{ fontSize: "14px", color: "#333", lineHeight: 1.5, marginTop: 4 }}>
               <strong>Status:</strong> {p.status}
             </div>
-            <div style={{ fontSize: "11px", color: "#888", lineHeight: 1.5, marginTop: 4, fontStyle: "italic" }}>
+            <div style={{ fontSize: "13px", color: "#888", lineHeight: 1.5, marginTop: 4, fontStyle: "italic" }}>
               {p.notes}
             </div>
           </div>
@@ -747,10 +747,10 @@ function AdditionalTab() {
       ))}
 
       <div style={{ padding: "16px", background: "#fff3e0", borderTop: "2px solid #E65100" }}>
-        <div style={{ fontSize: "11px", fontWeight: 700, color: "#E65100", marginBottom: 6 }}>
+        <div style={{ fontSize: "13px", fontWeight: 700, color: "#E65100", marginBottom: 6 }}>
           PRODUCTS THAT DO NOT QUALIFY UNDER NCD 270.3
         </div>
-        <div style={{ fontSize: "11px", color: "#555", lineHeight: 1.6 }}>
+        <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}>
           The following widely-used PRP devices are cleared only for orthopedic bone graft handling (product code ORG without wound indications)
           and cannot bill G0465/G0460: Arthrex ACP & Angel Systems, GPS III (Zimmer Biomet — standalone), SmartPrep (Harvest/Terumo),
           Magellan (Medtronic), Pure PRP II (EmCyte), Eclipse PRP, Dr. PRP, RegenKit-THT (RegenLab — ortho version only).
@@ -778,13 +778,13 @@ export default function NCD270StudyChart() {
         padding: "24px 20px",
         color: "#fff"
       }}>
-        <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2px", color: "#D4A860", marginBottom: 6 }}>
+        <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "2px", color: "#D4A860", marginBottom: 6 }}>
           NCD 270.3 COMPETITIVE LANDSCAPE — FEBRUARY 2026
         </div>
-        <div style={{ fontSize: "20px", fontWeight: 800, lineHeight: 1.2 }}>
+        <div style={{ fontSize: "22px", fontWeight: 800, lineHeight: 1.2 }}>
           Autologous Blood-Derived Wound Products
         </div>
-        <div style={{ fontSize: "12px", color: "#aaa", marginTop: 6 }}>
+        <div style={{ fontSize: "14px", color: "#aaa", marginTop: 6 }}>
           7 FDA-cleared devices qualifying for Medicare diabetic ulcer coverage — 4 primary + 3 additional
         </div>
 
@@ -794,10 +794,10 @@ export default function NCD270StudyChart() {
             <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{
                 width: 22, height: 22, borderRadius: 3, background: p.color,
-                color: "#fff", fontSize: 9, fontWeight: 800, display: "flex",
+                color: "#fff", fontSize: 11, fontWeight: 800, display: "flex",
                 alignItems: "center", justifyContent: "center"
               }}>{p.abbr}</div>
-              <span style={{ fontSize: "11px", color: "#ccc" }}>{p.name}</span>
+              <span style={{ fontSize: "13px", color: "#ccc" }}>{p.name}</span>
             </div>
           ))}
         </div>
@@ -811,7 +811,7 @@ export default function NCD270StudyChart() {
         {tabs.map(t => (
           <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
             padding: "10px 18px", border: "none", cursor: "pointer",
-            fontSize: "11px", fontWeight: 700, letterSpacing: "0.3px",
+            fontSize: "13px", fontWeight: 700, letterSpacing: "0.3px",
             fontFamily: "inherit",
             background: activeTab === t.id ? "#D4A860" : "transparent",
             color: activeTab === t.id ? "#1a1a2e" : "#aaa",
@@ -839,7 +839,7 @@ export default function NCD270StudyChart() {
       {/* Footer */}
       <div style={{
         marginTop: 12, padding: "12px 16px",
-        fontSize: "10px", color: "#999", lineHeight: 1.5
+        fontSize: "12px", color: "#999", lineHeight: 1.5
       }}>
         Sources: FDA 510(k) database, CMS NCD 270.3, Nuo Therapeutics 10-K (SEC), RedDress press releases, Smith+Nephew CENTRIO launch,
         PRP Concepts website, MimiX Biotherapeutics FDA submission, MAC LCD databases, commercial payer policy bulletins.
