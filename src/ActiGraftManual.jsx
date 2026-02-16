@@ -41,12 +41,11 @@ const C = {
   tealBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" — bright cyan highlight
   tealGlow: NIGHTINGALE.cyan.bg,      // "rgba(0,229,255,0.04)"
 
-  // Cyan replacements (formerly purple/magenta)
-  purple: NIGHTINGALE.cyan.mid,         // "#00BCD4" — (replaced rich purple)
-  purpleBorder: NIGHTINGALE.cyan.bright, // "#5CF0FF" — (replaced magenta border)
-  purpleLight: NIGHTINGALE.cyan.bright,  // "#5CF0FF" — (replaced light purple)
-  purpleDark: NIGHTINGALE.cyan.deep,     // "#005F6B" — (replaced dark purple)
-  magenta: NIGHTINGALE.cyan.core,        // "#00E5FF" — (replaced vibrant magenta)
+  // Additional Cyan Variants - Nightingale Brand Theme v5.0
+  cyanMid: NIGHTINGALE.cyan.mid,       // "#00BCD4" — mid cyan
+  cyanBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" — bright cyan highlight
+  cyanCore: NIGHTINGALE.cyan.core,     // "#00E5FF" — electric cyan core
+  cyanDeep: NIGHTINGALE.cyan.deep,     // "#005F6B" — deep cyan
 
   // Gold accents (keep for warm contrast)
   gold: NIGHTINGALE.frost.warm,       // "rgba(210,190,160,0.12)" — amber reflection
@@ -73,7 +72,7 @@ const BirdWatermark = ({ style }) => (
     {/* Eye */}
     <circle cx="220" cy="65" r="6" fill={C.cream1} />
     {/* Beak */}
-    <path d="M260 55 L310 40 L270 65 Z" fill={C.magenta} />
+    <path d="M260 55 L310 40 L270 65 Z" fill={C.cyanCore} />
     {/* Wing detail lines */}
     <path d="M140 160 C160 140, 200 130, 240 140" stroke={C.tealBright} strokeWidth="1.2" opacity="0.5" />
     <path d="M130 180 C160 155, 210 145, 260 160" stroke={C.tealBright} strokeWidth="1" opacity="0.4" />
@@ -210,7 +209,7 @@ const GlobalStyle = () => (
       .cream-card, .cream-card * { color: #222 !important; }
 
       /* ── CYAN DARK CARDS → white bg with cyan left border ── */
-      .page div[style*="background: ${C.purple}"],
+      .page div[style*="background: ${C.cyanMid}"],
       .page div[style*="background: ${C.bg3}"] {
         background: #fff !important;
         border: 1px solid #00E5FF !important;
@@ -301,7 +300,7 @@ const Page = ({ children, pageNum, isMobile }) => {
       margin: isMobile ? "0 auto 20px" : "0 auto 32px",
       background: C.bg1,
       borderRadius: isMobile ? 0 : 8,
-      boxShadow: isMobile ? "none" : `0 8px 32px ${C.purpleDark}80, 0 2px 12px ${C.teal}30, 0 0 40px ${C.magenta}15`,
+      boxShadow: isMobile ? "none" : `0 8px 32px ${C.cyanDeep}80, 0 2px 12px ${C.teal}30, 0 0 40px ${C.cyanCore}15`,
       overflow: "hidden",
       minHeight: 400,
       border: `1px solid ${C.border}`
@@ -364,14 +363,14 @@ const SectionHead = ({ num, title, sub }) => (
       right: -6,
       width: 40,
       height: 40,
-      borderTop: `2px solid ${C.magenta}50`,
-      borderRight: `2px solid ${C.magenta}50`,
+      borderTop: `2px solid ${C.cyanCore}50`,
+      borderRight: `2px solid ${C.cyanCore}50`,
       borderTopRightRadius: 2
     }} />
 
     {num && <div style={{
       display: "inline-block",
-      background: `linear-gradient(135deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
+      background: `linear-gradient(135deg, ${C.cyanMid}, ${C.cyanCore}, ${C.teal})`,
       color: "#fff",
       fontSize: 9,
       fontWeight: 800,
@@ -380,7 +379,7 @@ const SectionHead = ({ num, title, sub }) => (
       letterSpacing: 2,
       marginBottom: 12,
       textTransform: "uppercase",
-      boxShadow: `0 2px 8px ${C.teal}40, 0 1px 16px ${C.magenta}30`
+      boxShadow: `0 2px 8px ${C.teal}40, 0 1px 16px ${C.cyanCore}30`
     }}>Section {num}</div>}
 
     <h2 style={{
@@ -397,7 +396,7 @@ const SectionHead = ({ num, title, sub }) => (
     <div style={{
       width: 80,
       height: 3,
-      background: `linear-gradient(90deg, ${C.purple}, ${C.magenta}, ${C.teal}, transparent)`,
+      background: `linear-gradient(90deg, ${C.cyanMid}, ${C.cyanCore}, ${C.teal}, transparent)`,
       marginTop: 12,
       borderRadius: 2,
       boxShadow: `0 1px 8px ${C.teal}30`
@@ -423,12 +422,12 @@ const CreamCard = ({ title, children, borderColor }) => (
 // Dark cyan card (Nightingale BioTech steel + cyan theme)
 const TealCard = ({ title, children, icon }) => (
   <div style={{
-    background: C.purple,
-    border: `1px solid ${C.purpleBorder}`,
+    background: C.cyanMid,
+    border: `1px solid ${C.cyanBright}`,
     borderRadius: 8,
     padding: "18px 20px",
     marginBottom: 12,
-    boxShadow: `0 2px 8px ${C.purpleDark}60, 0 1px 12px ${C.magenta}20`
+    boxShadow: `0 2px 8px ${C.cyanDeep}60, 0 1px 12px ${C.cyanCore}20`
   }}>
     {title && <div style={{ fontSize: 11, fontWeight: 700, color: C.tealBright, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{title}</div>}
     <div style={{ fontSize: 12.5, color: C.cream2, lineHeight: 1.65 }}>{children}</div>
@@ -440,7 +439,7 @@ const AlertCard = ({ title, children, type }) => {
   const colors = {
     warn: { bg: `linear-gradient(135deg, ${C.gold}15, ${C.goldGlow})`, border: C.gold, text: C.goldLight },
     danger: { bg: `linear-gradient(135deg, ${C.red}15, rgba(208,120,120,0.08))`, border: C.red, text: C.redLight },
-    info: { bg: `linear-gradient(135deg, ${C.purple}18, ${C.magenta}12, ${C.tealGlow})`, border: C.teal, text: C.tealBright }
+    info: { bg: `linear-gradient(135deg, ${C.cyanMid}18, ${C.cyanCore}12, ${C.tealGlow})`, border: C.teal, text: C.tealBright }
   };
   const c = colors[type] || colors.info;
   return (
@@ -451,7 +450,7 @@ const AlertCard = ({ title, children, type }) => {
       borderRadius: 8,
       padding: "14px 18px",
       marginBottom: 12,
-      boxShadow: `0 2px 8px ${C.purpleDark}30, 0 1px 12px ${c.border}20`
+      boxShadow: `0 2px 8px ${C.cyanDeep}30, 0 1px 12px ${c.border}20`
     }}>
       {title && <div style={{ fontSize: 11, fontWeight: 700, color: c.text, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 }}>{title}</div>}
       <div style={{ fontSize: 12, color: C.cream3, lineHeight: 1.65 }}>{children}</div>
@@ -465,7 +464,7 @@ const StepBadge = ({ n }) => (
     minWidth: 32,
     height: 32,
     borderRadius: 6,
-    background: `linear-gradient(135deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
+    background: `linear-gradient(135deg, ${C.cyanMid}, ${C.cyanCore}, ${C.teal})`,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -474,7 +473,7 @@ const StepBadge = ({ n }) => (
     fontSize: 15,
     flexShrink: 0,
     fontFamily: "'Georgia', serif",
-    boxShadow: `0 2px 8px ${C.teal}50, 0 1px 16px ${C.magenta}30, inset 0 1px 0 rgba(255,255,255,0.15)`
+    boxShadow: `0 2px 8px ${C.teal}50, 0 1px 16px ${C.cyanCore}30, inset 0 1px 0 rgba(255,255,255,0.15)`
   }}>{n}</div>
 );
 
@@ -496,7 +495,7 @@ const BigStat = ({ value, label, sub }) => (
     <div style={{
       fontSize: 36,
       fontWeight: 800,
-      background: `linear-gradient(135deg, ${C.cream1}, ${C.tealBright}, ${C.magenta})`,
+      background: `linear-gradient(135deg, ${C.cream1}, ${C.tealBright}, ${C.cyanCore})`,
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
       backgroundClip: "text",
@@ -529,7 +528,7 @@ const Tbl = ({ h, rows, compact }) => (
       <thead>
         <tr>{h.map((x, i) => <th key={i} style={{
           padding: compact ? "8px 10px" : "10px 14px",
-          background: `linear-gradient(135deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
+          background: `linear-gradient(135deg, ${C.cyanMid}, ${C.cyanCore}, ${C.teal})`,
           color: C.tealBright,
           textAlign: "left",
           borderBottom: `2px solid ${C.teal}`,
@@ -577,12 +576,12 @@ const SendModal = ({ open, onClose }) => {
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,12,18,0.92)" }} onClick={onClose}>
       <div onClick={e => e.stopPropagation()} style={{
         background: C.bg3,
-        border: `1px solid ${C.purpleBorder}`,
+        border: `1px solid ${C.cyanBright}`,
         borderRadius: 10,
         padding: 28,
         width: "100%",
         maxWidth: 440,
-        boxShadow: `0 8px 32px ${C.purpleDark}80, 0 2px 12px ${C.teal}40, 0 0 60px ${C.magenta}20`
+        boxShadow: `0 8px 32px ${C.cyanDeep}80, 0 2px 12px ${C.teal}40, 0 0 60px ${C.cyanCore}20`
       }}>
         <h3 style={{ color: C.cream1, fontSize: 16, fontWeight: 700, margin: "0 0 16px", fontFamily: "'Georgia', serif" }}>Quick Send Manual</h3>
         <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
@@ -592,7 +591,7 @@ const SendModal = ({ open, onClose }) => {
         <textarea value={msg} onChange={e => setMsg(e.target.value)} rows={3} style={{ ...inp, marginBottom: 14, resize: "vertical", fontSize: 12 }} />
         <div style={{ display: "flex", gap: 8 }}>
           <button onClick={onClose} style={{ flex: 1, padding: 9, borderRadius: 4, border: `1px solid ${C.border}`, background: "transparent", color: C.cream4, cursor: "pointer" }}>Cancel</button>
-          <button onClick={fire} style={{ flex: 1, padding: 9, borderRadius: 4, border: "none", background: `linear-gradient(135deg, ${C.teal}, ${C.magenta})`, color: "#fff", fontWeight: 700, cursor: "pointer", boxShadow: `0 2px 8px ${C.teal}40` }}>Send</button>
+          <button onClick={fire} style={{ flex: 1, padding: 9, borderRadius: 4, border: "none", background: `linear-gradient(135deg, ${C.teal}, ${C.cyanCore})`, color: "#fff", fontWeight: 700, cursor: "pointer", boxShadow: `0 2px 8px ${C.teal}40` }}>Send</button>
         </div>
       </div>
     </div>
@@ -689,7 +688,7 @@ export default function ActiGraftManual() {
           padding: isMobile ? "6px 10px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.teal}50`,
-          background: `linear-gradient(135deg, ${C.purple}, ${C.teal})`,
+          background: `linear-gradient(135deg, ${C.cyanMid}, ${C.teal})`,
           color: C.tealBright,
           cursor: "pointer",
           fontSize: isMobile ? 10 : 11,
@@ -722,7 +721,7 @@ export default function ActiGraftManual() {
             <BirdWatermark style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 360, height: 400, opacity: 0.05 }} />
             <div style={{ textAlign: "center", padding: "60px 0 40px", position: "relative" }}>
               {/* Nightingale brand mark */}
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32, padding: "8px 20px", border: `1px solid ${C.border}`, borderRadius: 40, boxShadow: `0 2px 12px ${C.teal}20, 0 1px 20px ${C.magenta}15` }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32, padding: "8px 20px", border: `1px solid ${C.border}`, borderRadius: 40, boxShadow: `0 2px 12px ${C.teal}20, 0 1px 20px ${C.cyanCore}15` }}>
                 <svg viewBox="0 0 24 24" style={{ width: 18, height: 18, fill: C.teal }}>
                   <path d="M12 2C14 1,18 3,19 6C20 9,18 12,16 13L20 11C22 10,23 12,22 14C21 16,18 17,16 17L12 19C13 21,12 23,10 23C8 23,7 21,8 19L4 17C2 17,0 16,0 14C0 12,2 10,4 11L8 13C6 12,4 9,5 6C6 3,10 1,12 2Z" />
                 </svg>
@@ -732,7 +731,7 @@ export default function ActiGraftManual() {
               <div style={{
                 fontSize: 10,
                 fontWeight: 700,
-                background: `linear-gradient(135deg, ${C.magenta}, ${C.gold})`,
+                background: `linear-gradient(135deg, ${C.cyanCore}, ${C.gold})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -745,7 +744,7 @@ export default function ActiGraftManual() {
               <h2 style={{ fontSize: 20, fontWeight: 400, color: C.cream3, margin: "0 0 8px", fontFamily: "'Georgia', serif" }}>for Distributor & Physician Partners</h2>
               <p style={{
                 fontSize: 13,
-                background: `linear-gradient(135deg, ${C.teal}, ${C.magenta})`,
+                background: `linear-gradient(135deg, ${C.teal}, ${C.cyanCore})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -756,9 +755,9 @@ export default function ActiGraftManual() {
               <div style={{
                 width: 80,
                 height: 2,
-                background: `linear-gradient(90deg, ${C.purple}, ${C.magenta}, ${C.teal})`,
+                background: `linear-gradient(90deg, ${C.cyanMid}, ${C.cyanCore}, ${C.teal})`,
                 margin: "28px auto",
-                boxShadow: `0 1px 12px ${C.teal}40, 0 1px 12px ${C.magenta}30`
+                boxShadow: `0 1px 12px ${C.teal}40, 0 1px 12px ${C.cyanCore}30`
               }} />
 
               <div style={{ fontSize: 12, color: C.cream4, marginBottom: 6 }}>2026 Edition</div>
@@ -786,7 +785,7 @@ export default function ActiGraftManual() {
                 </button>
               ))}
             </div>
-            <div style={{ marginTop: 28, padding: "14px 18px", background: `linear-gradient(135deg, ${C.purple}15, ${C.tealGlow})`, border: `1px solid ${C.teal}40`, borderRadius: 4, boxShadow: `0 2px 8px ${C.teal}20` }}>
+            <div style={{ marginTop: 28, padding: "14px 18px", background: `linear-gradient(135deg, ${C.cyanMid}15, ${C.tealGlow})`, border: `1px solid ${C.teal}40`, borderRadius: 4, boxShadow: `0 2px 8px ${C.teal}20` }}>
               <div style={{ fontSize: 11, color: C.tealBright, fontWeight: 700, marginBottom: 4 }}>CONFIDENTIAL — AUTHORIZED DISTRIBUTORS ONLY</div>
               <div style={{ fontSize: 11, color: C.cream4 }}>This training manual contains proprietary sales strategies, territory intelligence, and competitive positioning data. Unauthorized distribution is prohibited. © 2026 Nightingale BioTech / Legacy Medical Consultants.</div>
             </div>

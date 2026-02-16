@@ -41,11 +41,11 @@ const C = {
   tealBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" — bright cyan highlight
   tealGlow: NIGHTINGALE.cyan.bg,      // "rgba(0,229,255,0.04)"
 
-  // Cyan replacements (formerly purple accent cards)
-  purple: NIGHTINGALE.cyan.mid,         // "#00BCD4" — (replaced purple)
-  purpleBorder: NIGHTINGALE.cyan.bright, // "#5CF0FF" — (replaced purple border)
-  purpleLight: NIGHTINGALE.cyan.bright,  // "#5CF0FF" — (replaced light purple)
-  purpleDark: NIGHTINGALE.cyan.deep,     // "#005F6B" — (replaced dark purple)
+  // Additional Cyan Variants - Nightingale Brand Theme v5.0
+  cyanMid: NIGHTINGALE.cyan.mid,       // "#00BCD4" — mid cyan
+  cyanBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" — bright cyan highlight
+  cyanCore: NIGHTINGALE.cyan.core,     // "#00E5FF" — electric cyan core
+  cyanDeep: NIGHTINGALE.cyan.deep,     // "#005F6B" — deep cyan
 
   // Gold accents (keep for warm contrast)
   gold: NIGHTINGALE.frost.warm,       // "rgba(210,190,160,0.12)" — amber reflection
@@ -121,9 +121,9 @@ const MolecularBg = ({ variant = 0 }) => {
         {/* Hexagon path definition */}
         <path id="hexagon" d="M 0,-10 L 8.66,-5 L 8.66,5 L 0,10 L -8.66,5 L -8.66,-5 Z" />
 
-        {/* Purple to teal gradient for background */}
+        {/* Cyan gradient for background */}
         <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={C.purple} stopOpacity="0.08" />
+          <stop offset="0%" stopColor={C.cyanMid} stopOpacity="0.08" />
           <stop offset="100%" stopColor={C.teal} stopOpacity="0.08" />
         </linearGradient>
       </defs>
@@ -360,7 +360,7 @@ const CreamCard = ({ title, children, borderColor }) => (
 
 // Dark cyan card (Nightingale BioTech steel + cyan theme)
 const TealCard = ({ title, children, icon }) => (
-  <div style={{ background: C.purple, border: `1px solid ${C.purpleBorder}`, borderRadius: 8, padding: "18px 20px", marginBottom: 12, boxShadow: `0 2px 8px ${C.purpleDark}40` }}>
+  <div style={{ background: C.cyanMid, border: `1px solid ${C.cyanBright}`, borderRadius: 8, padding: "18px 20px", marginBottom: 12, boxShadow: `0 2px 8px ${C.cyanDeep}40` }}>
     {title && <div style={{ fontSize: 13, fontWeight: 700, color: C.tealBright, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5, fontSize: 11 }}>{title}</div>}
     <div style={{ fontSize: 12.5, color: C.cream2, lineHeight: 1.65 }}>{children}</div>
   </div>
@@ -438,7 +438,7 @@ const SendModal = ({ open, onClose }) => {
   const inp = { width: "100%", padding: 10, borderRadius: 4, border: `1px solid ${C.borderLight}`, background: C.bg2, color: C.cream1, fontSize: 13, outline: "none", boxSizing: "border-box" };
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,12,18,0.92)" }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: C.bg3, border: `1px solid ${C.blueBorder}`, borderRadius: 8, padding: 28, width: "100%", maxWidth: 440 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: C.bg3, border: `1px solid ${C.borderLight}`, borderRadius: 8, padding: 28, width: "100%", maxWidth: 440 }}>
         <h3 style={{ color: C.cream1, fontSize: 16, fontWeight: 700, margin: "0 0 16px", fontFamily: "'Georgia', serif" }}>Quick Send Manual</h3>
         <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
           {["email", "sms"].map(m => <button key={m} onClick={() => setMethod(m)} style={{ flex: 1, padding: "7px 14px", borderRadius: 4, border: `1px solid ${method === m ? C.teal : C.border}`, background: method === m ? C.tealGlow : "transparent", color: method === m ? C.teal : C.cream4, cursor: "pointer", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>{m === "email" ? "Email" : "SMS"}</button>)}
@@ -535,7 +535,7 @@ export default function ActiGraftManual() {
           padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
           borderRadius: 4,
           border: `1px solid ${C.teal}40`,
-          background: C.blue,
+          background: C.tealGlow,
           color: C.tealBright,
           cursor: "pointer",
           fontSize: window.innerWidth < 768 ? 10 : 11,
