@@ -27,15 +27,15 @@ export const NIGHTINGALE = {
     subtle: '#303840',
   },
 
-  // Text - Silver/Platinum Ramp
+  // Text - Silver/Platinum Ramp (Brightened for readability)
   text: {
-    platinum: '#C8D0DA',
-    silver: '#A8B2BE',
-    chrome: '#909AA6',
-    pewter: '#788290',
-    slate: '#606A78',
-    graphite: '#4A5462',
-    steel: '#384250',
+    platinum: '#E0E6F0',  // Brightest - hero text
+    silver: '#D0D8E2',    // Very light - headings
+    chrome: '#C0CAD6',    // Light - body text (brightened for readability)
+    pewter: '#98A2B0',    // Medium - secondary text
+    slate: '#788290',     // Darker - labels, captions
+    graphite: '#606A78',  // Very dark - disabled
+    steel: '#4A5462',     // Darkest - watermarks
   },
 
   // Electric Cyan - The Glow Origin
