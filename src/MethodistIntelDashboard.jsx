@@ -184,39 +184,34 @@ const ConfidenceBadge = ({ level }) => {
 };
 
 const StatusDot = ({ active }) => (
-  <span style={{ width: 10, height: 10, borderRadius: "50%", background: active ? BRAND.confirmed : BRAND.unconfirmed, display: "inline-block", boxShadow: active ? `0 0 8px ${BRAND.confirmed}55` : `0 0 8px ${BRAND.unconfirmed}55` }} />
+  <span style={{ width: 8, height: 8, borderRadius: "50%", background: active ? BRAND.confirmed : BRAND.unconfirmed, display: "inline-block" }} />
 );
 
 const MetricCard = ({ icon: Icon, label, value, sub, accent = BRAND.brightBlue }) => (
-  <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: "20px 22px", display: "flex", flexDirection: "column", gap: 6, position: "relative", overflow: "hidden" }}>
-    <div style={{ position: "absolute", top: -20, right: -20, width: 80, height: 80, borderRadius: "50%", background: `${accent}08` }} />
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <div style={{ background: `${accent}18`, padding: 8, borderRadius: 10, display: "flex" }}>
-        <Icon size={18} color={accent} />
-      </div>
-      <span style={{ color: BRAND.textSecondary, fontSize: 12, fontWeight: 500, letterSpacing: 0.5, textTransform: "uppercase" }}>{label}</span>
+  <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 4 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <Icon size={14} color={accent} />
+      <span style={{ color: BRAND.textMuted, fontSize: 11, fontWeight: 500, letterSpacing: 0.4, textTransform: "uppercase" }}>{label}</span>
     </div>
-    <div style={{ fontSize: 28, fontWeight: 700, color: BRAND.textPrimary, letterSpacing: -0.5 }}>{value}</div>
-    {sub && <div style={{ fontSize: 12, color: BRAND.textMuted }}>{sub}</div>}
+    <div style={{ fontSize: 24, fontWeight: 700, color: BRAND.white, letterSpacing: -0.5 }}>{value}</div>
+    {sub && <div style={{ fontSize: 11, color: BRAND.textMuted }}>{sub}</div>}
   </div>
 );
 
 const SectionHeader = ({ icon: Icon, title, subtitle }) => (
-  <div style={{ marginBottom: 20, paddingBottom: 14, borderBottom: `1px solid ${BRAND.border}` }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-      <div style={{ background: `${BRAND.brightBlue}18`, padding: 8, borderRadius: 10 }}>
-        <Icon size={20} color={BRAND.brightBlue} />
-      </div>
-      <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: BRAND.textPrimary, letterSpacing: -0.3 }}>{title}</h2>
+  <div style={{ marginBottom: 18, paddingBottom: 12, borderBottom: `1px solid ${BRAND.border}` }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+      <Icon size={17} color={BRAND.brightBlue} />
+      <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: BRAND.white, letterSpacing: -0.2 }}>{title}</h2>
     </div>
-    {subtitle && <p style={{ margin: 0, marginLeft: 46, fontSize: 13, color: BRAND.textSecondary }}>{subtitle}</p>}
+    {subtitle && <p style={{ margin: 0, marginLeft: 25, fontSize: 12, color: BRAND.textMuted }}>{subtitle}</p>}
   </div>
 );
 
 const Collapsible = ({ title, icon: Icon, children, defaultOpen = false }) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, overflow: "hidden", marginBottom: 16 }}>
+    <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, overflow: "hidden", marginBottom: 16 }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", background: "transparent", border: "none", padding: "16px 22px", display: "flex", alignItems: "center", gap: 10, cursor: "pointer", color: BRAND.textPrimary }}>
         <Icon size={18} color={BRAND.brightBlue} />
         <span style={{ flex: 1, textAlign: "left", fontSize: 15, fontWeight: 600, letterSpacing: -0.2 }}>{title}</span>
@@ -238,7 +233,7 @@ const DataRow = ({ label, value, confidence, highlight }) => (
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "12px 16px", boxShadow: "0 8px 32px rgba(0,0,0,0.4)" }}>
+    <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}>
       <div style={{ fontSize: 12, color: BRAND.textSecondary, marginBottom: 6 }}>{label}</div>
       {payload.map((p, i) => (
         <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: p.color, fontWeight: 600 }}>
@@ -267,18 +262,18 @@ export default function MethodistIntelDashboard() {
   return (
     <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Roboto', 'Segoe UI', system-ui, sans-serif" }}>
       {/* HEADER */}
-      <div style={{ background: `linear-gradient(135deg, ${BRAND.darkPanel} 0%, ${BRAND.dark} 100%)`, borderBottom: `1px solid ${BRAND.border}`, padding: "24px 32px", position: "sticky", top: 0, zIndex: 50, backdropFilter: "blur(12px)" }}>
+      <div style={{ background: BRAND.dark, borderBottom: `1px solid ${BRAND.border}`, padding: "20px 32px", position: "sticky", top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
-                <div style={{ background: `linear-gradient(135deg, ${BRAND.brightBlue}, ${BRAND.goldenYellow})`, padding: "8px 12px", borderRadius: 10, fontWeight: 800, fontSize: 14, color: BRAND.dark, letterSpacing: -0.3 }}>NB</div>
-                <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, letterSpacing: -0.5, background: `linear-gradient(135deg, ${BRAND.textPrimary}, ${BRAND.brightBlue})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                <div style={{ background: BRAND.brightBlue, padding: "6px 10px", borderRadius: 6, fontWeight: 700, fontSize: 13, color: BRAND.white, letterSpacing: 0.5 }}>NB</div>
+                <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: -0.3, color: BRAND.white }}>
                   Methodist University Hospital — Market Intelligence
                 </h1>
               </div>
-              <p style={{ margin: 0, fontSize: 13, color: BRAND.textSecondary, marginLeft: 52 }}>
-                ActiGraft Pro × GPO Contracting Intelligence · Compiled Feb 15, 2026 · Nightingale BioTech
+              <p style={{ margin: 0, fontSize: 12, color: BRAND.textMuted, marginLeft: 46 }}>
+                ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026 · Nightingale BioTech
               </p>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -294,7 +289,7 @@ export default function MethodistIntelDashboard() {
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? `${BRAND.brightBlue}18` : "transparent", border: `1px solid ${active ? BRAND.brightBlue + "44" : "transparent"}`, borderRadius: 10, padding: "8px 16px", color: active ? BRAND.brightBlue : BRAND.textSecondary, fontSize: 13, fontWeight: active ? 600 : 400, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap", transition: "all 0.2s" }}>
+                  style={{ background: active ? `${BRAND.brightBlue}15` : "transparent", border: `1px solid ${active ? BRAND.brightBlue + "33" : "transparent"}`, borderRadius: 6, padding: "7px 14px", color: active ? BRAND.brightBlue : BRAND.textMuted, fontSize: 12, fontWeight: active ? 600 : 400, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s" }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );
@@ -320,20 +315,20 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* Critical Assessment Banner */}
-            <div style={{ background: `linear-gradient(135deg, ${BRAND.brightBlue}12, ${BRAND.assessed}08)`, border: `1px solid ${BRAND.brightBlue}33`, borderRadius: 14, padding: "20px 24px", marginBottom: 28 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-                <Zap size={22} color={BRAND.assessed} style={{ flexShrink: 0, marginTop: 2 }} />
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.goldenYellow}44`, borderLeft: `3px solid ${BRAND.goldenYellow}`, borderRadius: 4, padding: "16px 20px", marginBottom: 28 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <Zap size={18} color={BRAND.goldenYellow} style={{ flexShrink: 0, marginTop: 2 }} />
                 <div>
-                  <h3 style={{ margin: "0 0 8px", fontSize: 16, fontWeight: 700, color: BRAND.assessed }}>Critical Strategic Finding</h3>
-                  <p style={{ margin: 0, fontSize: 14, color: BRAND.textPrimary, lineHeight: 1.65 }}>
-                    ActiGraft's classification as a <strong style={{ color: BRAND.brightBlue }}>blood-derived product (G0465)</strong> places it in a distinct product category from allografts and CTPs on HealthTrust's existing regenerative tissue contracts. This creates a <strong style={{ color: BRAND.confirmed }}>category gap — not a compliance conflict</strong>. MLH may be able to procure ActiGraft through Vizient's contract without violating HealthTrust committed-model requirements, because HealthTrust has no competing contract in this product category.
+                  <h3 style={{ margin: "0 0 6px", fontSize: 14, fontWeight: 700, color: BRAND.goldenYellow }}>Critical Strategic Finding</h3>
+                  <p style={{ margin: 0, fontSize: 13, color: BRAND.textSecondary, lineHeight: 1.6 }}>
+                    ActiGraft's classification as a <strong style={{ color: BRAND.brightBlue }}>blood-derived product (G0465)</strong> places it in a distinct product category from allografts and CTPs on HealthTrust's existing regenerative tissue contracts. This creates a <strong style={{ color: BRAND.white }}>category gap — not a compliance conflict</strong>. MLH may be able to procure ActiGraft through Vizient's contract without violating HealthTrust committed-model requirements, because HealthTrust has no competing contract in this product category.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* GPO Contract Landscape */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24, marginBottom: 28 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24, marginBottom: 28 }}>
               <SectionHeader icon={Layers} title="ActiGraft GPO Contract Landscape" subtitle="Current contract status across all Group Purchasing Organizations" />
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
@@ -365,15 +360,15 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* Timeline */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
               <SectionHeader icon={Clock} title="Key Timeline" subtitle="Critical milestones for ActiGraft market positioning at MLH" />
               <div style={{ display: "flex", flexDirection: "column", gap: 0, position: "relative", paddingLeft: 28 }}>
-                <div style={{ position: "absolute", left: 11, top: 8, bottom: 8, width: 2, background: `linear-gradient(to bottom, ${BRAND.brightBlue}, ${BRAND.goldenYellow}, ${BRAND.assessed})` }} />
+                <div style={{ position: "absolute", left: 11, top: 8, bottom: 8, width: 1, background: BRAND.border }} />
                 {TIMELINE_EVENTS.map((e, i) => {
                   const colors = { gpo: BRAND.assessed, product: BRAND.brightBlue, contract: BRAND.confirmed, regulatory: BRAND.unconfirmed };
                   return (
                     <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "10px 0", position: "relative" }}>
-                      <div style={{ position: "absolute", left: -22, top: 14, width: 12, height: 12, borderRadius: "50%", background: colors[e.type], border: `2px solid ${BRAND.dark}`, boxShadow: `0 0 8px ${colors[e.type]}44` }} />
+                      <div style={{ position: "absolute", left: -22, top: 14, width: 12, height: 12, borderRadius: "50%", background: colors[e.type], border: `2px solid ${BRAND.dark}`,  }} />
                       <span style={{ flex: "0 0 90px", fontSize: 12, fontWeight: 600, color: colors[e.type] }}>{e.date}</span>
                       <span style={{ fontSize: 13, color: BRAND.textPrimary }}>{e.event}</span>
                     </div>
@@ -390,14 +385,12 @@ export default function MethodistIntelDashboard() {
             {/* HealthTrust vs Vizient Comparison */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 28 }}>
               {/* HealthTrust Card */}
-              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.assessed}44`, borderRadius: 14, padding: 24 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-                  <div style={{ background: `${BRAND.assessed}18`, padding: 10, borderRadius: 12 }}>
-                    <Shield size={22} color={BRAND.assessed} />
-                  </div>
+              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.assessed}44`, borderRadius: 8, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                  <Shield size={18} color={BRAND.assessed} />
                   <div>
-                    <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>HealthTrust (HPG)</h3>
-                    <span style={{ fontSize: 12, color: BRAND.assessed, fontWeight: 600 }}>PRIMARY GPO — Committed Model</span>
+                    <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: BRAND.white }}>HealthTrust (HPG)</h3>
+                    <span style={{ fontSize: 11, color: BRAND.assessed, fontWeight: 600 }}>PRIMARY GPO — Committed Model</span>
                   </div>
                 </div>
                 <DataRow label="Member Since" value="March 1, 2013" confidence="Confirmed" />
@@ -421,14 +414,12 @@ export default function MethodistIntelDashboard() {
               </div>
 
               {/* Vizient Card */}
-              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.confirmed}44`, borderRadius: 14, padding: 24 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-                  <div style={{ background: `${BRAND.confirmed}18`, padding: 10, borderRadius: 12 }}>
-                    <CheckCircle size={22} color={BRAND.confirmed} />
-                  </div>
+              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.confirmed}44`, borderRadius: 8, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                  <CheckCircle size={18} color={BRAND.confirmed} />
                   <div>
-                    <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>Vizient</h3>
-                    <span style={{ fontSize: 12, color: BRAND.confirmed, fontWeight: 600 }}>SECONDARY GPO — Active ActiGraft Contract</span>
+                    <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: BRAND.white }}>Vizient</h3>
+                    <span style={{ fontSize: 11, color: BRAND.confirmed, fontWeight: 600 }}>SECONDARY GPO — Active ActiGraft Contract</span>
                   </div>
                 </div>
                 <DataRow label="Contract Type" value="Innovative Technology Contract" confidence="Confirmed" />
@@ -450,7 +441,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* GPO Precedence Analysis */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24, marginBottom: 28 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24, marginBottom: 28 }}>
               <SectionHeader icon={Target} title="GPO Precedence Assessment" subtitle="Which GPO controls biologics & wound care procurement at MLH?" />
               <DataRow label="Assessment" value="HealthTrust is the PRIMARY GPO for all MLH supply chain decisions due to committed-model requirements. However, for novel products NOT on HealthTrust contract (like ActiGraft), hospitals can access through secondary GPO contracts (Vizient) or off-contract purchasing." confidence="Assessed" highlight />
               <DataRow label="Key Insight" value="ActiGraft is classified as a blood-derived product (G0465), NOT a skin substitute/CTP. This classification likely falls OUTSIDE existing HealthTrust regenerative tissue contracts — creating a category gap, not a compliance conflict." confidence="Assessed" highlight />
@@ -460,7 +451,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* 2021 HealthTrust Performance */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
               <SectionHeader icon={TrendingUp} title="MLH HealthTrust Performance (2021)" subtitle="Demonstrates MLH's deep HealthTrust integration and compliance culture" />
               <div style={{ height: 300 }}>
                 <ResponsiveContainer width="100%" height="100%">
@@ -511,7 +502,7 @@ export default function MethodistIntelDashboard() {
 
             {/* Per-Application Economics Pie */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 28 }}>
-              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
                 <SectionHeader icon={DollarSign} title="Per-Application Economics" subtitle="Hospital outpatient reimbursement breakdown" />
                 <div style={{ height: 260, display: "flex", justifyContent: "center" }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -534,7 +525,7 @@ export default function MethodistIntelDashboard() {
               </div>
 
               {/* Wound Closure Comparison */}
-              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
                 <SectionHeader icon={Heart} title="Wound Closure Rates (12 Weeks)" subtitle="ActiGraft Pro vs. Standard of Care" />
                 <div style={{ height: 260 }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -561,7 +552,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* Protocol Revenue Comparison */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24, marginBottom: 28 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24, marginBottom: 28 }}>
               <SectionHeader icon={TrendingUp} title="Cumulative Revenue: HBOT-Only vs. ActiGraft + HBOT Protocol" subtitle="12-week treatment protocol — per patient revenue comparison" />
               <div style={{ height: 340 }}>
                 <ResponsiveContainer width="100%" height="100%">
@@ -603,7 +594,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* 20-Week Max Utilization */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
               <SectionHeader icon={Star} title="20-Week Maximum Utilization Model" subtitle="Full NCD 270.3 coverage — per patient economics (Medicare + MA)" />
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
@@ -641,11 +632,11 @@ export default function MethodistIntelDashboard() {
         {activeTab === "clinical" && (
           <div>
             {/* Wound Care Facilities */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24, marginBottom: 28 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24, marginBottom: 28 }}>
               <SectionHeader icon={MapPin} title="MLH Wound Care Facilities (5 Locations)" subtitle="Methodist Le Bonheur Healthcare wound care center network" />
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
                 {WOUND_CARE_FACILITIES.map((f, i) => (
-                  <div key={i} style={{ background: BRAND.darkPanel, border: `1px solid ${f.hbo ? BRAND.brightBlue + "44" : BRAND.border}`, borderRadius: 12, padding: 18 }}>
+                  <div key={i} style={{ background: BRAND.darkPanel, border: `1px solid ${f.hbo ? BRAND.brightBlue + "44" : BRAND.border}`, borderRadius: 8, padding: 18 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                       <Building2 size={16} color={f.hbo ? BRAND.brightBlue : BRAND.textSecondary} />
                       <span style={{ fontSize: 14, fontWeight: 600, color: BRAND.textPrimary }}>{f.name}</span>
@@ -670,7 +661,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* Wound Care Director Intel */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24, marginBottom: 28 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24, marginBottom: 28 }}>
               <SectionHeader icon={Users} title="Wound Care Leadership Intelligence" subtitle="Key contacts and decision-making culture" />
               <DataRow label="Identified Contact" value="Sandy Deimund, BSN — Clinical Director, Methodist North Comprehensive Wound Healing Center" confidence="Confirmed" highlight />
               <DataRow label="Role" value="Oversees Methodist North HBO and wound care center operations; quoted in Memphis Medical News on treatment protocols and HBO integration" confidence="Confirmed" />
@@ -681,7 +672,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* LMC Distribution */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
               <SectionHeader icon={ExternalLink} title="Legacy Medical Consultants (LMC) — Exclusive U.S. Distributor" subtitle="Distribution agreement effective August 19, 2025" />
               <DataRow label="Agreement Type" value="Exclusive U.S. distribution (multi-year)" confidence="Confirmed" />
               <DataRow label="Scope" value="All care settings: hospitals, physician offices, VA/DoD, outpatient wound-care centers" confidence="Confirmed" />
@@ -699,7 +690,7 @@ export default function MethodistIntelDashboard() {
           <div>
             {/* Radar Chart */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 28 }}>
-              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
                 <SectionHeader icon={Target} title="Market Entry Readiness" subtitle="Scoring across 8 strategic dimensions (0-100)" />
                 <div style={{ height: 320 }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -714,7 +705,7 @@ export default function MethodistIntelDashboard() {
               </div>
 
               {/* Key Barriers & Enablers */}
-              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+              <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
                 <SectionHeader icon={AlertTriangle} title="Barriers & Enablers" subtitle="Critical factors for MLH market entry" />
                 <div style={{ marginBottom: 16 }}>
                   <h4 style={{ fontSize: 13, color: BRAND.confirmed, fontWeight: 700, margin: "0 0 10px", display: "flex", alignItems: "center", gap: 6 }}>
@@ -754,7 +745,7 @@ export default function MethodistIntelDashboard() {
             </div>
 
             {/* Strategic Recommendations */}
-            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 14, padding: 24 }}>
+            <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: 24 }}>
               <SectionHeader icon={Zap} title="Strategic Playbook — MLH Market Entry" subtitle="Prioritized action items for ActiGraft adoption at Methodist University Hospital" />
               {[
                 { priority: 1, title: "Leverage Vizient Contract", desc: "Approach MLH supply chain leadership with Vizient Innovative Technology Contract number. Position ActiGraft as a novel product category (autologous/blood-derived G0465) distinct from allografts/CTPs on HealthTrust.", confidence: "Recommendation" },
@@ -766,7 +757,7 @@ export default function MethodistIntelDashboard() {
                 { priority: 7, title: "Present Combined Protocol Economics", desc: "Show $72,445 per-patient revenue (20-wk protocol) vs. $20,665 HBOT-only — a 250% increase. 74% gross margin at $450/kit vs. $1,726 reimbursement.", confidence: "Recommendation" },
               ].map((r, i) => (
                 <div key={i} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < 6 ? `1px solid ${BRAND.border}22` : "none" }}>
-                  <div style={{ flex: "0 0 42px", height: 42, borderRadius: 12, background: `${BRAND.brightBlue}18`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 800, color: BRAND.brightBlue }}>{r.priority}</div>
+                  <div style={{ flex: "0 0 32px", height: 32, borderRadius: 6, background: `${BRAND.brightBlue}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: BRAND.brightBlue }}>{r.priority}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
                       <span style={{ fontSize: 15, fontWeight: 700, color: BRAND.textPrimary }}>{r.title}</span>
