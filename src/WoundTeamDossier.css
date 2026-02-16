@@ -664,20 +664,129 @@ section h2::after {
     padding: 12px;
   }
 
-  .dossier-header,
+  .dossier-header {
+    padding: 24px 16px;
+  }
+
+  .dossier-header h1 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .prepared-for,
+  .objective {
+    font-size: 12px;
+  }
+
+  .objective {
+    padding: 14px 16px;
+  }
+
   .org-chart-section,
   .personnel-cards,
   .strategies-section {
-    padding: 20px;
+    padding: 16px;
+  }
+
+  section h2 {
+    font-size: 18px;
+  }
+
+  .org-subtitle,
+  .section-subtitle {
+    font-size: 12px;
   }
 
   .card-header {
     flex-direction: column;
     text-align: center;
+    gap: 12px;
   }
 
-  .headshot {
-    width: 100px;
-    height: 100px;
+  .headshot,
+  .tree-headshot {
+    width: 80px;
+    height: 80px;
+  }
+
+  .node {
+    min-width: 160px !important;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .node strong {
+    font-size: 14px;
+  }
+
+  .node-role,
+  .node-desc {
+    font-size: 11px;
+  }
+
+  .toggle-icon {
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  /* Better mobile touch targets */
+  .node.clickable,
+  details summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Improve readability on mobile */
+  .detail-section p,
+  .detail-section h4 {
+    font-size: 13px;
+  }
+
+  .quote {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  /* Mobile-optimized gallery */
+  .gallery-item img {
+    height: 180px;
+  }
+
+  .gallery-item p {
+    font-size: 12px;
+  }
+
+  /* Strategy cards on mobile */
+  .strategy-card {
+    padding: 16px;
+  }
+
+  .strategy-icon {
+    font-size: 32px;
+  }
+
+  .strategy-card h3 {
+    font-size: 15px;
+  }
+
+  .strategy-card p {
+    font-size: 12px;
+  }
+
+  /* Notes sections */
+  textarea {
+    font-size: 14px;
+    min-height: 100px;
+  }
+
+  .notes-section label {
+    font-size: 12px;
+  }
+
+  /* Footer */
+  .dossier-footer p {
+    font-size: 11px;
   }
 }

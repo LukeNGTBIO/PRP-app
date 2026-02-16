@@ -4,6 +4,7 @@ import {
   PieChart, Pie, Cell, Legend
 } from "recharts";
 import nbLogoWhite from './assets/nb-logo-white.png';
+import WoundTeamDossier from './WoundTeamDossier.jsx';
 
 // Nightingale BioTech Brand Theme v3.0
 const BRAND = {
@@ -717,6 +718,7 @@ export default function MethodistIntelDashboardMobile() {
     { id: "financial", label: "Financial" },
     { id: "clinical", label: "Clinical" },
     { id: "strategy", label: "Strategy" },
+    { id: "team", label: "Team" },
   ];
 
   return (
@@ -813,6 +815,7 @@ export default function MethodistIntelDashboardMobile() {
         {activeTab === "financial" && <FinancialTab isMobile={isMobile} />}
         {activeTab === "clinical" && <ClinicalTab isMobile={isMobile} />}
         {activeTab === "strategy" && <StrategyTab isMobile={isMobile} />}
+        {activeTab === "team" && <WoundTeamDossier />}
 
         {/* Footer */}
         <div style={{
