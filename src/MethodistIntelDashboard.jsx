@@ -9,7 +9,7 @@ import {
   DollarSign, TrendingUp, FileText, Users, Heart, ChevronDown, ChevronRight,
   Target, Zap, Clock, MapPin, Phone, Mail, ExternalLink, Star, Layers
 } from "lucide-react";
-import nbBirdWhite from './assets/nb-bird-white.png';
+import nbLogoWhite from './assets/nb-logo-white.png';
 
 // ─── DATA LAYER ───────────────────────────────────────────────
 // Official Nightingale Biotech Brand Colors (Brand Toolkit July 2024)
@@ -267,9 +267,8 @@ export default function MethodistIntelDashboard() {
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
-                <img src={nbBirdWhite} alt="Nightingale Biotech" style={{ height: 28, width: "auto" }} />
-                <span style={{ color: "#D4A860", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase" }}>NIGHTINGALE BIOTECH</span>
+              <div style={{ marginBottom: 8 }}>
+                <img src={nbLogoWhite} alt="Nightingale Biotech" style={{ height: 30, width: "auto" }} />
               </div>
               <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#fff" }}>
                 Methodist University Hospital — Market Intelligence
