@@ -43,6 +43,166 @@ const B = {
   gradientTealMagenta: "linear-gradient(135deg, #00D4D4, #1BFFFF, #B84BB8)",
 }
 
+// ========== SVG GRAPHICS & VISUAL ELEMENTS ==========
+
+// Blood Cell Icon (represents whole blood composition)
+const BloodCellIcon = ({ size = 60, color = B.teal }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
+    <defs>
+      <linearGradient id="bloodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor={B.purple} />
+        <stop offset="50%" stopColor={B.magenta} />
+        <stop offset="100%" stopColor={color} />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="35" fill="url(#bloodGrad)" opacity="0.3" />
+    <circle cx="50" cy="50" r="28" fill="none" stroke="url(#bloodGrad)" strokeWidth="3" />
+    <circle cx="50" cy="50" r="20" fill="none" stroke={color} strokeWidth="2" opacity="0.6" />
+    <circle cx="50" cy="50" r="12" fill={color} opacity="0.8" />
+    <circle cx="35" cy="35" r="6" fill={B.magenta} opacity="0.7" />
+    <circle cx="65" cy="35" r="6" fill={B.purple} opacity="0.7" />
+    <circle cx="35" cy="65" r="6" fill={color} opacity="0.7" />
+    <circle cx="65" cy="65" r="6" fill={B.tealBright} opacity="0.7" />
+  </svg>
+)
+
+// Wound Healing Icon
+const WoundHealingIcon = ({ size = 60, color = B.teal }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
+    <defs>
+      <linearGradient id="healGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor={B.red} />
+        <stop offset="50%" stopColor={B.magenta} />
+        <stop offset="100%" stopColor={color} />
+      </linearGradient>
+    </defs>
+    <path d="M 20 50 Q 35 20, 50 50 T 80 50" fill="none" stroke="url(#healGrad)" strokeWidth="4" strokeLinecap="round" />
+    <path d="M 25 50 Q 40 35, 50 50 T 75 50" fill="none" stroke={color} strokeWidth="3" opacity="0.6" />
+    <circle cx="50" cy="50" r="8" fill={color} />
+    <circle cx="30" cy="35" r="5" fill={B.magenta} opacity="0.8" />
+    <circle cx="70" cy="35" r="5" fill={B.tealBright} opacity="0.8" />
+  </svg>
+)
+
+// Syringe/Application Icon
+const SyringeIcon = ({ size = 60, color = B.teal }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
+    <defs>
+      <linearGradient id="syringeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor={B.purple} />
+        <stop offset="100%" stopColor={color} />
+      </linearGradient>
+    </defs>
+    <rect x="35" y="20" width="30" height="50" rx="3" fill="url(#syringeGrad)" opacity="0.3" />
+    <rect x="38" y="23" width="24" height="44" rx="2" fill="none" stroke={color} strokeWidth="2" />
+    <rect x="45" y="70" width="10" height="15" fill={color} opacity="0.8" />
+    <circle cx="50" cy="15" r="5" fill={B.magenta} />
+    <line x1="50" y1="30" x2="50" y2="60" stroke={B.tealBright} strokeWidth="2" />
+  </svg>
+)
+
+// Clock/Time Icon (5 minutes)
+const ClockIcon = ({ size = 60, color = B.teal }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
+    <defs>
+      <linearGradient id="clockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor={B.purple} />
+        <stop offset="100%" stopColor={color} />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="35" fill="none" stroke="url(#clockGrad)" strokeWidth="3" />
+    <circle cx="50" cy="50" r="28" fill={B.card} opacity="0.5" />
+    <line x1="50" y1="50" x2="50" y2="30" stroke={color} strokeWidth="3" strokeLinecap="round" />
+    <line x1="50" y1="50" x2="65" y2="50" stroke={B.magenta} strokeWidth="3" strokeLinecap="round" />
+    <circle cx="50" cy="50" r="4" fill={B.tealBright} />
+    <text x="50" y="75" textAnchor="middle" fill={color} fontSize="14" fontWeight="bold">5 min</text>
+  </svg>
+)
+
+// DNA Helix Icon
+const DNAIcon = ({ size = 60, color = B.teal }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
+    <defs>
+      <linearGradient id="dnaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor={B.magenta} />
+        <stop offset="50%" stopColor={color} />
+        <stop offset="100%" stopColor={B.purple} />
+      </linearGradient>
+    </defs>
+    <path d="M 30 10 Q 40 25, 30 40 Q 20 55, 30 70 Q 40 85, 30 100" fill="none" stroke="url(#dnaGrad)" strokeWidth="3" />
+    <path d="M 70 10 Q 60 25, 70 40 Q 80 55, 70 70 Q 60 85, 70 100" fill="none" stroke="url(#dnaGrad)" strokeWidth="3" />
+    <line x1="30" y1="25" x2="70" y2="25" stroke={color} strokeWidth="2" opacity="0.6" />
+    <line x1="30" y1="55" x2="70" y2="55" stroke={B.magenta} strokeWidth="2" opacity="0.6" />
+    <line x1="30" y1="85" x2="70" y2="85" stroke={color} strokeWidth="2" opacity="0.6" />
+  </svg>
+)
+
+// Dollar/Revenue Icon
+const DollarIcon = ({ size = 60, color = B.gold }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}>
+    <defs>
+      <linearGradient id="dollarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor={B.magenta} />
+        <stop offset="100%" stopColor={color} />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="35" fill="none" stroke="url(#dollarGrad)" strokeWidth="3" />
+    <text x="50" y="70" textAnchor="middle" fill={color} fontSize="50" fontWeight="bold">$</text>
+  </svg>
+)
+
+// Image Placeholder Component (for product photos)
+const ImagePlaceholder = ({ title, subtitle, icon, color = B.teal, aspectRatio = "16/9", isMobile }) => (
+  <div style={{
+    width: "100%",
+    aspectRatio,
+    background: `linear-gradient(135deg, ${B.card}, ${B.surface})`,
+    borderRadius: isMobile ? 8 : 12,
+    border: `2px dashed ${color}40`,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: isMobile ? 8 : 12,
+    padding: isMobile ? 16 : 24,
+    boxShadow: `0 4px 20px ${color}15`,
+    position: "relative",
+    overflow: "hidden"
+  }}>
+    <div style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: `radial-gradient(circle at 30% 50%, ${B.purple}08, transparent 60%), radial-gradient(circle at 70% 50%, ${color}08, transparent 60%)`,
+      pointerEvents: "none"
+    }} />
+    <div style={{ position: "relative", zIndex: 1 }}>
+      {icon}
+    </div>
+    <div style={{
+      fontSize: isMobile ? 13 : 16,
+      fontWeight: 700,
+      color: B.text,
+      textAlign: "center",
+      position: "relative",
+      zIndex: 1
+    }}>
+      {title}
+    </div>
+    {subtitle && <div style={{
+      fontSize: isMobile ? 10 : 12,
+      color: B.textMuted,
+      textAlign: "center",
+      position: "relative",
+      zIndex: 1
+    }}>
+      {subtitle}
+    </div>}
+  </div>
+)
+
 // ========== CHART COMPONENTS ==========
 const DonutChart = ({ pct, size = 120, stroke = 10, color = B.teal, label, sublabel, bgColor = B.border, isMobile }) => {
   const responsiveSize = isMobile ? Math.min(size * 0.75, 90) : size
@@ -500,13 +660,25 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderProduct = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="PRODUCT OVERVIEW" color={B.teal} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
-        ActiGraft<span style={{ fontSize: 28, verticalAlign: "super", opacity: 0.7 }}>®</span> PRO System
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+        ActiGraft<span style={{ fontSize: isMobile ? 18 : 28, verticalAlign: "super", opacity: 0.7 }}>®</span> PRO System
       </h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 24, marginBottom: 24 }}>
+      {/* Product Image Placeholder */}
+      <div style={{ marginBottom: 32 }}>
+        <ImagePlaceholder
+          title="ActiGraft PRO Device & Application"
+          subtitle="Autologous whole blood clot preparation system"
+          icon={<SyringeIcon size={isMobile ? 60 : 80} color={B.teal} />}
+          aspectRatio="21/9"
+          color={B.teal}
+          isMobile={isMobile}
+        />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr", gap: 24, marginBottom: 24 }}>
         <div style={{
           background: `linear-gradient(135deg, ${B.card}, ${B.surface})`,
           borderRadius: 14,
@@ -566,7 +738,10 @@ const ActiGraftPresentationDeck = () => {
 
         <div>
           <GlowBox isMobile={isMobile} color={B.tealBright} style={{ marginBottom: 16 }}>
-            <h4 style={{ fontSize: 14, color: B.text, marginBottom: 12 }}>Whole Blood Components</h4>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+              <BloodCellIcon size={isMobile ? 40 : 50} color={B.tealBright} />
+              <h4 style={{ fontSize: 14, color: B.text, margin: 0 }}>Whole Blood Components</h4>
+            </div>
             <div style={{ fontSize: 12, color: B.textSecondary, lineHeight: 1.7 }}>
               ✓ Platelets (growth factors)<br />
               ✓ Plasma proteins<br />
@@ -611,13 +786,25 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderClinical = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="CLINICAL EVIDENCE" color={B.tealBright} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         Level 1 RCT Evidence
       </h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 32 }}>
+      {/* Clinical Results Visualization */}
+      <div style={{ marginBottom: 24 }}>
+        <ImagePlaceholder
+          title="Wound Healing Progression: Before & After ActiGraft Treatment"
+          subtitle="12-week clinical trial results showing diabetic foot ulcer healing"
+          icon={<WoundHealingIcon size={isMobile ? 60 : 80} color={B.tealBright} />}
+          aspectRatio="16/9"
+          color={B.tealBright}
+          isMobile={isMobile}
+        />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24, marginBottom: 32 }}>
         <GlowBox isMobile={isMobile} color={B.tealBright}>
           <div style={{ textAlign: "center" }}>
             <div style={{
@@ -702,13 +889,25 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderFinancial = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="FINANCIAL BENEFITS" color={B.gold} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         5× Revenue Advantage Over Reformed CTPs
       </h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 32 }}>
+      {/* Financial Comparison Visual */}
+      <div style={{ marginBottom: 32 }}>
+        <ImagePlaceholder
+          title="Revenue Comparison: ActiGraft vs Reformed CTPs"
+          subtitle="$25,296 per patient vs $5,091 — 5× revenue advantage"
+          icon={<DollarIcon size={isMobile ? 70 : 90} color={B.gold} />}
+          aspectRatio="21/9"
+          color={B.gold}
+          isMobile={isMobile}
+        />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24, marginBottom: 32 }}>
         <GlowBox isMobile={isMobile} color={B.gold}>
           <h3 style={{ fontSize: 16, color: B.text, marginBottom: 16 }}>ActiGraft PRO</h3>
           <div style={{
@@ -795,16 +994,28 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderRevenue = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="REVENUE PROJECTIONS" color={B.teal} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         $1M+ Annual Revenue Potential
       </h1>
 
+      {/* Revenue Projection Visual */}
+      <div style={{ marginBottom: 28 }}>
+        <ImagePlaceholder
+          title="Methodist North Revenue Growth Trajectory"
+          subtitle="Conservative 10 patients/week = $1M+ annually"
+          icon={<DollarIcon size={isMobile ? 70 : 90} color={B.teal} />}
+          aspectRatio="21/9"
+          color={B.teal}
+          isMobile={isMobile}
+        />
+      </div>
+
       <div style={{
         background: `linear-gradient(135deg, ${B.card}, ${B.surface})`,
-        borderRadius: 14,
-        padding: 28,
+        borderRadius: isMobile ? 10 : 14,
+        padding: isMobile ? 20 : 28,
         border: `1px solid ${B.border}`,
         marginBottom: 28,
         boxShadow: `0 4px 24px ${B.purple}30`
@@ -875,16 +1086,28 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderCompetitive = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="COMPETITIVE INTELLIGENCE" color={B.magenta} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         NCD 270.3 Competitive Landscape
       </h1>
 
+      {/* Competitive Landscape Visual */}
+      <div style={{ marginBottom: 24 }}>
+        <ImagePlaceholder
+          title="PRP Product Comparison Matrix"
+          subtitle="ActiGraft PRO vs Aurix, CASCADE, FastSkin Patch"
+          icon={<DNAIcon size={isMobile ? 60 : 80} color={B.magenta} />}
+          aspectRatio="21/9"
+          color={B.magenta}
+          isMobile={isMobile}
+        />
+      </div>
+
       <div style={{
         background: `linear-gradient(135deg, ${B.card}, ${B.surface})`,
-        borderRadius: 14,
-        padding: 24,
+        borderRadius: isMobile ? 10 : 14,
+        padding: isMobile ? 16 : 24,
         border: `1px solid ${B.border}`,
         marginBottom: 20,
         boxShadow: `0 4px 24px ${B.purple}30`
@@ -1272,16 +1495,28 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderImplementation = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="IMPLEMENTATION PLAN" color={B.tealBright} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         90-Day Action Plan
       </h1>
 
+      {/* Implementation Timeline Visual */}
+      <div style={{ marginBottom: 24 }}>
+        <ImagePlaceholder
+          title="5-Phase Implementation Roadmap"
+          subtitle="From team alignment to scaled operations in 90 days"
+          icon={<ClockIcon size={isMobile ? 60 : 80} color={B.tealBright} />}
+          aspectRatio="21/9"
+          color={B.tealBright}
+          isMobile={isMobile}
+        />
+      </div>
+
       <div style={{
         background: `linear-gradient(135deg, ${B.card}, ${B.surface})`,
-        borderRadius: 14,
-        padding: 24,
+        borderRadius: isMobile ? 10 : 14,
+        padding: isMobile ? 16 : 24,
         border: `1px solid ${B.border}`,
         boxShadow: `0 4px 24px ${B.purple}30`
       }}>
@@ -1411,13 +1646,25 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderTraining = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="TRAINING & SUPPORT" color={B.teal} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         Comprehensive Training & Resources
       </h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20, marginBottom: 24 }}>
+      {/* Training Materials Visualization */}
+      <div style={{ marginBottom: 24 }}>
+        <ImagePlaceholder
+          title="Hands-On Clinical Training & Application Demonstration"
+          subtitle="Step-by-step guidance for ActiGraft PRO system preparation and application"
+          icon={<ClockIcon size={isMobile ? 60 : 80} color={B.teal} />}
+          aspectRatio="16/9"
+          color={B.teal}
+          isMobile={isMobile}
+        />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: 20, marginBottom: 24 }}>
         {[
           {
             icon: "📚", title: "Clinical Training", color: B.tealBright,
@@ -1524,11 +1771,23 @@ const ActiGraftPresentationDeck = () => {
   )
 
   const renderAdvantages = () => (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: isMobile ? "20px" : "40px" }}>
       <SectionTag text="KEY ADVANTAGES" color={B.tealBright} />
-      <h1 style={{ fontSize: 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
+      <h1 style={{ fontSize: isMobile ? 28 : 42, fontWeight: 800, color: B.text, margin: "0 0 24px 0" }}>
         Why ActiGraft + Nightingale BioTech?
       </h1>
+
+      {/* Advantages Overview Visual */}
+      <div style={{ marginBottom: 28 }}>
+        <ImagePlaceholder
+          title="Clinical + Financial + Operational Excellence"
+          subtitle="2.7× healing rates | 5× revenue advantage | Zero capital investment"
+          icon={<WoundHealingIcon size={isMobile ? 60 : 80} color={B.tealBright} />}
+          aspectRatio="21/9"
+          color={B.tealBright}
+          isMobile={isMobile}
+        />
+      </div>
 
       <div style={{ marginBottom: 32 }}>
         <h3 style={{ fontSize: 20, color: B.tealBright, marginBottom: 16, textShadow: `0 0 12px ${B.tealGlow}` }}>
