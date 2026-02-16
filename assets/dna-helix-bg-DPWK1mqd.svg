@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" fill="none">
+  <defs>
+    <!-- Holographic glow filter -->
+    <filter id="dnaGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Cyan gradient for core helix -->
+    <radialGradient id="cyanGlowCore">
+      <stop offset="0%" stop-color="#5CF0FF" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#00E5FF" stop-opacity="0.15"/>
+    </radialGradient>
+
+    <!-- Cyan gradient for base pairs -->
+    <linearGradient id="basePairGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#5CF0FF" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#00E5FF" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <!-- Subtle shadow gradient -->
+    <linearGradient id="shadowGrad">
+      <stop offset="0%" stop-color="#00BCD4" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#008C9E" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left helix strand -->
+  <path d="M 400 0 Q 350 200, 400 400 Q 450 600, 400 800 Q 350 1000, 400 1200 Q 450 1400, 400 1600"
+        stroke="url(#cyanGlowCore)"
+        stroke-width="8"
+        fill="none"
+        filter="url(#dnaGlow)"
+        opacity="0.85"/>
+
+  <!-- Right helix strand -->
+  <path d="M 800 0 Q 850 200, 800 400 Q 750 600, 800 800 Q 850 1000, 800 1200 Q 750 1400, 800 1600"
+        stroke="url(#cyanGlowCore)"
+        stroke-width="8"
+        fill="none"
+        filter="url(#dnaGlow)"
+        opacity="0.85"/>
+
+  <!-- Base pairs (connecting lines) -->
+  <line x1="400" y1="100" x2="800" y2="100" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="410" y1="200" x2="790" y2="200" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="300" x2="800" y2="300" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="390" y1="400" x2="810" y2="400" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="500" x2="800" y2="500" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="410" y1="600" x2="790" y2="600" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="700" x2="800" y2="700" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="390" y1="800" x2="810" y2="800" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="900" x2="800" y2="900" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="410" y1="1000" x2="790" y2="1000" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="1100" x2="800" y2="1100" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="390" y1="1200" x2="810" y2="1200" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="1300" x2="800" y2="1300" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="410" y1="1400" x2="790" y2="1400" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+  <line x1="400" y1="1500" x2="800" y2="1500" stroke="url(#basePairGrad)" stroke-width="3" filter="url(#dnaGlow)" opacity="0.70"/>
+
+  <!-- Node highlights at helix points -->
+  <circle cx="400" cy="100" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="800" cy="100" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="400" cy="400" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="800" cy="400" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="400" cy="700" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="800" cy="700" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="400" cy="1000" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="800" cy="1000" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="400" cy="1300" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+  <circle cx="800" cy="1300" r="6" fill="#5CF0FF" opacity="0.25" filter="url(#dnaGlow)"/>
+</svg>
