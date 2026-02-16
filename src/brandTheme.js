@@ -93,16 +93,16 @@ export const NIGHTINGALE = {
 
   // Type Scale
   fontSize: {
-    xs: 10,
-    sm: 11,
-    base: 13,
-    md: 14,
-    lg: 16,
-    xl: 18,
-    '2xl': 22,
-    '3xl': 28,
-    '4xl': 36,
-    '5xl': 48,
+    xs: 13,
+    sm: 14,
+    base: 16,
+    md: 17,
+    lg: 20,
+    xl: 23,
+    '2xl': 28,
+    '3xl': 36,
+    '4xl': 46,
+    '5xl': 60,
   },
 
   // Shadows
