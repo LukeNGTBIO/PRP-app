@@ -1,0 +1,453 @@
+/* ═══════════════════════════════════════════════════════════════
+   NIGHTINGALE BIOTECH — Brand Theme System v5.0
+   Cellular Regenerative Biomedical Distribution
+   
+   MONOCHROMATIC STEEL + ELECTRIC CYAN BACKLIT GLOW
+   
+   Two-state identity derived from brand reference images:
+   
+   IMAGE 1 (Static/Print):
+   - Dark charcoal brushed-metal backgrounds
+   - Embossed silver/platinum metallic text
+   - Frosted silver molecular overlays
+   - Zero chromatic color — pure greyscale
+   
+   IMAGE 2 (Digital/Lit):  
+   - Same steel base, PLUS
+   - Electric cyan backlit glow radiating from behind dark elements
+   - Bird logomark as dark silhouette with cyan halo
+   - Selective glow on active UI elements
+   - Warm amber reflections on some molecular elements
+   
+   For web/digital contexts, the ACTIVE mode (steel + glow) is primary.
+   
+   HOW TO USE:
+   1. Link in <head>: <link rel="stylesheet" href="nightingale-theme.css">
+   2. Apply: <body class="ng-theme">
+   3. Add glow: class="ng-glow" on elements that need the cyan backlight
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Libre+Caslon+Display&display=swap');
+
+:root {
+
+  /* ══════════════════════════════════════════════════════════════
+     LAYER 1: MONOCHROMATIC STEEL FOUNDATION
+     From Image 1 — the bedrock of the identity.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── Backgrounds: Charcoal/Gunmetal ──────────────────────── */
+  --ng-bg-deepest:    #1A1E24;
+  --ng-bg-base:       #22262E;
+  --ng-bg-panel:      #282D35;
+  --ng-bg-card:       #2E343C;
+  --ng-bg-card-alt:   #343A44;
+  --ng-bg-elevated:   #3C424C;
+  --ng-bg-header:     #1E2228;
+  --ng-bg-header-bar: #252A32;
+  --ng-bg-input:      #262C34;
+  --ng-bg-overlay:    rgba(26, 30, 36, 0.90);
+  --ng-bg-modal:      #2A3038;
+  --ng-bg-logo-plate: #141820;  /* Dark recessed plate behind logo (Image 2) */
+
+  /* ── Borders: Steel Grey ─────────────────────────────────── */
+  --ng-border:        #38404C;
+  --ng-border-light:  #445060;
+  --ng-border-accent: #506070;
+  --ng-border-focus:  #607080;
+  --ng-border-subtle: #303840;
+
+  /* ── Text: Silver/Platinum Metallic Ramp ──────────────────── */
+  --ng-platinum:      #C8D0DA;
+  --ng-silver:        #A8B2BE;
+  --ng-chrome:        #909AA6;
+  --ng-pewter:        #788290;
+  --ng-slate:         #606A78;
+  --ng-graphite:      #4A5462;
+  --ng-steel:         #384250;
+
+  /* ── Emboss System (from Image 1 debossed/letterpress look) ── */
+  --ng-emboss-highlight: rgba(200, 210, 220, 0.18);
+  --ng-emboss-shadow:    rgba(0, 0, 0, 0.45);
+  --ng-emboss-text:      1px 1px 1px rgba(0,0,0,0.45),
+                         -1px -1px 0px rgba(200,210,220,0.18);
+  --ng-emboss-text-deep: 1px 2px 2px rgba(0,0,0,0.45),
+                         -1px -1px 0px rgba(200,210,220,0.18);
+  --ng-emboss-inset:     inset 1px 1px 3px rgba(0,0,0,0.35),
+                         inset -1px -1px 2px rgba(200,210,220,0.07);
+  --ng-emboss-raised:    1px 1px 3px rgba(0,0,0,0.35),
+                         -1px -1px 2px rgba(200,210,220,0.07);
+
+  /* ── Brushed Metal Texture ───────────────────────────────── */
+  --ng-texture-brushed:
+    repeating-linear-gradient(90deg,
+      transparent, transparent 1px,
+      rgba(255,255,255,0.015) 1px, rgba(255,255,255,0.015) 2px
+    ),
+    repeating-linear-gradient(90deg,
+      transparent, transparent 3px,
+      rgba(0,0,0,0.025) 3px, rgba(0,0,0,0.025) 4px
+    );
+
+
+  /* ══════════════════════════════════════════════════════════════
+     LAYER 2: ELECTRIC CYAN BACKLIT GLOW
+     From Image 2 — the "active" digital expression.
+     This is NOT a flat accent color. It's a RADIATING HALO 
+     that emanates outward from behind dark elements, like 
+     backlit signage at night. The glow bleeds, spreads, and 
+     fades into the surrounding steel.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* Core Glow Color */
+  --ng-cyan:          #00E5FF;  /* Electric cyan — the backlight source */
+  --ng-cyan-bright:   #5CF0FF;  /* Brighter edge of glow */
+  --ng-cyan-mid:      #00BCD4;  /* Mid-intensity glow */
+  --ng-cyan-dim:      #008C9E;  /* Dimmed glow for subtle use */
+  --ng-cyan-deep:     #005F6B;  /* Very dim, far edge of spread */
+
+  /* Glow Halos — the signature effect */
+  --ng-glow-tight:    0 0 8px rgba(0, 229, 255, 0.50),
+                      0 0 16px rgba(0, 229, 255, 0.25);
+  --ng-glow-medium:   0 0 12px rgba(0, 229, 255, 0.50),
+                      0 0 30px rgba(0, 229, 255, 0.25),
+                      0 0 60px rgba(0, 229, 255, 0.10);
+  --ng-glow-wide:     0 0 15px rgba(0, 229, 255, 0.50),
+                      0 0 40px rgba(0, 229, 255, 0.30),
+                      0 0 80px rgba(0, 229, 255, 0.15),
+                      0 0 120px rgba(0, 229, 255, 0.05);
+  --ng-glow-text:     0 0 6px rgba(0, 229, 255, 0.40),
+                      0 0 15px rgba(0, 229, 255, 0.20),
+                      0 0 30px rgba(0, 229, 255, 0.08);
+
+  /* Glow Backgrounds (for panels/cards near glow source) */
+  --ng-cyan-bg:       rgba(0, 229, 255, 0.04);
+  --ng-cyan-bg-hover: rgba(0, 229, 255, 0.07);
+  --ng-cyan-bg-active:rgba(0, 229, 255, 0.10);
+  --ng-cyan-border:   rgba(0, 229, 255, 0.15);
+  --ng-cyan-border-glow: rgba(0, 229, 255, 0.30);
+
+  /* Backlit Emboss (emboss + glow combined) */
+  --ng-emboss-glow:   1px 1px 2px rgba(0,0,0,0.45),
+                      -1px -1px 0px rgba(200,210,220,0.15),
+                      0 0 8px rgba(0, 229, 255, 0.15);
+
+
+  /* ══════════════════════════════════════════════════════════════
+     LAYER 3: MOLECULAR OVERLAY SYSTEM
+     Silver frost elements + warm amber reflections (Image 2)
+     ══════════════════════════════════════════════════════════════ */
+
+  --ng-frost:         rgba(180, 190, 202, 0.14);
+  --ng-frost-light:   rgba(200, 208, 218, 0.10);
+  --ng-frost-bright:  rgba(210, 218, 228, 0.20);
+  --ng-frost-dim:     rgba(160, 170, 182, 0.07);
+  --ng-frost-warm:    rgba(210, 190, 160, 0.12);  /* Warm amber reflection (Image 2 DNA) */
+
+
+  /* ══════════════════════════════════════════════════════════════
+     STATUS, CHARTS, TYPOGRAPHY
+     ══════════════════════════════════════════════════════════════ */
+
+  /* Status: Desaturated to respect steel base */
+  --ng-status-green:       #7BAA8E;
+  --ng-status-green-bg:    rgba(123, 170, 142, 0.08);
+  --ng-status-green-border:rgba(123, 170, 142, 0.18);
+  --ng-status-red:         #B07878;
+  --ng-status-red-bg:      rgba(176, 120, 120, 0.08);
+  --ng-status-red-border:  rgba(176, 120, 120, 0.18);
+  --ng-status-blue:        #7898B0;
+  --ng-status-blue-bg:     rgba(120, 152, 176, 0.08);
+  --ng-status-blue-border: rgba(120, 152, 176, 0.18);
+  --ng-status-amber:       #A8986C;
+  --ng-status-amber-bg:    rgba(168, 152, 108, 0.08);
+  --ng-status-amber-border:rgba(168, 152, 108, 0.18);
+
+  /* Charts: Steel ramp + cyan accent */
+  --ng-chart-1: #00E5FF;
+  --ng-chart-2: #A8B2BE;
+  --ng-chart-3: #00BCD4;
+  --ng-chart-4: #6E7E92;
+  --ng-chart-5: #C8D0DA;
+
+  /* Typography */
+  --ng-font-primary:  'Exo 2', 'Helvetica Neue', Arial, sans-serif;
+  --ng-font-display:  'Libre Caslon Display', Georgia, serif;
+  --ng-font-mono:     'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+
+  --ng-text-xs:10px; --ng-text-sm:11px; --ng-text-base:13px; --ng-text-md:14px;
+  --ng-text-lg:16px; --ng-text-xl:18px; --ng-text-2xl:22px; --ng-text-3xl:28px;
+  --ng-text-4xl:36px; --ng-text-5xl:48px;
+
+  --ng-weight-light:300; --ng-weight-normal:400; --ng-weight-medium:500;
+  --ng-weight-semibold:600; --ng-weight-bold:700; --ng-weight-extrabold:800; --ng-weight-black:900;
+
+  --ng-tracking-tight:-0.5px; --ng-tracking-normal:0px; --ng-tracking-wide:0.5px;
+  --ng-tracking-wider:1.0px; --ng-tracking-widest:2.0px; --ng-tracking-caps:3.5px; --ng-tracking-ultra:5.0px;
+
+  --ng-leading-tight:1.2; --ng-leading-snug:1.35; --ng-leading-normal:1.5;
+  --ng-leading-relaxed:1.65; --ng-leading-loose:1.8;
+
+  --ng-space-1:4px; --ng-space-2:8px; --ng-space-3:12px; --ng-space-4:16px;
+  --ng-space-5:20px; --ng-space-6:24px; --ng-space-8:32px; --ng-space-10:40px;
+  --ng-space-12:48px; --ng-space-16:64px;
+
+  --ng-radius-sm:3px; --ng-radius-md:5px; --ng-radius-lg:8px;
+  --ng-radius-xl:10px; --ng-radius-2xl:12px; --ng-radius-full:9999px;
+
+  --ng-shadow-sm:0 1px 3px rgba(0,0,0,0.30); --ng-shadow-md:0 4px 12px rgba(0,0,0,0.28);
+  --ng-shadow-lg:0 4px 24px rgba(0,0,0,0.22); --ng-shadow-xl:0 8px 40px rgba(0,0,0,0.32);
+  --ng-shadow-card:0 2px 8px rgba(0,0,0,0.22); --ng-shadow-inset:inset 0 1px 3px rgba(0,0,0,0.28);
+
+  --ng-transition-fast:0.12s ease; --ng-transition-base:0.2s ease; --ng-transition-slow:0.35s ease;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BASE THEME
+   Charcoal brushed-metal foundation.
+   ═══════════════════════════════════════════════════════════════ */
+
+.ng-theme {
+  background-color: var(--ng-bg-base);
+  background-image: var(--ng-texture-brushed);
+  color: var(--ng-chrome);
+  font-family: var(--ng-font-primary);
+  font-size: var(--ng-text-base);
+  line-height: var(--ng-leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Brand name: "Nightingale" — embossed platinum */
+.ng-display {
+  font-family: var(--ng-font-primary);
+  font-weight: var(--ng-weight-semibold);
+  color: var(--ng-platinum);
+  letter-spacing: var(--ng-tracking-wide);
+  line-height: var(--ng-leading-tight);
+  text-shadow: var(--ng-emboss-text-deep);
+}
+.ng-display-xl  { font-size: var(--ng-text-5xl); }
+.ng-display-lg  { font-size: var(--ng-text-4xl); }
+.ng-display-md  { font-size: var(--ng-text-3xl); }
+
+/* Brand name with backlit glow active */
+.ng-display-glow {
+  font-family: var(--ng-font-primary);
+  font-weight: var(--ng-weight-semibold);
+  color: var(--ng-platinum);
+  letter-spacing: var(--ng-tracking-wide);
+  line-height: var(--ng-leading-tight);
+  text-shadow: var(--ng-glow-text);
+}
+
+/* Brand subtitle: "BIOTECH" — light, ultra-wide caps */
+.ng-brand-sub {
+  font-family: var(--ng-font-primary);
+  font-weight: var(--ng-weight-light);
+  color: var(--ng-silver);
+  letter-spacing: var(--ng-tracking-caps);
+  text-transform: uppercase;
+  text-shadow: var(--ng-emboss-text);
+}
+
+/* Section heading: embossed silver */
+.ng-heading {
+  font-family: var(--ng-font-primary);
+  font-weight: var(--ng-weight-bold);
+  color: var(--ng-silver);
+  letter-spacing: var(--ng-tracking-normal);
+  line-height: var(--ng-leading-snug);
+  text-shadow: var(--ng-emboss-text);
+}
+.ng-heading-xl { font-size: var(--ng-text-xl); }
+.ng-heading-lg { font-size: var(--ng-text-lg); }
+.ng-heading-md { font-size: var(--ng-text-md); }
+
+/* Heading with cyan glow */
+.ng-heading-glow {
+  font-family: var(--ng-font-primary);
+  font-weight: var(--ng-weight-bold);
+  color: var(--ng-cyan-bright);
+  letter-spacing: var(--ng-tracking-normal);
+  line-height: var(--ng-leading-snug);
+  text-shadow: var(--ng-glow-text);
+}
+
+.ng-subheading { font-family:var(--ng-font-primary); font-weight:var(--ng-weight-medium); color:var(--ng-pewter); letter-spacing:var(--ng-tracking-wide); line-height:var(--ng-leading-snug); }
+.ng-label { font-family:var(--ng-font-primary); font-weight:var(--ng-weight-bold); color:var(--ng-slate); font-size:var(--ng-text-sm); letter-spacing:var(--ng-tracking-caps); text-transform:uppercase; }
+.ng-body { color:var(--ng-chrome); font-size:var(--ng-text-base); line-height:var(--ng-leading-relaxed); }
+.ng-body-sm { color:var(--ng-pewter); font-size:var(--ng-text-sm); }
+.ng-caption { color:var(--ng-slate); font-size:var(--ng-text-xs); letter-spacing:var(--ng-tracking-wide); }
+.ng-mono { font-family:var(--ng-font-mono); font-size:var(--ng-text-sm); color:var(--ng-pewter); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOW SYSTEM — The Backlit Halo Effect
+   Apply .ng-glow-* classes to activate the cyan backlight.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Text glow */
+.ng-glow-text { text-shadow: var(--ng-glow-text); color: var(--ng-cyan-bright); }
+.ng-glow-text-subtle { text-shadow: 0 0 6px rgba(0,229,255,0.20); }
+
+/* Box glow (backlit panels, cards) */
+.ng-glow-tight  { box-shadow: var(--ng-glow-tight); }
+.ng-glow-medium { box-shadow: var(--ng-glow-medium); }
+.ng-glow-wide   { box-shadow: var(--ng-glow-wide); }
+
+/* Border glow */
+.ng-glow-border { border-color: var(--ng-cyan-border-glow); box-shadow: 0 0 8px rgba(0,229,255,0.15); }
+
+/* Logo plate: dark recessed panel with backlit glow (Image 2) */
+.ng-logo-plate {
+  background: var(--ng-bg-logo-plate);
+  border: 1px solid rgba(0, 229, 255, 0.20);
+  border-radius: var(--ng-radius-lg);
+  box-shadow: var(--ng-glow-medium), var(--ng-emboss-inset);
+  padding: var(--ng-space-6) var(--ng-space-8);
+}
+
+/* Glow pulse animation for active/loading states */
+@keyframes ng-pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(0,229,255,0.35), 0 0 30px rgba(0,229,255,0.15); }
+  50%      { box-shadow: 0 0 18px rgba(0,229,255,0.50), 0 0 45px rgba(0,229,255,0.25); }
+}
+.ng-glow-pulse { animation: ng-pulse-glow 2.5s ease-in-out infinite; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENTS
+   Steel base + selective glow on interactive/active states.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Card */
+.ng-card { background:var(--ng-bg-card); border:1px solid var(--ng-border); border-radius:var(--ng-radius-lg); box-shadow:var(--ng-shadow-card); overflow:hidden; }
+.ng-card:hover { background:var(--ng-bg-card-alt); border-color:var(--ng-border-light); transition:all var(--ng-transition-base); }
+.ng-card-header { padding:var(--ng-space-4) var(--ng-space-5); border-bottom:1px solid var(--ng-border-subtle); }
+.ng-card-body { padding:var(--ng-space-5) var(--ng-space-6); }
+.ng-card-embossed { background:var(--ng-bg-card); border:1px solid var(--ng-border); border-radius:var(--ng-radius-lg); box-shadow:var(--ng-emboss-raised); }
+
+/* Card with glow (activated state, like Image 2 signage) */
+.ng-card-glow {
+  background: var(--ng-bg-card);
+  border: 1px solid var(--ng-cyan-border);
+  border-radius: var(--ng-radius-lg);
+  box-shadow: var(--ng-glow-tight);
+}
+.ng-card-glow:hover {
+  border-color: var(--ng-cyan-border-glow);
+  box-shadow: var(--ng-glow-medium);
+}
+
+.ng-panel { background:var(--ng-bg-panel); border:1px solid var(--ng-border); border-radius:var(--ng-radius-lg); }
+.ng-header { background:var(--ng-bg-header); border-bottom:1px solid var(--ng-border); position:sticky; top:0; z-index:50; backdrop-filter:blur(12px); }
+
+/* Badges */
+.ng-badge { display:inline-block; font-family:var(--ng-font-primary); font-size:var(--ng-text-sm); font-weight:var(--ng-weight-bold); padding:3px 10px; border-radius:var(--ng-radius-sm); letter-spacing:0.5px; text-transform:uppercase; }
+.ng-badge-silver   { color:var(--ng-silver); background:rgba(168,178,190,0.08); }
+.ng-badge-platinum { color:var(--ng-platinum); background:rgba(200,208,218,0.08); border:1px solid rgba(200,208,218,0.12); }
+.ng-badge-cyan     { color:var(--ng-cyan-bright); background:var(--ng-cyan-bg); border:1px solid var(--ng-cyan-border); }
+.ng-badge-cyan-glow { color:var(--ng-cyan-bright); background:var(--ng-cyan-bg); border:1px solid var(--ng-cyan-border-glow); box-shadow:0 0 6px rgba(0,229,255,0.15); }
+.ng-badge-green    { color:var(--ng-status-green); background:var(--ng-status-green-bg); }
+.ng-badge-red      { color:var(--ng-status-red);   background:var(--ng-status-red-bg); }
+.ng-badge-blue     { color:var(--ng-status-blue);  background:var(--ng-status-blue-bg); }
+.ng-badge-amber    { color:var(--ng-status-amber); background:var(--ng-status-amber-bg); }
+.ng-badge-ghost    { color:var(--ng-graphite); background:rgba(255,255,255,0.02); }
+
+/* Buttons */
+.ng-btn { font-family:var(--ng-font-primary); font-size:var(--ng-text-base); font-weight:var(--ng-weight-semibold); padding:10px 22px; border-radius:var(--ng-radius-md); border:none; cursor:pointer; transition:all var(--ng-transition-base); letter-spacing:0.3px; }
+.ng-btn-primary { background:var(--ng-silver); color:var(--ng-bg-deepest); text-shadow:none; }
+.ng-btn-primary:hover { background:var(--ng-platinum); }
+
+/* Primary with cyan glow */
+.ng-btn-glow {
+  background: var(--ng-bg-card-alt);
+  color: var(--ng-cyan-bright);
+  border: 1px solid var(--ng-cyan-border-glow);
+  box-shadow: var(--ng-glow-tight);
+  text-shadow: 0 0 6px rgba(0,229,255,0.25);
+}
+.ng-btn-glow:hover {
+  background: var(--ng-cyan-bg-active);
+  box-shadow: var(--ng-glow-medium);
+  color: var(--ng-cyan);
+}
+
+.ng-btn-secondary { background:transparent; color:var(--ng-silver); border:1px solid var(--ng-border-accent); }
+.ng-btn-secondary:hover { background:rgba(138,154,174,0.08); border-color:var(--ng-border-focus); color:var(--ng-platinum); }
+.ng-btn-ghost { background:transparent; color:var(--ng-pewter); border:1px solid var(--ng-border); }
+.ng-btn-ghost:hover { color:var(--ng-silver); border-color:var(--ng-border-light); background:var(--ng-bg-card-alt); }
+.ng-btn-embossed { background:var(--ng-bg-card-alt); color:var(--ng-silver); border:1px solid var(--ng-border-light); box-shadow:var(--ng-emboss-raised); text-shadow:var(--ng-emboss-text); }
+
+/* Inputs */
+.ng-input { font-family:var(--ng-font-primary); font-size:var(--ng-text-base); color:var(--ng-chrome); background:var(--ng-bg-input); border:1px solid var(--ng-border); border-radius:var(--ng-radius-md); padding:10px 14px; outline:none; width:100%; box-shadow:var(--ng-emboss-inset); transition:all var(--ng-transition-fast); }
+.ng-input::placeholder { color:var(--ng-graphite); }
+.ng-input:focus { border-color:var(--ng-cyan-border-glow); box-shadow:var(--ng-emboss-inset), 0 0 6px rgba(0,229,255,0.12); }
+
+/* Tabs */
+.ng-tab { background:transparent; border:none; border-bottom:2px solid transparent; padding:9px 18px 11px; cursor:pointer; font-family:var(--ng-font-primary); font-size:var(--ng-text-base); font-weight:var(--ng-weight-normal); color:var(--ng-graphite); letter-spacing:0.3px; transition:all var(--ng-transition-fast); }
+.ng-tab:hover { color:var(--ng-pewter); }
+.ng-tab-active {
+  font-weight: var(--ng-weight-bold);
+  color: var(--ng-cyan-bright);
+  border-bottom-color: var(--ng-cyan);
+  background: var(--ng-cyan-bg);
+  text-shadow: 0 0 8px rgba(0,229,255,0.20);
+}
+
+/* Section bars */
+.ng-section-bar { padding:8px 16px; background:linear-gradient(90deg,var(--ng-cyan-bg),transparent); border-bottom:1px solid var(--ng-border-subtle); font-size:var(--ng-text-sm); font-weight:var(--ng-weight-bold); letter-spacing:var(--ng-tracking-caps); text-transform:uppercase; color:var(--ng-slate); }
+
+/* Metric cards */
+.ng-metric { background:var(--ng-bg-card); border:1px solid var(--ng-border); border-radius:var(--ng-radius-lg); padding:var(--ng-space-4) var(--ng-space-5); box-shadow:var(--ng-emboss-raised); }
+.ng-metric-label { color:var(--ng-slate); font-size:var(--ng-text-sm); font-weight:var(--ng-weight-bold); letter-spacing:var(--ng-tracking-wider); text-transform:uppercase; }
+.ng-metric-value { font-size:26px; font-weight:var(--ng-weight-extrabold); color:var(--ng-platinum); letter-spacing:-0.5px; margin-top:var(--ng-space-1); text-shadow:var(--ng-emboss-text-deep); }
+.ng-metric-sub { font-size:12px; color:var(--ng-slate); margin-top:var(--ng-space-1); }
+
+/* Tables */
+.ng-table { width:100%; border-collapse:collapse; font-size:var(--ng-text-base); }
+.ng-table th { text-align:left; padding:12px 14px; color:var(--ng-slate); font-weight:var(--ng-weight-bold); font-size:var(--ng-text-sm); letter-spacing:0.8px; text-transform:uppercase; border-bottom:2px solid var(--ng-border); }
+.ng-table td { padding:12px 14px; color:var(--ng-chrome); border-bottom:1px solid var(--ng-border-subtle); }
+.ng-table tr:nth-child(even) { background:var(--ng-bg-panel); }
+
+/* Scrollbar & Selection */
+.ng-theme ::-webkit-scrollbar { width:6px; height:6px; }
+.ng-theme ::-webkit-scrollbar-track { background:var(--ng-bg-panel); }
+.ng-theme ::-webkit-scrollbar-thumb { background:var(--ng-border-light); border-radius:3px; }
+.ng-theme ::selection { background:rgba(0,229,255,0.15); color:var(--ng-platinum); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════ */
+
+.ng-text-platinum { color:var(--ng-platinum); }
+.ng-text-silver   { color:var(--ng-silver); }
+.ng-text-chrome   { color:var(--ng-chrome); }
+.ng-text-pewter   { color:var(--ng-pewter); }
+.ng-text-slate    { color:var(--ng-slate); }
+.ng-text-graphite { color:var(--ng-graphite); }
+.ng-text-steel    { color:var(--ng-steel); }
+.ng-text-cyan     { color:var(--ng-cyan); }
+.ng-text-cyan-bright { color:var(--ng-cyan-bright); }
+.ng-text-green    { color:var(--ng-status-green); }
+.ng-text-red      { color:var(--ng-status-red); }
+.ng-text-blue     { color:var(--ng-status-blue); }
+.ng-text-amber    { color:var(--ng-status-amber); }
+
+.ng-bg-base       { background:var(--ng-bg-base); }
+.ng-bg-panel      { background:var(--ng-bg-panel); }
+.ng-bg-card       { background:var(--ng-bg-card); }
+.ng-bg-elevated   { background:var(--ng-bg-elevated); }
+
+.ng-embossed      { text-shadow:var(--ng-emboss-text); }
+.ng-embossed-deep { text-shadow:var(--ng-emboss-text-deep); }
+.ng-embossed-box  { box-shadow:var(--ng-emboss-raised); }
+.ng-inset         { box-shadow:var(--ng-emboss-inset); }

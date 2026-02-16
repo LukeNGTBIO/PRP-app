@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nightingale BioTech — Brand Guide v5.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deepest:#1A1E24;--bg:#22262E;--bg-panel:#282D35;--bg-card:#2E343C;--bg-card-alt:#343A44;--bg-elevated:#3C424C;--bg-header:#1E2228;--bg-logo-plate:#141820;
+    --border:#38404C;--border-light:#445060;--border-accent:#506070;--border-focus:#607080;--border-subtle:#303840;
+    --platinum:#C8D0DA;--silver:#A8B2BE;--chrome:#909AA6;--pewter:#788290;--slate:#606A78;--graphite:#4A5462;--steel:#384250;
+    --cyan:#00E5FF;--cyan-bright:#5CF0FF;--cyan-mid:#00BCD4;--cyan-dim:#008C9E;--cyan-deep:#005F6B;
+    --cyan-bg:rgba(0,229,255,0.04);--cyan-bg-hover:rgba(0,229,255,0.07);--cyan-border:rgba(0,229,255,0.15);--cyan-border-glow:rgba(0,229,255,0.30);
+    --glow-tight:0 0 8px rgba(0,229,255,0.50),0 0 16px rgba(0,229,255,0.25);
+    --glow-medium:0 0 12px rgba(0,229,255,0.50),0 0 30px rgba(0,229,255,0.25),0 0 60px rgba(0,229,255,0.10);
+    --glow-wide:0 0 15px rgba(0,229,255,0.50),0 0 40px rgba(0,229,255,0.30),0 0 80px rgba(0,229,255,0.15),0 0 120px rgba(0,229,255,0.05);
+    --glow-text:0 0 6px rgba(0,229,255,0.40),0 0 15px rgba(0,229,255,0.20),0 0 30px rgba(0,229,255,0.08);
+    --emboss-text:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18);
+    --emboss-deep:1px 2px 2px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18);
+    --emboss-raised:1px 1px 3px rgba(0,0,0,0.35),-1px -1px 2px rgba(200,210,220,0.07);
+    --emboss-inset:inset 1px 1px 3px rgba(0,0,0,0.35),inset -1px -1px 2px rgba(200,210,220,0.07);
+    --status-green:#7BAA8E;--status-red:#B07878;--status-blue:#7898B0;--status-amber:#A8986C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background-color:var(--bg);
+    background-image:repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(255,255,255,0.015) 1px,rgba(255,255,255,0.015) 2px),repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(0,0,0,0.025) 3px,rgba(0,0,0,0.025) 4px);
+    color:var(--chrome);font-family:'Exo 2',sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:1200px;margin:0 auto;padding:40px 32px;position:relative;z-index:1}
+
+  /* Molecular BG */
+  .mol-bg{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;overflow:hidden}
+
+  /* Header */
+  .brand-header{text-align:center;padding:80px 0 60px;border-bottom:1px solid var(--border);margin-bottom:64px;position:relative}
+  .brand-header::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:280px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,255,0.3),transparent)}
+
+  /* Logo plate (Image 2 signage style) */
+  .logo-plate{
+    display:inline-block;padding:28px 42px;margin-bottom:28px;
+    background:var(--bg-logo-plate);border:1px solid rgba(0,229,255,0.18);border-radius:10px;
+    box-shadow:var(--glow-medium),var(--emboss-inset);position:relative;
+  }
+  .logo-plate svg{filter:drop-shadow(0 0 10px rgba(0,229,255,0.35))}
+  .brand-header h1{font-size:40px;font-weight:600;color:var(--platinum);letter-spacing:1px;text-shadow:var(--glow-text)}
+  .brand-header .biotech{font-size:16px;font-weight:300;color:var(--silver);letter-spacing:5.5px;text-transform:uppercase;margin-top:4px;text-shadow:var(--emboss-text)}
+  .brand-header .tagline{font-size:11px;color:var(--slate);letter-spacing:3px;text-transform:uppercase;font-weight:500;margin-top:22px}
+  .brand-header .version{font-size:10px;color:var(--graphite);margin-top:10px}
+  .brand-header .dual-mode{display:flex;justify-content:center;gap:28px;margin-top:24px}
+  .brand-header .mode-tag{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;font-weight:600}
+  .mode-static{color:var(--pewter);border:1px solid var(--border-accent);background:var(--bg-card)}
+  .mode-active{color:var(--cyan-bright);border:1px solid var(--cyan-border-glow);background:var(--cyan-bg);box-shadow:0 0 8px rgba(0,229,255,0.12)}
+
+  /* Sections */
+  .section{margin-bottom:68px}
+  .section-label{font-size:10px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:var(--slate);margin-bottom:8px;text-shadow:var(--emboss-text)}
+  .section-title{font-size:26px;font-weight:700;color:var(--silver);margin-bottom:8px;text-shadow:var(--emboss-deep)}
+  .section-desc{font-size:14px;color:var(--pewter);line-height:1.7;max-width:740px;margin-bottom:32px}
+  .section-divider{height:1px;background:linear-gradient(90deg,var(--border-accent),transparent 80%);margin-bottom:32px;position:relative}
+  .section-divider::after{content:'';position:absolute;left:0;top:0;width:60px;height:1px;background:linear-gradient(90deg,rgba(0,229,255,0.25),transparent)}
+
+  /* Swatches */
+  .swatch-group{margin-bottom:30px}
+  .swatch-group-title{font-size:11px;font-weight:700;color:var(--pewter);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border-subtle);text-shadow:var(--emboss-text)}
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+  .swatch{border-radius:5px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--emboss-raised)}
+  .swatch-color{height:64px}
+  .swatch-info{padding:8px 10px;background:var(--bg-panel)}
+  .swatch-name{font-size:11px;font-weight:700;color:var(--silver)}
+  .swatch-hex{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--slate);margin-top:1px}
+  .swatch-var{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--graphite);margin-top:1px}
+
+  /* Glow swatch special */
+  .swatch-glow .swatch-color{position:relative}
+  .swatch-glow .swatch-color::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;box-shadow:0 0 8px rgba(0,229,255,0.6),0 0 20px rgba(0,229,255,0.3),0 0 40px rgba(0,229,255,0.15)}
+
+  /* Type samples */
+  .type-sample{padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;box-shadow:var(--emboss-raised)}
+  .ts-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--slate);margin-bottom:12px}
+  .ts-spec{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--graphite);margin-top:10px;line-height:1.8}
+
+  /* Glow demo */
+  .glow-demos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .glow-demo{padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;text-align:center;position:relative;overflow:hidden}
+  .glow-demo .gl-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--graphite);margin-bottom:16px}
+  .glow-demo .gl-spec{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--graphite);margin-top:12px}
+
+  /* Components */
+  .comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .comp-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:24px;box-shadow:var(--emboss-raised)}
+  .comp-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:16px;text-shadow:var(--emboss-text)}
+
+  .badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:0.5px;text-transform:uppercase;margin:3px}
+  .btn{display:inline-block;font-family:'Exo 2',sans-serif;font-size:13px;font-weight:600;padding:10px 22px;border-radius:5px;border:none;cursor:pointer;letter-spacing:0.3px;margin:4px}
+  .tab-strip{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:12px}
+  .tab-item{padding:9px 18px 11px;font-size:13px;font-family:'Exo 2',sans-serif;color:var(--graphite);border-bottom:2px solid transparent;background:transparent;border-top:none;border-left:none;border-right:none;cursor:pointer}
+  .tab-item.active{color:var(--cyan-bright);border-bottom-color:var(--cyan);font-weight:700;background:var(--cyan-bg);text-shadow:0 0 8px rgba(0,229,255,0.20)}
+
+  .input-demo{font-family:'Exo 2',sans-serif;font-size:13px;color:var(--chrome);background:var(--bg-header);border:1px solid var(--border);border-radius:5px;padding:10px 14px;width:100%;outline:none;box-shadow:var(--emboss-inset)}
+  .input-demo:focus{border-color:var(--cyan-border-glow);box-shadow:var(--emboss-inset),0 0 6px rgba(0,229,255,0.12)}
+
+  .code-block{background:var(--bg-header);border:1px solid var(--border);border-radius:5px;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pewter);line-height:1.9;overflow-x:auto;white-space:pre;box-shadow:var(--emboss-inset);margin-top:12px}
+  .code-block .kw{color:var(--cyan-bright)} .code-block .str{color:var(--pewter)} .code-block .cmt{color:var(--graphite);font-style:italic}
+
+  .usage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .usage-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:var(--emboss-raised)}
+  .usage-header{padding:14px 16px;border-bottom:1px solid var(--border-subtle)}
+  .uh-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--slate)}
+  .uh-title{font-size:14px;font-weight:700;color:var(--silver);margin-top:4px;text-shadow:var(--emboss-text)}
+  .usage-body{padding:14px 16px;font-size:12px;color:var(--pewter);line-height:1.7}
+
+  /* Glow pulse animation */
+  @keyframes pulse-glow{0%,100%{box-shadow:0 0 12px rgba(0,229,255,0.35),0 0 30px rgba(0,229,255,0.15)}50%{box-shadow:0 0 18px rgba(0,229,255,0.55),0 0 45px rgba(0,229,255,0.28)}}
+
+  @media(max-width:768px){.swatches{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.comp-grid,.glow-demos,.usage-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- Molecular BG -->
+<div class="mol-bg">
+<svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+  <defs><radialGradient id="vg" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="transparent"/><stop offset="100%" stop-color="#1A1E24" stop-opacity="0.4"/></radialGradient></defs>
+  <rect width="1400" height="900" fill="url(#vg)"/>
+  <!-- DNA helix BL -->
+  <g opacity="0.06" stroke="#C8D0DA" fill="none" stroke-width="1.2">
+    <path d="M-20 750Q60 720 100 680Q140 640 100 600Q60 560 100 520Q140 480 100 440"/>
+    <path d="M30 770Q110 740 150 700Q190 660 150 620Q110 580 150 540Q190 500 150 460"/>
+    <line x1="40" y1="730" x2="90" y2="715" stroke-width="0.6"/><line x1="70" y1="690" x2="120" y2="675" stroke-width="0.6"/>
+    <line x1="90" y1="650" x2="140" y2="635" stroke-width="0.6"/><line x1="80" y1="610" x2="130" y2="595" stroke-width="0.6"/>
+  </g>
+  <!-- Warm DNA TR (Image 2 amber reflection) -->
+  <g opacity="0.04" stroke="#D0BE98" fill="none" stroke-width="1" transform="translate(1100,20)">
+    <path d="M0 0Q60 30 80 70Q100 110 80 150Q60 190 80 230Q100 270 80 310"/>
+    <path d="M50-10Q110 20 130 60Q150 100 130 140Q110 180 130 220Q150 260 130 300"/>
+    <line x1="35" y1="30" x2="85" y2="40" stroke-width="0.5"/><line x1="55" y1="70" x2="105" y2="80" stroke-width="0.5"/>
+  </g>
+  <!-- Neuron TR with cyan tinge -->
+  <g opacity="0.05" transform="translate(1050,150)">
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#A8B2BE" stroke-width="1"/>
+    <circle cx="0" cy="0" r="8" fill="#00E5FF" opacity="0.05"/>
+    <line x1="-20" y1="0" x2="-60" y2="-30" stroke="#A8B2BE" stroke-width="0.6"/>
+    <line x1="15" y1="-15" x2="45" y2="-50" stroke="#A8B2BE" stroke-width="0.6"/>
+    <line x1="20" y1="5" x2="55" y2="20" stroke="#A8B2BE" stroke-width="0.6"/>
+    <circle cx="-60" cy="-30" r="2.5" fill="#A8B2BE" opacity="0.2"/><circle cx="45" cy="-50" r="2" fill="#A8B2BE" opacity="0.2"/>
+    <circle cx="55" cy="20" r="2" fill="#A8B2BE" opacity="0.2"/>
+  </g>
+  <!-- Molecular scatter -->
+  <g opacity="0.04"><circle cx="200" cy="120" r="3" fill="#A8B2BE"/><circle cx="230" cy="100" r="3" fill="#A8B2BE"/><circle cx="215" cy="145" r="3" fill="#A8B2BE"/>
+    <line x1="200" y1="120" x2="230" y2="100" stroke="#A8B2BE" stroke-width="0.5"/><line x1="200" y1="120" x2="215" y2="145" stroke="#A8B2BE" stroke-width="0.5"/></g>
+</svg>
+</div>
+
+<div class="container">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="brand-header">
+    <div class="logo-plate">
+      <svg width="68" height="68" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="46" stroke="#00E5FF" stroke-width="1" fill="none" opacity="0.35"/>
+        <circle cx="50" cy="50" r="42" stroke="#00BCD4" stroke-width="0.5" fill="none" opacity="0.15"/>
+        <path d="M58 32c-4 2-8 6-10 12-2 6-1 12 2 17 3 5 8 8 14 9 6 1 11-1 15-5-3 6-8 10-14 12-6 2-13 1-18-3-5-4-8-10-8-17s3-13 8-17c5-4 11-6 17-5l-6-3z" fill="#1A1E24" stroke="#00E5FF" stroke-width="0.8" opacity="0.85"/>
+        <path d="M35 42c3-5 8-9 14-11 6-2 12-1 16 2-5-1-10 0-14 3-4 3-7 7-8 12l-2-1c-3-1-5-3-6-5z" fill="#1A1E24" stroke="#00BCD4" stroke-width="0.6" opacity="0.6"/>
+        <path d="M26 55c2-3 5-5 9-6 4-1 7 0 10 2-4 0-7 2-9 5-2 3-3 6-2 9-3-2-6-5-8-10z" fill="#1A1E24" stroke="#00E5FF" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="62" cy="40" r="2" fill="#00E5FF" opacity="0.6"/>
+      </svg>
+    </div>
+    <h1>Nightingale</h1>
+    <div class="biotech">BIOTECH</div>
+    <div class="tagline">Cellular Regenerative Biomedical Distribution</div>
+    <div class="dual-mode">
+      <span class="mode-tag mode-static">Static: Steel + Emboss</span>
+      <span class="mode-tag mode-active">Active: Steel + Cyan Glow</span>
+    </div>
+    <div class="version">Brand Identity System v5.0 · February 2026</div>
+  </div>
+
+  <!-- ═══ 1. COLOR SYSTEM ═══ -->
+  <div class="section">
+    <div class="section-label">01 — Color System</div>
+    <div class="section-title">Dual-Mode Palette</div>
+    <div class="section-desc">Foundation: monochromatic steel — charcoal backgrounds with a silver/platinum metallic text ramp and emboss depth. Activation layer: electric cyan backlit glow (#00E5FF) radiates from behind dark elements as a halo. The glow is not a flat fill — it bleeds, spreads, and fades outward. Status colors remain desaturated to respect the steel base.</div>
+    <div class="section-divider"></div>
+
+    <div class="swatch-group">
+      <div class="swatch-group-title">Backgrounds — Charcoal/Gunmetal</div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#1A1E24"></div><div class="swatch-info"><div class="swatch-name">Deepest</div><div class="swatch-hex">#1A1E24</div><div class="swatch-var">--ng-bg-deepest</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#22262E"></div><div class="swatch-info"><div class="swatch-name">Base</div><div class="swatch-hex">#22262E</div><div class="swatch-var">--ng-bg-base</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#282D35"></div><div class="swatch-info"><div class="swatch-name">Panel</div><div class="swatch-hex">#282D35</div><div class="swatch-var">--ng-bg-panel</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2E343C"></div><div class="swatch-info"><div class="swatch-name">Card</div><div class="swatch-hex">#2E343C</div><div class="swatch-var">--ng-bg-card</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#343A44"></div><div class="swatch-info"><div class="swatch-name">Card Alt</div><div class="swatch-hex">#343A44</div><div class="swatch-var">--ng-bg-card-alt</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#141820"></div><div class="swatch-info"><div class="swatch-name">Logo Plate</div><div class="swatch-hex">#141820</div><div class="swatch-var">--ng-bg-logo-plate</div></div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group">
+      <div class="swatch-group-title">Text — Silver/Platinum Metallic Ramp</div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#C8D0DA"></div><div class="swatch-info"><div class="swatch-name">Platinum</div><div class="swatch-hex">#C8D0DA</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#A8B2BE"></div><div class="swatch-info"><div class="swatch-name">Silver</div><div class="swatch-hex">#A8B2BE</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#909AA6"></div><div class="swatch-info"><div class="swatch-name">Chrome</div><div class="swatch-hex">#909AA6</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#788290"></div><div class="swatch-info"><div class="swatch-name">Pewter</div><div class="swatch-hex">#788290</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#606A78"></div><div class="swatch-info"><div class="swatch-name">Slate</div><div class="swatch-hex">#606A78</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#4A5462"></div><div class="swatch-info"><div class="swatch-name">Graphite</div><div class="swatch-hex">#4A5462</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#384250"></div><div class="swatch-info"><div class="swatch-name">Steel</div><div class="swatch-hex">#384250</div></div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group">
+      <div class="swatch-group-title">Electric Cyan — Backlit Glow Source</div>
+      <div class="swatches">
+        <div class="swatch swatch-glow"><div class="swatch-color" style="background:#141820"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#00E5FF;box-shadow:0 0 8px rgba(0,229,255,0.6),0 0 20px rgba(0,229,255,0.35),0 0 40px rgba(0,229,255,0.15)"></div></div><div class="swatch-info"><div class="swatch-name">Core</div><div class="swatch-hex">#00E5FF</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#5CF0FF"></div><div class="swatch-info"><div class="swatch-name">Bright</div><div class="swatch-hex">#5CF0FF</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#00BCD4"></div><div class="swatch-info"><div class="swatch-name">Mid</div><div class="swatch-hex">#00BCD4</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#008C9E"></div><div class="swatch-info"><div class="swatch-name">Dim</div><div class="swatch-hex">#008C9E</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#005F6B"></div><div class="swatch-info"><div class="swatch-name">Deep</div><div class="swatch-hex">#005F6B</div></div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group">
+      <div class="swatch-group-title">Status — Desaturated</div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#7BAA8E"></div><div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#7BAA8E</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#B07878"></div><div class="swatch-info"><div class="swatch-name">Red</div><div class="swatch-hex">#B07878</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#7898B0"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#7898B0</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#A8986C"></div><div class="swatch-info"><div class="swatch-name">Amber</div><div class="swatch-hex">#A8986C</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 2. GLOW SYSTEM ═══ -->
+  <div class="section">
+    <div class="section-label">02 — Backlit Glow System</div>
+    <div class="section-title">The Cyan Halo Effect</div>
+    <div class="section-desc">The defining digital expression. From the building signage: the bird logomark is a dark silhouette with electric cyan light radiating outward from behind it. This backlit glow activates the steel foundation. Applied via box-shadow and text-shadow at varying intensities (tight, medium, wide). The glow bleeds and fades — never a sharp-edged flat color.</div>
+    <div class="section-divider"></div>
+
+    <div class="glow-demos">
+      <div class="glow-demo">
+        <div class="gl-label">Glow Text</div>
+        <div style="font-size:28px;font-weight:600;color:#C8D0DA;text-shadow:0 0 6px rgba(0,229,255,0.40),0 0 15px rgba(0,229,255,0.20),0 0 30px rgba(0,229,255,0.08)">Nightingale</div>
+        <div class="gl-spec">text-shadow: var(--ng-glow-text)</div>
+      </div>
+      <div class="glow-demo">
+        <div class="gl-label">Embossed Text (No Glow)</div>
+        <div style="font-size:28px;font-weight:600;color:#A8B2BE;text-shadow:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">Nightingale</div>
+        <div class="gl-spec">text-shadow: var(--ng-emboss-text)</div>
+      </div>
+      <div class="glow-demo">
+        <div class="gl-label">Glow Tight (Cards, Badges)</div>
+        <div style="display:inline-block;padding:18px 32px;background:#2E343C;border:1px solid rgba(0,229,255,0.30);border-radius:8px;color:#5CF0FF;font-weight:600;box-shadow:0 0 8px rgba(0,229,255,0.50),0 0 16px rgba(0,229,255,0.25)">Active Card</div>
+        <div class="gl-spec">box-shadow: var(--ng-glow-tight)</div>
+      </div>
+      <div class="glow-demo">
+        <div class="gl-label">Glow Wide (Logo Plate, Hero)</div>
+        <div style="display:inline-block;padding:18px 32px;background:#141820;border:1px solid rgba(0,229,255,0.20);border-radius:8px;color:#5CF0FF;font-weight:600;box-shadow:0 0 15px rgba(0,229,255,0.50),0 0 40px rgba(0,229,255,0.30),0 0 80px rgba(0,229,255,0.15),0 0 120px rgba(0,229,255,0.05)">Logo Area</div>
+        <div class="gl-spec">box-shadow: var(--ng-glow-wide)</div>
+      </div>
+      <div class="glow-demo">
+        <div class="gl-label">Dark Silhouette + Backlit Halo</div>
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;background:#141820;border-radius:50%;border:1px solid rgba(0,229,255,0.25);box-shadow:0 0 15px rgba(0,229,255,0.50),0 0 40px rgba(0,229,255,0.25),0 0 70px rgba(0,229,255,0.12)">
+          <svg width="42" height="42" viewBox="0 0 100 100" fill="none"><path d="M58 32c-4 2-8 6-10 12-2 6-1 12 2 17 3 5 8 8 14 9 6 1 11-1 15-5-3 6-8 10-14 12-6 2-13 1-18-3-5-4-8-10-8-17s3-13 8-17c5-4 11-6 17-5l-6-3z" fill="#1A1E24" stroke="#00E5FF" stroke-width="1.5"/></svg>
+        </div>
+        <div class="gl-spec">Dark fill + cyan stroke + glow-wide</div>
+      </div>
+      <div class="glow-demo">
+        <div class="gl-label">Pulse Animation (Loading)</div>
+        <div style="display:inline-block;padding:12px 24px;background:#2E343C;border:1px solid rgba(0,229,255,0.25);border-radius:6px;color:#5CF0FF;font-weight:600;font-size:12px;animation:pulse-glow 2.5s ease-in-out infinite">Processing...</div>
+        <div class="gl-spec">animation: ng-pulse-glow 2.5s infinite</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 3. TYPOGRAPHY ═══ -->
+  <div class="section">
+    <div class="section-label">03 — Typography</div>
+    <div class="section-title">Type System</div>
+    <div class="section-desc">Exo 2 throughout. Brand name uses semibold (600) with cyan glow in digital contexts, emboss in print contexts. "BIOTECH" is always light (300) with ultra-wide tracking in uppercase. Body text stays in the silver-chrome ramp — never cyan.</div>
+    <div class="section-divider"></div>
+
+    <div class="type-sample">
+      <div class="ts-label">Brand Name — Active/Digital (Glow)</div>
+      <div style="font-size:40px;font-weight:600;color:#C8D0DA;letter-spacing:1px;text-shadow:0 0 6px rgba(0,229,255,0.40),0 0 15px rgba(0,229,255,0.20),0 0 30px rgba(0,229,255,0.08)">Nightingale</div>
+      <div class="ts-spec">Exo 2 · 600 · 40px · #C8D0DA · text-shadow: glow-text</div>
+    </div>
+    <div class="type-sample">
+      <div class="ts-label">Brand Name — Static/Print (Emboss)</div>
+      <div style="font-size:40px;font-weight:600;color:#A8B2BE;letter-spacing:1px;text-shadow:1px 2px 2px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">Nightingale</div>
+      <div class="ts-spec">Exo 2 · 600 · 40px · #A8B2BE · text-shadow: emboss-text-deep</div>
+    </div>
+    <div class="type-sample">
+      <div class="ts-label">Brand Subtitle — "BIOTECH"</div>
+      <div style="font-size:16px;font-weight:300;color:#A8B2BE;letter-spacing:5.5px;text-transform:uppercase;text-shadow:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">BIOTECH</div>
+      <div class="ts-spec">Exo 2 · 300 · 16px · #A8B2BE · tracking: 5.5px · uppercase · emboss</div>
+    </div>
+    <div class="type-sample">
+      <div class="ts-label">Section Heading — Embossed Silver</div>
+      <div style="font-size:17px;font-weight:700;color:#A8B2BE;text-shadow:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">Market Access Intelligence</div>
+      <div class="ts-spec">Exo 2 · 700 · 17px · #A8B2BE · emboss-text</div>
+    </div>
+    <div class="type-sample">
+      <div class="ts-label">Active Heading — Cyan Glow</div>
+      <div style="font-size:17px;font-weight:700;color:#5CF0FF;text-shadow:0 0 6px rgba(0,229,255,0.40),0 0 15px rgba(0,229,255,0.20)">Market Access Intelligence</div>
+      <div class="ts-spec">Exo 2 · 700 · 17px · #5CF0FF · glow-text</div>
+    </div>
+    <div class="type-sample">
+      <div class="ts-label">Body Default — Chrome</div>
+      <div style="font-size:13px;font-weight:400;color:#909AA6;line-height:1.65">ActiGraft's classification as a blood-derived product (G0465) places it in a distinct regulatory category from allografts and CTPs. This creates a category gap in existing GPO tissue contracts — positioning ActiGraft for standalone evaluation.</div>
+      <div class="ts-spec">Exo 2 · 400 · 13px · #909AA6 · no effects</div>
+    </div>
+  </div>
+
+  <!-- ═══ 4. COMPONENTS ═══ -->
+  <div class="section">
+    <div class="section-label">04 — Components</div>
+    <div class="section-title">UI Library</div>
+    <div class="section-desc">Steel emboss for structure. Cyan glow for activation and interactivity. Active tabs, focused inputs, and primary CTAs pick up the backlit glow. Everything else stays monochromatic.</div>
+    <div class="section-divider"></div>
+
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-label">Badges</div>
+        <span class="badge" style="color:#A8B2BE;background:rgba(168,178,190,0.08)">SILVER</span>
+        <span class="badge" style="color:#C8D0DA;background:rgba(200,208,218,0.08);border:1px solid rgba(200,208,218,0.12)">PLATINUM</span>
+        <span class="badge" style="color:#5CF0FF;background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.15)">CYAN</span>
+        <span class="badge" style="color:#5CF0FF;background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.30);box-shadow:0 0 6px rgba(0,229,255,0.15)">GLOW</span>
+        <span class="badge" style="color:#7BAA8E;background:rgba(123,170,142,0.08)">CONFIRMED</span>
+        <span class="badge" style="color:#B07878;background:rgba(176,120,120,0.08)">DENIED</span>
+        <span class="badge" style="color:#A8986C;background:rgba(168,152,108,0.08)">MODERATE</span>
+      </div>
+      <div class="comp-card">
+        <div class="comp-label">Buttons</div>
+        <button class="btn" style="background:#A8B2BE;color:#1A1E24">Primary</button>
+        <button class="btn" style="background:#343A44;color:#5CF0FF;border:1px solid rgba(0,229,255,0.30);box-shadow:0 0 8px rgba(0,229,255,0.50),0 0 16px rgba(0,229,255,0.25);text-shadow:0 0 6px rgba(0,229,255,0.25)">Glow CTA</button>
+        <button class="btn" style="background:transparent;color:#A8B2BE;border:1px solid #506070">Secondary</button>
+        <button class="btn" style="background:#343A44;color:#A8B2BE;border:1px solid #445060;box-shadow:1px 1px 3px rgba(0,0,0,0.35),-1px -1px 2px rgba(200,210,220,0.07);text-shadow:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">Embossed</button>
+      </div>
+      <div class="comp-card">
+        <div class="comp-label">Tab Navigation</div>
+        <div class="tab-strip">
+          <button class="tab-item active">Active</button>
+          <button class="tab-item">Inactive</button>
+          <button class="tab-item">Another</button>
+        </div>
+        <div style="font-size:11px;color:#606A78">Active tabs glow cyan — inactive stay monochrome</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-label">Form Input (Focus = Glow)</div>
+        <div style="font-size:10px;color:#606A78;margin-bottom:4px">Search products...</div>
+        <input class="input-demo" type="text" placeholder="Enter keyword or HCPCS code...">
+        <div style="font-size:10px;color:#4A5462;margin-top:6px">Focus state adds cyan glow border</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-label">Metric Card</div>
+        <div style="background:#2E343C;border:1px solid #38404C;border-radius:8px;padding:18px 22px;box-shadow:1px 1px 3px rgba(0,0,0,0.35),-1px -1px 2px rgba(200,210,220,0.07)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#606A78">Per-App Margin</div>
+          <div style="font-size:26px;font-weight:800;color:#C8D0DA;letter-spacing:-0.5px;margin-top:4px;text-shadow:1px 2px 2px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">$1,276</div>
+          <div style="font-size:12px;color:#606A78;margin-top:3px">74% gross margin (G0465)</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-label">Section Bar</div>
+        <div style="padding:8px 16px;background:linear-gradient(90deg,rgba(0,229,255,0.04),transparent);border-bottom:1px solid #303840;font-size:11px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:#606A78;border-radius:3px;text-shadow:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">Company & Distribution</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 5. IMPLEMENTATION ═══ -->
+  <div class="section">
+    <div class="section-label">05 — Implementation</div>
+    <div class="section-title">Quick Start</div>
+    <div class="section-divider"></div>
+
+    <div class="usage-grid">
+      <div class="usage-card"><div class="usage-header"><div class="uh-label">CSS Variables</div><div class="uh-title">nightingale-theme.css</div></div><div class="usage-body">Full steel foundation + glow system. Emboss tokens, glow halos, brushed-metal texture, component classes. Link + <code style="font-size:11px;color:#5CF0FF">class="ng-theme"</code>.</div></div>
+      <div class="usage-card"><div class="usage-header"><div class="uh-label">Design Tokens</div><div class="uh-title">nightingale-tokens.json</div></div><div class="usage-body">Machine-readable: glow system (tight/medium/wide), emboss system, cyan ramp, metallic text ramp, frost/warm overlays.</div></div>
+      <div class="usage-card"><div class="usage-header"><div class="uh-label">Tailwind + SCSS</div><div class="uh-title">Config Files</div></div><div class="usage-body">Tailwind with ng-glow-* shadows and cyan colors. SCSS with $glow-* and $emboss-* variables + maps.</div></div>
+    </div>
+
+    <div class="code-block"><span class="cmt">&lt;!-- Fonts --&gt;</span>
+&lt;link href="<span class="str">...Exo+2:wght@300;400;500;600;700;800;900...</span>" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="<span class="str">nightingale-theme.css</span>"&gt;
+
+&lt;body <span class="kw">class="ng-theme"</span>&gt;
+  <span class="cmt">&lt;!-- Logo plate: dark recessed panel with backlit glow --&gt;</span>
+  &lt;div class="<span class="kw">ng-logo-plate</span>"&gt;
+    &lt;img src="logo.svg" /&gt;
+  &lt;/div&gt;
+
+  <span class="cmt">&lt;!-- Heading with glow (active/digital) --&gt;</span>
+  &lt;h1 class="<span class="kw">ng-display-glow ng-display-lg</span>"&gt;Nightingale&lt;/h1&gt;
+
+  <span class="cmt">&lt;!-- Heading without glow (static/muted) --&gt;</span>
+  &lt;h2 class="<span class="kw">ng-heading ng-heading-lg</span>"&gt;Section&lt;/h2&gt;
+
+  <span class="cmt">&lt;!-- Card with glow border --&gt;</span>
+  &lt;div class="<span class="kw">ng-card-glow</span>"&gt;...&lt;/div&gt;
+
+  <span class="cmt">&lt;!-- Glow CTA button --&gt;</span>
+  &lt;button class="<span class="kw">ng-btn ng-btn-glow</span>"&gt;Action&lt;/button&gt;
+
+  <span class="cmt">&lt;!-- Badge with glow --&gt;</span>
+  &lt;span class="<span class="kw">ng-badge ng-badge-cyan-glow</span>"&gt;ACTIVE&lt;/span&gt;
+&lt;/body&gt;</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div style="text-align:center;padding:32px 0;border-top:1px solid #38404C;margin-top:48px;position:relative">
+    <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,255,0.25),transparent)"></div>
+    <div style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,229,255,0.18);box-shadow:0 0 10px rgba(0,229,255,0.20),0 0 25px rgba(0,229,255,0.08)">
+      <svg width="20" height="20" viewBox="0 0 100 100" fill="none"><path d="M58 32c-4 2-8 6-10 12-2 6-1 12 2 17 3 5 8 8 14 9 6 1 11-1 15-5-3 6-8 10-14 12-6 2-13 1-18-3-5-4-8-10-8-17s3-13 8-17c5-4 11-6 17-5l-6-3z" fill="#1A1E24" stroke="#00E5FF" stroke-width="1.5"/></svg>
+    </div>
+    <div style="font-size:11px;color:#606A78;margin-top:10px;letter-spacing:2px;font-weight:700;text-shadow:1px 1px 1px rgba(0,0,0,0.45),-1px -1px 0px rgba(200,210,220,0.18)">NIGHTINGALE BIOTECH</div>
+    <div style="font-size:10px;color:#4A5462;margin-top:6px;line-height:1.8">Brand Identity System v5.0 · February 2026</div>
+  </div>
+</div>
+</body>
+</html>

@@ -224,6 +224,7 @@ export default function ActiGraftCalculator() {
   // ─── Calculator inputs ─────────────────────────────
   const [wageIndex, setWageIndex] = useState(1.00);
   const [paymentYear, setPaymentYear] = useState("cy2025");
+  const [siteOfService, setSiteOfService] = useState("hopd"); // 'hopd' or 'office'
   const [woundSizeCm2, setWoundSizeCm2] = useState(10);
   const [prpApplications, setPrpApplications] = useState(20);
   const [skinSubApplications, setSkinSubApplications] = useState(6);
@@ -235,7 +236,15 @@ export default function ActiGraftCalculator() {
   // ─── Derived calculations ──────────────────────────
   const calc = useMemo(() => {
     const yr = paymentYear === "cy2025" ? CMS_DATA.cy2025 : CMS_DATA.cy2026;
-    const baseG0465 = paymentYear === "cy2025" ? yr.g0465_hopd : yr.g0465_hopd_est;
+
+    // Select G0465 rate based on site of service
+    let baseG0465;
+    if (siteOfService === "office") {
+      baseG0465 = yr.g0465_mpfs_nonfacility; // ~$770
+    } else {
+      // HOPD bundled rate
+      baseG0465 = paymentYear === "cy2025" ? yr.g0465_hopd : yr.g0465_hopd_est; // ~$2,108
+    }
 
     // Wage-index adjusted G0465
     const laborPortion = baseG0465 * yr.laborShare * wageIndex;
@@ -261,13 +270,18 @@ export default function ActiGraftCalculator() {
     const skinSubProductCostPerApp = product.aspPerCm2 * woundSizeCm2;
 
     let skinSubReimbPerApp;
-    if (paymentYear === "cy2025") {
-      // Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
+    if (siteOfService === "office") {
+      // Physician office: Separate product payment (closer to ASP-based rates ~$800 typical)
+      // Office reimbursement is typically product cost-based, not bundled
+      const officeRate = paymentYear === "cy2025" ? 800 : 850; // Approximate office reimbursement
+      skinSubReimbPerApp = Math.min(officeRate, skinSubProductCostPerApp * 1.08); // Closer margin in office
+    } else if (paymentYear === "cy2025") {
+      // HOPD Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
       skinSubReimbPerApp = woundSizeCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
       // Wage-index adjust the bundled rate
       skinSubReimbPerApp = (skinSubReimbPerApp * yr.laborShare * wageIndex) + (skinSubReimbPerApp * yr.nonLaborShare);
     } else {
-      // CY 2026: Separate product payment + application procedure
+      // CY 2026 HOPD: Separate product payment + application procedure
       const productPayment = yr.skinSub_flatRate_perCm2 * woundSizeCm2;
       const appProcedure = woundSizeCm2 <= 100 ? 800 : 1200; // Approximate application-only APC
       const appProcedureAdj = (appProcedure * yr.laborShare * wageIndex) + (appProcedure * yr.nonLaborShare);
@@ -310,7 +324,7 @@ export default function ActiGraftCalculator() {
       productChangeDir,
       productChangePct,
     };
-  }, [wageIndex, paymentYear, woundSizeCm2, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay]);
+  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay]);
 
   // ─── Sub-tab definitions ───────────────────────────
   const tabs = [
@@ -415,6 +429,41 @@ export default function ActiGraftCalculator() {
             fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 6,
           }}>
             Conversion factor: ${paymentYear === "cy2025" ? "89.169" : "91.415"}
+          </div>
+        </div>
+
+        {/* Site of Service */}
+        <div>
+          <label style={{
+            display: "block", fontSize: N.fontSize.sm, color: N.text.silver,
+            fontWeight: 600, marginBottom: 6, fontFamily: N.font.primary,
+          }}>Site of Service</label>
+          <div style={{ display: "flex", gap: 8 }}>
+            {[
+              { value: "hopd", label: "HOPD" },
+              { value: "office", label: "Physician Office" }
+            ].map((site) => (
+              <button
+                key={site.value}
+                onClick={() => setSiteOfService(site.value)}
+                style={{
+                  flex: 1, padding: "10px 16px", borderRadius: 6,
+                  border: `1px solid ${siteOfService === site.value ? N.cyan.borderGlow : N.border.default}`,
+                  background: siteOfService === site.value ? N.cyan.bgActive : N.bg.input,
+                  color: siteOfService === site.value ? N.cyan.bright : N.text.pewter,
+                  fontSize: N.fontSize.base, fontWeight: 700, cursor: "pointer",
+                  fontFamily: N.font.primary,
+                  boxShadow: siteOfService === site.value ? N.glow.tight : "none",
+                }}
+              >{site.label}</button>
+            ))}
+          </div>
+          <div style={{
+            fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 6,
+          }}>
+            {siteOfService === "hopd"
+              ? "Bundled rate environment (~$1,800 PRP reimbursement)"
+              : "Separate product payment (~$800 PRP reimbursement)"}
           </div>
         </div>
 
@@ -542,9 +591,13 @@ export default function ActiGraftCalculator() {
               border: `1px solid ${N.cyan.border}`,
             }}>
               <div style={{ marginBottom: 12 }}>
-                <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>National base rate:</span>
+                <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
+                  {siteOfService === "hopd" ? "National base rate (HOPD):" : "Office rate (MPFS):"}
+                </span>
                 <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                  {fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_hopd : CMS_DATA.cy2026.g0465_hopd_est)}
+                  {siteOfService === "hopd"
+                    ? fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_hopd : CMS_DATA.cy2026.g0465_hopd_est)
+                    : fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_mpfs_nonfacility : CMS_DATA.cy2026.g0465_mpfs_nonfacility)}
                 </span>
               </div>
               <div style={{ marginBottom: 8 }}>
