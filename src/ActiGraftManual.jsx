@@ -188,8 +188,13 @@ const GlobalStyle = () => (
       /* ── HIDE decorative / interactive elements ── */
       .mol-bg, .bird-wm, .toolbar-float, .no-print { display: none !important; }
 
-      /* ── PAGE STRUCTURE: white base, no shadows ── */
-      html, body { background: #fff !important; -webkit-print-color-adjust: exact; }
+      /* ── PAGE STRUCTURE: white base, no shadows, no colors ── */
+      html, body {
+        background: #fff !important;
+        -webkit-print-color-adjust: economy !important;
+        print-color-adjust: economy !important;
+        color-adjust: economy !important;
+      }
       .page {
         break-after: page !important;
         box-shadow: none !important;
@@ -199,69 +204,89 @@ const GlobalStyle = () => (
         border-radius: 0 !important;
       }
 
+      /* ── REMOVE ALL SHADOWS ── */
+      .page *, .page *::before, .page *::after {
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
       /* ── ALL TEXT defaults to near-black ── */
       .page, .page * { color: #1a1a1a !important; }
       .page h1, .page h2, .page h3, .page h4 { color: #0B2030 !important; }
       .page strong { color: #111 !important; }
 
-      /* ── CREAM INFO CARDS: light warm tint (minimal ink) ── */
-      .cream-card { background: #f7f3ed !important; border: 1px solid #c8c0b4 !important; }
+      /* ── CREAM INFO CARDS → white with simple border (no fill) ── */
+      .cream-card {
+        background: #fff !important;
+        border: 1px solid #999 !important;
+      }
       .cream-card, .cream-card * { color: #222 !important; }
 
-      /* ── CYAN DARK CARDS → white bg with cyan left border ── */
+      /* ── CYAN DARK CARDS → white bg with simple border (no color fill) ── */
       .page div[style*="background: ${C.cyanMid}"],
       .page div[style*="background: ${C.bg3}"] {
         background: #fff !important;
-        border: 1px solid #00E5FF !important;
-        border-left: 3px solid #00E5FF !important;
+        border: 1px solid #666 !important;
       }
 
-      /* ── ALERT CARDS → white bg, keep left accent border ── */
+      /* ── ALERT CARDS → white bg, simple border (no accent fill) ── */
       .page div[style*="border-left: 3px"] {
         background: #fff !important;
+        border: 1px solid #666 !important;
+        border-left: 2px solid #000 !important;
       }
 
-      /* ── DARK INFO PANELS (bg3, bg4 component cards) → light gray ── */
+      /* ── DARK INFO PANELS → white with border (no gray fill) ── */
       .page div[style*="background: ${C.bg3}"],
       .page div[style*="background: rgb(42, 61, 82)"],
       .page div[style*="background: ${C.bg4}"],
       .page div[style*="background: rgb(30, 69, 85)"] {
-        background: #f5f5f5 !important;
-        border-color: #ccc !important;
+        background: #fff !important;
+        border: 1px solid #999 !important;
       }
 
-      /* ── TABLES ── */
+      /* ── TABLES (ink-efficient: white backgrounds, borders only) ── */
       .tbl th {
-        background: linear-gradient(135deg, ${C.bg3}, ${C.teal}, ${C.tealBright}) !important;
-        color: ${C.cream1} !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background: #fff !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+        border-bottom: 2px solid #000 !important;
+        font-weight: 700 !important;
       }
       .tbl td {
         background: #fff !important;
-        border-color: #ccc !important;
+        border: 1px solid #ccc !important;
         color: #222 !important;
       }
       .tbl tr:nth-child(even) td {
-        background: #f8f8f8 !important;
+        background: #fff !important;
       }
 
-      /* ── PROGRESS / COMPARISON BARS → keep but with print-safe contrast ── */
+      /* ── PROGRESS / COMPARISON BARS → convert to simple text ── */
       .page div[style*="height: 6px"] {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        height: auto !important;
       }
 
-      /* ── STEP BADGES → keep teal fill (small, worth the ink) ── */
+      /* ── STEP BADGES → text only, no background fill ── */
       .page div[style*="background: linear-gradient"][style*="min-width: 32px"] {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background: #fff !important;
+        border: 1px solid #000 !important;
+        color: #000 !important;
       }
 
-      /* ── SECTION HEADER BADGES (small teal pills) → keep ── */
+      /* ── SECTION HEADER BADGES → text only, no gradient ── */
       .page div[style*="background: linear-gradient"][style*="padding: 4px"] {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background: #fff !important;
+        border: 1px solid #666 !important;
+        color: #000 !important;
+      }
+
+      /* ── REMOVE ALL OTHER GRADIENTS → white background ── */
+      .page div[style*="background: linear-gradient"],
+      .page div[style*="background: rgb"] {
+        background: #fff !important;
       }
 
       /* ── STAT VALUES: dark text for readability ── */
