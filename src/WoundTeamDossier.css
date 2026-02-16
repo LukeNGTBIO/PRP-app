@@ -1,0 +1,683 @@
+/* ═══════════════════════════════════════════════════════════
+   WOUND TEAM DOSSIER - Nightingale BioTech Brand Theme
+   Purple-Teal Gradient | Hexagonal Patterns | Frosted Glass
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── COLOR PALETTE (Nightingale Brand) ─── */
+:root {
+  --purple-dark: #1A0F1F;
+  --purple-base: #2A1A35;
+  --purple-mid: #3A2550;
+  --purple-accent: #5E2A5E;
+  --purple-light: #7A3A7A;
+  --purple-border: #8A4A8A;
+
+  --teal-deep: #388898;
+  --teal-mid: #4AA6B6;
+  --teal-base: #5BB8C8;
+  --teal-bright: #7CD4E4;
+  --teal-glow: rgba(91, 184, 200, 0.1);
+
+  --cream-1: #E8EEF2;
+  --cream-2: #D4DDE5;
+  --cream-3: #B8C5D0;
+  --cream-4: #9BAAB8;
+  --cream-5: #7A8A9A;
+
+  --shadow-purple: rgba(94, 42, 94, 0.3);
+  --shadow-teal: rgba(91, 184, 200, 0.2);
+}
+
+/* ─── CONTAINER & LAYOUT ─── */
+.dossier-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--purple-dark);
+  color: var(--cream-2);
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+.dossier-header {
+  position: relative;
+  text-align: center;
+  background: linear-gradient(135deg, var(--purple-accent), var(--purple-mid));
+  padding: 40px 30px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  border: 1px solid var(--purple-border);
+  box-shadow: 0 8px 32px var(--shadow-purple), 0 2px 8px var(--shadow-teal);
+}
+
+.header-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, var(--teal-glow) 100%);
+  pointer-events: none;
+}
+
+.dossier-header h1 {
+  position: relative;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--cream-1);
+  margin: 0 0 12px;
+  font-family: 'Georgia', serif;
+  text-shadow: 0 2px 8px var(--shadow-purple);
+}
+
+.prepared-for {
+  font-size: 13px;
+  color: var(--teal-bright);
+  font-style: italic;
+  margin: 8px 0;
+  letter-spacing: 0.3px;
+}
+
+.objective {
+  position: relative;
+  background: rgba(91, 184, 200, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 18px 24px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border: 1px solid var(--teal-mid);
+  border-left: 4px solid var(--teal-base);
+  color: var(--cream-2);
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: left;
+}
+
+/* ─── SECTION HEADERS ─── */
+section {
+  margin-bottom: 50px;
+}
+
+section h2 {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cream-1), var(--teal-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px;
+  font-family: 'Georgia', serif;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple-accent), var(--teal-base));
+  border-radius: 2px;
+}
+
+.section-subtitle,
+.org-subtitle {
+  font-size: 13px;
+  color: var(--cream-4);
+  margin: -4px 0 24px;
+  font-style: italic;
+}
+
+/* ─── CENTER VISUALS GALLERY ─── */
+.center-visuals {
+  background: var(--purple-base);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--purple-border);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px var(--shadow-purple);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-teal);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item p {
+  background: linear-gradient(180deg, transparent, var(--purple-accent));
+  padding: 12px 16px;
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: var(--cream-1);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+/* ─── ORG CHART TREE STRUCTURE ─── */
+.org-chart-section {
+  background: var(--purple-base);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--purple-border);
+  box-shadow: 0 4px 16px var(--shadow-purple);
+}
+
+.tree {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.tree ul {
+  padding-top: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+}
+
+.tree li {
+  list-style-type: none;
+  position: relative;
+  padding: 40px 20px 0;
+  text-align: center;
+  flex: 1;
+}
+
+/* Connecting lines */
+.tree li::before,
+.tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 2px solid var(--teal-mid);
+  width: 50%;
+  height: 40px;
+}
+
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid var(--teal-mid);
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before {
+  display: none;
+}
+
+.tree li:only-child {
+  padding-top: 0;
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+}
+
+.tree li:last-child::before {
+  border-right: 2px solid var(--teal-mid);
+  border-radius: 0 6px 0 0;
+}
+
+.tree li:first-child::after {
+  border-radius: 6px 0 0 0;
+}
+
+/* Tree nodes */
+.tree .node {
+  position: relative;
+  display: inline-block;
+  min-width: 200px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 4px 12px var(--shadow-purple);
+  transition: all 0.3s ease;
+}
+
+.node.clickable {
+  cursor: pointer;
+}
+
+.node.clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--shadow-teal);
+}
+
+.node.director {
+  background: linear-gradient(135deg, var(--purple-accent), var(--purple-light));
+  font-size: 1.05em;
+  border: 2px solid var(--purple-border);
+}
+
+.node.clinical-lead {
+  background: linear-gradient(135deg, var(--teal-deep), var(--teal-mid));
+  border: 2px solid var(--teal-base);
+}
+
+.node.specialist {
+  background: linear-gradient(135deg, var(--teal-mid), var(--teal-base));
+  min-width: 180px;
+  font-size: 0.95em;
+  border: 1px solid var(--teal-bright);
+}
+
+.node.specialist.generic {
+  background: linear-gradient(135deg, var(--teal-base), var(--teal-bright));
+  opacity: 0.9;
+}
+
+.node.support {
+  background: linear-gradient(135deg, var(--purple-mid), var(--purple-accent));
+  min-width: 180px;
+  font-size: 0.9em;
+  border: 1px solid var(--purple-border);
+}
+
+.toggle-icon {
+  margin-right: 8px;
+  font-weight: bold;
+  font-size: 1.1em;
+  opacity: 0.8;
+}
+
+.tree-headshot {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid white;
+  margin: 0 auto 10px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.node strong {
+  display: block;
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+
+.node-role {
+  display: block;
+  font-size: 0.85em;
+  opacity: 0.95;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.node-desc {
+  display: block;
+  font-size: 0.75em;
+  opacity: 0.8;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ─── PERSONNEL CARDS ─── */
+.personnel-cards {
+  background: var(--purple-base);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--purple-border);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 28px;
+  margin-top: 24px;
+}
+
+.person-card {
+  background: linear-gradient(135deg, var(--purple-mid), var(--purple-accent));
+  border: 1px solid var(--purple-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px var(--shadow-purple);
+  transition: all 0.3s ease;
+}
+
+.person-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-teal);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--purple-border);
+}
+
+.headshot {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--teal-base);
+  box-shadow: 0 4px 12px var(--shadow-teal);
+  flex-shrink: 0;
+}
+
+.card-title {
+  flex: 1;
+}
+
+.card-title h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cream-1);
+  margin: 0 0 6px;
+  font-family: 'Georgia', serif;
+}
+
+.role {
+  font-size: 13px;
+  color: var(--teal-bright);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Accordion */
+.accordion {
+  margin-bottom: 18px;
+}
+
+.accordion summary {
+  cursor: pointer;
+  background: rgba(91, 184, 200, 0.08);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--teal-bright);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.accordion summary:hover {
+  background: rgba(91, 184, 200, 0.15);
+  border-color: var(--teal-mid);
+}
+
+.accordion summary svg {
+  flex-shrink: 0;
+}
+
+.details-content {
+  padding: 18px 0;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.detail-section {
+  margin-bottom: 16px;
+}
+
+.detail-section h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+}
+
+.detail-section p {
+  font-size: 13px;
+  color: var(--cream-3);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.detail-section.opener {
+  background: rgba(94, 42, 94, 0.3);
+  padding: 14px;
+  border-radius: 8px;
+  border-left: 3px solid var(--teal-base);
+}
+
+.quote {
+  font-style: italic;
+  color: var(--cream-2) !important;
+}
+
+/* ─── NOTES SECTIONS ─── */
+.notes-section {
+  margin-top: 18px;
+}
+
+.notes-section label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--teal-bright);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.notes-section label svg {
+  flex-shrink: 0;
+}
+
+.notes-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--purple-border);
+  border-radius: 8px;
+  background: var(--purple-dark);
+  color: var(--cream-2);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+.notes-section textarea:focus {
+  outline: none;
+  border-color: var(--teal-base);
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}
+
+.notes-section textarea::placeholder {
+  color: var(--cream-5);
+  opacity: 0.6;
+}
+
+.general-notes {
+  max-width: 900px;
+  margin: 30px auto 0;
+}
+
+/* ─── STRATEGIES SECTION ─── */
+.strategies-section {
+  background: var(--purple-base);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--purple-border);
+}
+
+.strategies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.strategy-card {
+  background: linear-gradient(135deg, var(--purple-mid), var(--purple-accent));
+  padding: 24px;
+  border-radius: 10px;
+  border: 1px solid var(--purple-border);
+  box-shadow: 0 4px 12px var(--shadow-purple);
+  transition: all 0.3s ease;
+}
+
+.strategy-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px var(--shadow-teal);
+  border-color: var(--teal-mid);
+}
+
+.strategy-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.strategy-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--teal-bright);
+  margin: 0 0 10px;
+}
+
+.strategy-card p {
+  font-size: 13px;
+  color: var(--cream-3);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── FOOTER ─── */
+.dossier-footer {
+  position: relative;
+  text-align: center;
+  background: linear-gradient(135deg, var(--purple-accent), var(--purple-mid));
+  padding: 30px;
+  border-radius: 12px;
+  margin-top: 50px;
+  overflow: hidden;
+  border: 1px solid var(--purple-border);
+  box-shadow: 0 4px 16px var(--shadow-purple);
+}
+
+.footer-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, var(--teal-glow) 100%);
+  pointer-events: none;
+}
+
+.dossier-footer p {
+  position: relative;
+  font-size: 14px;
+  color: var(--cream-2);
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.dossier-footer strong {
+  color: var(--teal-bright);
+}
+
+.footer-note {
+  font-size: 12px;
+  color: var(--cream-4);
+  font-style: italic;
+  margin-top: 16px !important;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 992px) {
+  .tree ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tree li {
+    padding: 20px 0;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .tree li::before,
+  .tree li::after {
+    display: none;
+  }
+
+  .tree li {
+    border-left: 2px solid var(--teal-mid);
+    margin-left: 20px;
+  }
+
+  .tree li:first-child {
+    border-left: none;
+    margin-left: 0;
+  }
+
+  .gallery-grid,
+  .cards-grid,
+  .strategies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dossier-header h1 {
+    font-size: 24px;
+  }
+
+  section h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dossier-container {
+    padding: 12px;
+  }
+
+  .dossier-header,
+  .org-chart-section,
+  .personnel-cards,
+  .strategies-section {
+    padding: 20px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .headshot {
+    width: 100px;
+    height: 100px;
+  }
+}

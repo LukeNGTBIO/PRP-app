@@ -10,6 +10,7 @@ import {
   Target, Zap, Clock, MapPin, Phone, Mail, ExternalLink, Star, Layers
 } from "lucide-react";
 import nbLogoWhite from './assets/nb-logo-white.png';
+import WoundTeamDossier from './WoundTeamDossier.jsx';
 
 // ─── DATA LAYER ───────────────────────────────────────────────
 // Nightingale BioTech Brand Theme v3.0 — Dark Steel · Neon Aqua · Sea Green
@@ -256,6 +257,7 @@ export default function MethodistIntelDashboard() {
     { id: "clinical", label: "Clinical & Facilities", icon: Heart },
     { id: "strategy", label: "Strategic Playbook", icon: Zap },
     { id: "data", label: "Raw Intelligence", icon: FileText },
+    { id: "team", label: "Team Dossier", icon: Users },
   ];
 
   return (
@@ -855,6 +857,13 @@ export default function MethodistIntelDashboard() {
                 ))}
               </div>
             </Collapsible>
+          </div>
+        )}
+
+        {/* ═══ TEAM DOSSIER TAB ═══ */}
+        {activeTab === "team" && (
+          <div>
+            <WoundTeamDossier />
           </div>
         )}
 
