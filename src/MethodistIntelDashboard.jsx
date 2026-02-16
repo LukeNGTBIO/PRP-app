@@ -262,7 +262,7 @@ export default function MethodistIntelDashboard() {
   return (
     <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Roboto', 'Segoe UI', system-ui, sans-serif" }}>
       {/* HEADER */}
-      <div style={{ background: BRAND.dark, borderBottom: `1px solid ${BRAND.border}`, padding: "20px 32px", position: "sticky", top: 0, zIndex: 50 }}>
+      <div style={{ background: BRAND.dark, borderBottom: `1px solid ${BRAND.border}`, padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
