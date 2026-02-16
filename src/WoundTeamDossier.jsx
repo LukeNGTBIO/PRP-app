@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './WoundTeamDossier.css';
+import sandyDeimundImg from './assets/sandy-deimund.png';
+import vladimirChachanidzeImg from './assets/vladimir-chachanidze.png';
 
 const WoundTeamDossier = () => {
   // Collapsible state for org chart branches
@@ -57,7 +59,7 @@ const WoundTeamDossier = () => {
       id: 'sandy',
       name: 'Sondra "Sandy" Deimund, FNP, CWS',
       role: 'Lead Nurse Practitioner & Certified Wound Specialist (Primary KOL)',
-      imageUrl: 'https://via.placeholder.com/200x200?text=Sandy+Deimund',
+      imageUrl: sandyDeimundImg,
       background: '20+ years in wound care; "Power of One" Award (2010); NAWC Preceptor; Co-author 2018 DFU education paper; Featured in Methodist media on HBO & limb salvage.',
       drivers: 'Limb salvage mission (prevent amputations in Shelby County); Patient education & empowerment; Data-driven innovation; Precepting legacy.',
       rapport: 'Reference her 2018 paper/media; Co-host NAWC webinars; Joint abstracts/posters; Sponsor community diabetes events.',
@@ -67,7 +69,7 @@ const WoundTeamDossier = () => {
       id: 'vladimir',
       name: 'Dr. Vladimir Chachanidze, MD',
       role: 'Infectious Disease Specialist (Key Collaborator)',
-      imageUrl: 'https://via.placeholder.com/200x200?text=Dr.+Chachanidze',
+      imageUrl: vladimirChachanidzeImg,
       background: 'Board-certified ID; Expertise in cellulitis, osteomyelitis; Frequently praised in patient testimonials for limb-saving outcomes.',
       drivers: 'Complex infection management; Collaborative limb preservation; Patient gratitude in tough cases.',
       rapport: 'Reference patient "saved my leg" stories; Joint protocols on infected wounds; Co-data tracking for infection resolution.',
