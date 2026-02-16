@@ -534,7 +534,7 @@ function AccessTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#C8D0DA", fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#788290", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
