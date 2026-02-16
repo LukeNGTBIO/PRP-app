@@ -1,0 +1,93 @@
+{
+  "brand": {
+    "name": "Nightingale BioTech",
+    "tagline": "Cellular Regenerative Biomedical Distribution",
+    "aesthetic": "Monochromatic Steel + Electric Cyan Backlit Glow",
+    "version": "5.0",
+    "generated": "2026-02",
+    "modes": {
+      "static": "Monochromatic steel with emboss depth (print, muted contexts)",
+      "active": "Steel foundation + cyan backlit glow halo (digital, web, environmental)"
+    }
+  },
+  "colors": {
+    "background": {
+      "deepest":   { "value": "#1A1E24", "description": "Darkest: vignette, overlays" },
+      "base":      { "value": "#22262E", "description": "Page background" },
+      "panel":     { "value": "#282D35", "description": "Panels, sidebars" },
+      "card":      { "value": "#2E343C", "description": "Card surfaces" },
+      "cardAlt":   { "value": "#343A44", "description": "Hover, alt rows" },
+      "elevated":  { "value": "#3C424C", "description": "Dropdowns, elevated" },
+      "header":    { "value": "#1E2228", "description": "Sticky header" },
+      "input":     { "value": "#262C34", "description": "Form fields" },
+      "logoPlate": { "value": "#141820", "description": "Dark recessed logo panel" },
+      "overlay":   { "value": "rgba(26,30,36,0.90)", "description": "Modal scrim" }
+    },
+    "border": {
+      "default":   { "value": "#38404C" },
+      "light":     { "value": "#445060" },
+      "accent":    { "value": "#506070" },
+      "focus":     { "value": "#607080" },
+      "subtle":    { "value": "#303840" }
+    },
+    "text": {
+      "platinum":  { "value": "#C8D0DA", "description": "Hero text, emboss highlight" },
+      "silver":    { "value": "#A8B2BE", "description": "Headings" },
+      "chrome":    { "value": "#909AA6", "description": "Body text" },
+      "pewter":    { "value": "#788290", "description": "Secondary text" },
+      "slate":     { "value": "#606A78", "description": "Labels, captions" },
+      "graphite":  { "value": "#4A5462", "description": "Disabled" },
+      "steel":     { "value": "#384250", "description": "Watermarks" }
+    },
+    "cyan": {
+      "core":      { "value": "#00E5FF", "description": "Backlight source — the glow origin" },
+      "bright":    { "value": "#5CF0FF", "description": "Bright edge of glow halo" },
+      "mid":       { "value": "#00BCD4", "description": "Mid-intensity" },
+      "dim":       { "value": "#008C9E", "description": "Dim glow" },
+      "deep":      { "value": "#005F6B", "description": "Far edge of spread" },
+      "bg":        { "value": "rgba(0,229,255,0.04)" },
+      "bgHover":   { "value": "rgba(0,229,255,0.07)" },
+      "bgActive":  { "value": "rgba(0,229,255,0.10)" },
+      "border":    { "value": "rgba(0,229,255,0.15)" },
+      "borderGlow":{ "value": "rgba(0,229,255,0.30)" }
+    },
+    "frost": {
+      "default":   { "value": "rgba(180,190,202,0.14)" },
+      "bright":    { "value": "rgba(210,218,228,0.20)" },
+      "dim":       { "value": "rgba(160,170,182,0.07)" },
+      "warm":      { "value": "rgba(210,190,160,0.12)", "description": "Amber reflection on molecular elements" }
+    },
+    "status": {
+      "green":  { "value": "#7BAA8E", "bg": "rgba(123,170,142,0.08)", "border": "rgba(123,170,142,0.18)" },
+      "red":    { "value": "#B07878", "bg": "rgba(176,120,120,0.08)", "border": "rgba(176,120,120,0.18)" },
+      "blue":   { "value": "#7898B0", "bg": "rgba(120,152,176,0.08)", "border": "rgba(120,152,176,0.18)" },
+      "amber":  { "value": "#A8986C", "bg": "rgba(168,152,108,0.08)", "border": "rgba(168,152,108,0.18)" }
+    },
+    "chart": ["#00E5FF","#A8B2BE","#00BCD4","#6E7E92","#C8D0DA"]
+  },
+  "glow": {
+    "description": "Electric cyan backlit halo effect — the defining digital brand expression",
+    "tight":  "0 0 8px rgba(0,229,255,0.50), 0 0 16px rgba(0,229,255,0.25)",
+    "medium": "0 0 12px rgba(0,229,255,0.50), 0 0 30px rgba(0,229,255,0.25), 0 0 60px rgba(0,229,255,0.10)",
+    "wide":   "0 0 15px rgba(0,229,255,0.50), 0 0 40px rgba(0,229,255,0.30), 0 0 80px rgba(0,229,255,0.15), 0 0 120px rgba(0,229,255,0.05)",
+    "text":   "0 0 6px rgba(0,229,255,0.40), 0 0 15px rgba(0,229,255,0.20), 0 0 30px rgba(0,229,255,0.08)"
+  },
+  "emboss": {
+    "text":      "1px 1px 1px rgba(0,0,0,0.45), -1px -1px 0px rgba(200,210,220,0.18)",
+    "textDeep":  "1px 2px 2px rgba(0,0,0,0.45), -1px -1px 0px rgba(200,210,220,0.18)",
+    "raised":    "1px 1px 3px rgba(0,0,0,0.35), -1px -1px 2px rgba(200,210,220,0.07)",
+    "inset":     "inset 1px 1px 3px rgba(0,0,0,0.35), inset -1px -1px 2px rgba(200,210,220,0.07)"
+  },
+  "typography": {
+    "families": {
+      "primary": { "value": "'Exo 2', 'Helvetica Neue', Arial, sans-serif", "googleFont": "Exo+2:wght@300;400;500;600;700;800;900" },
+      "display": { "value": "'Libre Caslon Display', Georgia, serif" },
+      "mono":    { "value": "'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace" }
+    },
+    "scale": {"xs":"10px","sm":"11px","base":"13px","md":"14px","lg":"16px","xl":"18px","2xl":"22px","3xl":"28px","4xl":"36px","5xl":"48px"},
+    "weights": {"light":300,"normal":400,"medium":500,"semibold":600,"bold":700,"extrabold":800,"black":900}
+  },
+  "texture": {
+    "brushedMetal": "repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.015) 1px, rgba(255,255,255,0.015) 2px), repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.025) 3px, rgba(0,0,0,0.025) 4px)"
+  }
+}

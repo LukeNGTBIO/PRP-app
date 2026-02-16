@@ -14,22 +14,22 @@ import nbLogoWhite from './assets/nb-logo-white.png';
 // ─── DATA LAYER ───────────────────────────────────────────────
 // Nightingale BioTech Brand Theme v3.0 — Dark Steel · Neon Aqua · Sea Green
 const BRAND = {
-  brightBlue: "#5CE0D2",        // Neon Aqua — primary accent
+  brightBlue: "#00E5FF",        // Neon Aqua — primary accent
   lightBlue: "rgba(92, 224, 210, 0.06)",  // Aqua tinted bg
-  goldenYellow: "#D8C060",      // Yellow — warnings, timeline
-  dark: "#0A0E14",              // Dark steel — page background
-  darkPanel: "#0E1319",         // Panel backgrounds
-  darkCard: "#121820",          // Card surfaces
-  border: "#1E2A38",            // Steel border
-  textPrimary: "#E6EBF0",      // White — headings
-  textSecondary: "#8E9BAA",    // Silver muted — body
-  textMuted: "#5E6E7E",        // Silver dim — labels
-  confirmed: "#5CD89C",        // Green — positive/confirmed
-  assessed: "#D8C060",         // Yellow — assessed/warning
-  unconfirmed: "#E07070",      // Red — barriers/denied
-  high: "#6CA8D8",             // Blue — info/high confidence
-  taupe: "#0E1319",            // Panel shade
-  white: "#E6EBF0",            // White text on dark bg
+  goldenYellow: "#A8986C",      // Yellow — warnings, timeline
+  dark: "#22262E",              // Dark steel — page background
+  darkPanel: "#282D35",         // Panel backgrounds
+  darkCard: "#2E343C",          // Card surfaces
+  border: "#38404C",            // Steel border
+  textPrimary: "#C8D0DA",      // White — headings
+  textSecondary: "#788290",    // Silver muted — body
+  textMuted: "#606A78",        // Silver dim — labels
+  confirmed: "#00E5FF",        // Green — positive/confirmed
+  assessed: "#A8986C",         // Yellow — assessed/warning
+  unconfirmed: "#B07878",      // Red — barriers/denied
+  high: "#00BCD4",             // Blue — info/high confidence
+  taupe: "#282D35",            // Panel shade
+  white: "#C8D0DA",            // White text on dark bg
 };
 
 const HOSPITAL_PROFILE = {
@@ -150,8 +150,8 @@ const STRATEGIC_SCORES = [
 ];
 
 const PER_APP_ECONOMICS = [
-  { name: "Kit Cost", value: 450, fill: "#E07070" },
-  { name: "Gross Margin", value: 1276, fill: "#5CE0D2" },
+  { name: "Kit Cost", value: 450, fill: "#B07878" },
+  { name: "Gross Margin", value: 1276, fill: "#00E5FF" },
 ];
 
 const WOUND_CLOSURE_DATA = [
@@ -259,36 +259,36 @@ export default function MethodistIntelDashboard() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Exo 2', 'Helvetica Neue', Arial, sans-serif" }}>
       {/* HEADER */}
-      <div style={{ background: "#090C12", borderBottom: "1px solid #2A4050", padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
+      <div style={{ background: "#1E2228", borderBottom: "1px solid #445060", padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
               <div style={{ marginBottom: 8 }}>
                 <img src={nbLogoWhite} alt="Nightingale Biotech" style={{ height: 30, width: "auto" }} />
               </div>
-              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#E6EBF0", fontFamily: "'Libre Caslon Display', Georgia, serif" }}>
+              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#C8D0DA", fontFamily: "'Libre Caslon Display', Georgia, serif" }}>
                 Methodist University Hospital — Market Intelligence
               </h1>
-              <p style={{ margin: 0, fontSize: 14, color: "#8E9BAA", marginTop: 4 }}>
+              <p style={{ margin: 0, fontSize: 14, color: "#788290", marginTop: 4 }}>
                 ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026
               </p>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 13, color: "#8E9BAA", background: "#0C1018", padding: "6px 12px", borderRadius: 8, border: "1px solid #1E2A38" }}>
+              <span style={{ fontSize: 13, color: "#788290", background: "#0C1018", padding: "6px 12px", borderRadius: 8, border: "1px solid #38404C" }}>
                 <Clock size={12} style={{ verticalAlign: -2, marginRight: 4 }} /> Last Updated: Feb 15, 2026
               </span>
             </div>
           </div>
           {/* TABS */}
-          <div style={{ display: "flex", gap: 4, marginTop: 18, overflowX: "auto", background: "#0C1018", borderRadius: 6, padding: 4, borderBottom: "1px solid #2A4050" }}>
+          <div style={{ display: "flex", gap: 4, marginTop: 18, overflowX: "auto", background: "#0C1018", borderRadius: 6, padding: 4, borderBottom: "1px solid #445060" }}>
             {tabs.map(t => {
               const Icon = t.icon;
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? "#5CE0D2" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#0A0E14" : "#5E6E7E", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
+                  style={{ background: active ? "#00E5FF" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#22262E" : "#606A78", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );

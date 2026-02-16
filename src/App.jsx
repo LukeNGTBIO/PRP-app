@@ -1,62 +1,86 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PRP from './PRP.jsx'
+import PRP_Mobile from './PRP_Mobile.jsx'
 import MethodistIntelDashboard from './MethodistIntelDashboard.jsx'
+import MethodistIntelDashboard_Mobile from './MethodistIntelDashboard_Mobile.jsx'
 import nbLogoWhite from './assets/nb-logo-white.png'
+import { NIGHTINGALE } from './brandTheme'
 
 function App() {
   const [activePage, setActivePage] = useState('prp')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const tabStyle = (isActive) => ({
-    background: isActive ? '#5CE0D2' : 'transparent',
-    border: '2px solid transparent',
-    borderBottom: isActive ? '2px solid #5CE0D2' : '2px solid transparent',
-    color: isActive ? '#0A0E14' : '#5E6E7E',
-    padding: '12px 20px',
-    fontSize: 14,
-    fontWeight: 700,
+    background: isActive ? NIGHTINGALE.cyan.bgActive : 'transparent',
+    border: 'none',
+    borderBottom: isActive ? `2px solid ${NIGHTINGALE.cyan.core}` : '2px solid transparent',
+    color: isActive ? NIGHTINGALE.cyan.bright : NIGHTINGALE.text.pewter,
+    padding: isMobile ? '10px 12px' : '12px 20px',
+    fontSize: isMobile ? NIGHTINGALE.fontSize.sm : NIGHTINGALE.fontSize.md,
+    fontWeight: isActive ? 700 : 600,
     cursor: 'pointer',
-    transition: 'all 0.15s ease',
-    borderRadius: '6px 6px 0 0',
-    letterSpacing: 0.5,
+    transition: 'all 0.2s ease',
+    borderRadius: '5px 5px 0 0',
+    letterSpacing: 0.3,
+    minHeight: 44,
+    fontFamily: NIGHTINGALE.font.primary,
+    textShadow: isActive ? NIGHTINGALE.glow.text : 'none',
+    boxShadow: isActive ? `${NIGHTINGALE.glow.tight}` : 'none',
   })
 
   return (
-    <div style={{ background: '#0A0E14', minHeight: '100vh' }}>
+    <div style={{
+      background: NIGHTINGALE.bg.base,
+      backgroundImage: NIGHTINGALE.texture.brushed,
+      minHeight: '100vh'
+    }}>
       {/* Navigation Bar */}
       <nav style={{
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: '#090C12',
-        borderBottom: '1px solid #2A4050',
-        padding: '0 32px',
+        background: NIGHTINGALE.bg.header,
+        borderBottom: `1px solid ${NIGHTINGALE.border.default}`,
+        padding: isMobile ? '0 12px' : '0 32px',
         display: 'flex',
         alignItems: 'center',
-        gap: 16,
-        fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif",
+        gap: isMobile ? 8 : 16,
+        fontFamily: NIGHTINGALE.font.primary,
+        overflowX: isMobile ? 'auto' : 'visible',
+        WebkitOverflowScrolling: 'touch',
+        boxShadow: NIGHTINGALE.shadow.md,
       }}>
         <div style={{
-          marginRight: 12,
+          marginRight: isMobile ? 8 : 12,
           padding: '6px 0',
           flexShrink: 0,
         }}>
           <img
             src={nbLogoWhite}
             alt="Nightingale Biotech"
-            style={{ height: 36, width: 'auto' }}
+            style={{ height: isMobile ? 28 : 36, width: 'auto' }}
           />
         </div>
         <button onClick={() => setActivePage('prp')} style={tabStyle(activePage === 'prp')}>
-          PRP Competitive Landscape
+          {isMobile ? 'PRP' : 'PRP Competitive Landscape'}
         </button>
         <button onClick={() => setActivePage('methodist')} style={tabStyle(activePage === 'methodist')}>
-          Methodist Hospital Intel
+          {isMobile ? 'Methodist' : 'Methodist Hospital Intel'}
         </button>
       </nav>
 
       {/* Page Content */}
-      {activePage === 'prp' && <PRP />}
-      {activePage === 'methodist' && <MethodistIntelDashboard />}
+      {activePage === 'prp' && (isMobile ? <PRP_Mobile /> : <PRP />)}
+      {activePage === 'methodist' && (isMobile ? <MethodistIntelDashboard_Mobile /> : <MethodistIntelDashboard />)}
     </div>
   )
 }
