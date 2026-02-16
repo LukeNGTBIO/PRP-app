@@ -25,10 +25,14 @@ const CMS_DATA = {
   cy2026: {
     conversionFactor: 91.415,
     g0465_hopd_est: 2161,        // estimated proportional increase
+    g0465_mpfs_nonfacility: 790.26,  // office rate: CY2025 rate × (91.415/89.169)
+    g0465_mpfs_facility: 85.95,      // facility rate: proportional increase
     laborShare: 0.60,
     nonLaborShare: 0.40,
     budgetNeutralityFactor: 0.9990,
     skinSub_flatRate_perCm2: 127.28,
+    skinSub_apc5053: 1875,       // ≤100cm² bundled (estimated)
+    skinSub_apc5054: 3753,       // >100cm² bundled (estimated)
   },
   wageIndex: {
     min: 0.60,
