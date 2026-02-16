@@ -6,61 +6,63 @@ import { useState, useRef, useEffect } from "react";
    Design Reference: Legacy Medical Consultants ActiGraft Playbook
    + Master Training Guide | 2026 Edition
    Brand Ownership: Nightingale BioTech (bird watermark)
-   Product Lines: ActiGraft (teal/cyan) · Legacy Medical (purple/magenta)
+   Brand Theme: Monochromatic Steel + Electric Cyan Backlit Glow
    ═══════════════════════════════════════════════════════════════════ */
 
-// ─── DESIGN TOKENS (Enhanced Legacy Medical Consultants palette) ───
+// ─── DESIGN TOKENS (Nightingale BioTech Brand Theme — Steel + Cyan) ───
+import { NIGHTINGALE } from './brandTheme.js';
+
 const C = {
-  // Backgrounds — deep magenta/purple to bright teal/cyan gradient layers
-  bg0: "#1D0B1F",   // deepest (body) — dark purple/magenta base
-  bg1: "#2B1435",   // page base — rich purple
-  bg2: "#3A1D4B",   // page content — purple-magenta
-  bg3: "#2A3D52",   // elevated sections — purple-teal transition
-  bg4: "#1E4555",   // card dark — teal
-  bg5: "#26516B",   // card hover — brighter teal
+  // Backgrounds — Monochromatic steel foundation
+  bg0: NIGHTINGALE.bg.deepest,    // "#1A1E24" — deepest steel
+  bg1: NIGHTINGALE.bg.base,       // "#22262E" — page base steel
+  bg2: NIGHTINGALE.bg.card,       // "#2E343C" — page content steel
+  bg3: NIGHTINGALE.bg.elevated,   // "#3C424C" — elevated sections
+  bg4: NIGHTINGALE.bg.cardAlt,    // "#343A44" — card dark
+  bg5: NIGHTINGALE.bg.panel,      // "#282D35" — card hover
 
-  // Cream text hierarchy (matches Legacy Medical typography)
-  cream1: "#F7F5F2", // primary headings — pure ivory
-  cream2: "#EBE7DF", // body text — warm cream
-  cream3: "#CCC4BA", // secondary text
-  cream4: "#ACA49A", // muted/captions
-  cream5: "#8C847A", // very muted
+  // Text hierarchy — Silver/Platinum ramp
+  cream1: NIGHTINGALE.text.platinum,  // "#C8D0DA" — primary headings
+  cream2: NIGHTINGALE.text.silver,    // "#A8B2BE" — body text
+  cream3: NIGHTINGALE.text.chrome,    // "#C8D0DA" — secondary (brightened)
+  cream4: NIGHTINGALE.text.pewter,    // "#788290" — muted/captions
+  cream5: NIGHTINGALE.text.slate,     // "#606A78" — very muted
 
-  // Cream card backgrounds (matches the light info boxes)
-  cardCream: "#F7F4ED",
-  cardCreamBorder: "#DDD4C8",
-  cardCreamText: "#2C2520",
-  cardCreamMuted: "#5C5448",
+  // Cream card backgrounds (light info boxes)
+  cardCream: NIGHTINGALE.frost.bright,      // "rgba(210,218,228,0.20)"
+  cardCreamBorder: NIGHTINGALE.border.light, // "#445060"
+  cardCreamText: NIGHTINGALE.text.platinum,  // "#C8D0DA"
+  cardCreamMuted: NIGHTINGALE.text.pewter,   // "#788290"
 
-  // Teal/Cyan accents (enhanced — brighter, more electric)
-  teal: "#00D4D4",        // bright teal/cyan core
-  tealDark: "#00B8C5",    // darker teal
-  tealDeep: "#009BAD",    // deep teal
-  tealBright: "#1BFFFF",  // electric cyan highlight
-  tealGlow: "rgba(0,212,212,0.12)",
+  // Electric Cyan accents — The Glow Origin
+  teal: NIGHTINGALE.cyan.core,        // "#00E5FF" — electric cyan core
+  tealDark: NIGHTINGALE.cyan.mid,     // "#00BCD4" — mid cyan
+  tealDeep: NIGHTINGALE.cyan.dim,     // "#008C9E" — dim cyan
+  tealBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" — bright cyan highlight
+  tealGlow: NIGHTINGALE.cyan.bg,      // "rgba(0,229,255,0.04)"
 
-  // Purple/Magenta accent cards (enhanced — more vibrant)
-  purple: "#6B2E7D",      // rich purple
-  purpleBorder: "#9D4BB8", // bright magenta border
-  purpleLight: "#8A3D9E", // light purple
-  purpleDark: "#451B52",  // dark purple
-  magenta: "#B84BB8",     // vibrant magenta
+  // Cyan replacements (formerly purple/magenta)
+  purple: NIGHTINGALE.cyan.mid,         // "#00BCD4" — (replaced rich purple)
+  purpleBorder: NIGHTINGALE.cyan.bright, // "#5CF0FF" — (replaced magenta border)
+  purpleLight: NIGHTINGALE.cyan.bright,  // "#5CF0FF" — (replaced light purple)
+  purpleDark: NIGHTINGALE.cyan.deep,     // "#005F6B" — (replaced dark purple)
+  magenta: NIGHTINGALE.cyan.core,        // "#00E5FF" — (replaced vibrant magenta)
 
-  // Gold accents (Legacy Medical product line)
-  gold: "#D4B870",
-  goldDark: "#B09858",
-  goldLight: "#ECD890",
-  goldGlow: "rgba(212,184,112,0.14)",
+  // Gold accents (keep for warm contrast)
+  gold: NIGHTINGALE.frost.warm,       // "rgba(210,190,160,0.12)" — amber reflection
+  goldDark: NIGHTINGALE.text.pewter,  // "#788290"
+  goldLight: NIGHTINGALE.text.silver, // "#A8B2BE"
+  goldGlow: NIGHTINGALE.cyan.bgHover, // "rgba(0,229,255,0.07)"
 
   // Status
-  green: "#7FBA9A",
-  red: "#D07878",
-  redLight: "#E09898",
-  amber: "#D4B870",
+  green: NIGHTINGALE.status.green.value,  // "#7BAA8E"
+  red: NIGHTINGALE.status.red.value,      // "#B07878"
+  redLight: NIGHTINGALE.status.red.border, // "rgba(176,120,120,0.18)"
+  amber: NIGHTINGALE.status.amber.value,   // "#A8986C"
 
   // Borders
-  border: "#3D2454",
-  borderLight: "#4D3464",
+  border: NIGHTINGALE.border.default,  // "#38404C"
+  borderLight: NIGHTINGALE.border.light, // "#445060"
 };
 
 // ─── NIGHTINGALE BIRD SVG WATERMARK ───
@@ -120,17 +122,17 @@ const MolecularBg = ({ variant = 0 }) => {
         {/* Hexagon path definition */}
         <path id="hexagon" d="M 0,-10 L 8.66,-5 L 8.66,5 L 0,10 L -8.66,5 L -8.66,-5 Z" />
 
-        {/* Enhanced purple/magenta to teal/cyan gradient for background */}
+        {/* Electric cyan gradient for holographic background */}
         <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={C.purple} stopOpacity="0.12" />
-          <stop offset="50%" stopColor={C.magenta} stopOpacity="0.10" />
-          <stop offset="100%" stopColor={C.teal} stopOpacity="0.12" />
+          <stop offset="0%" stopColor={C.tealDark} stopOpacity="0.12" />
+          <stop offset="50%" stopColor={C.teal} stopOpacity="0.10" />
+          <stop offset="100%" stopColor={C.tealBright} stopOpacity="0.12" />
         </linearGradient>
 
         {/* Radial glow for holographic effect */}
         <radialGradient id="glowGradient" cx="50%" cy="50%">
           <stop offset="0%" stopColor={C.tealBright} stopOpacity="0.08" />
-          <stop offset="50%" stopColor={C.magenta} stopOpacity="0.04" />
+          <stop offset="50%" stopColor={C.teal} stopOpacity="0.04" />
           <stop offset="100%" stopColor="transparent" stopOpacity="0" />
         </radialGradient>
       </defs>
@@ -138,19 +140,19 @@ const MolecularBg = ({ variant = 0 }) => {
       {/* Hexagonal grid pattern */}
       <g opacity="0.04">
         {hexagons.map((hex, i) => (
-          <use key={i} href="#hexagon" x={hex.x} y={hex.y} stroke={i % 3 === 0 ? C.teal : C.magenta} strokeWidth="0.6" fill="none" />
+          <use key={i} href="#hexagon" x={hex.x} y={hex.y} stroke={i % 3 === 0 ? C.teal : C.tealDark} strokeWidth="0.6" fill="none" />
         ))}
       </g>
 
       {/* Luminous dot field */}
       {dots.map((d, i) => (
-        <circle key={i} cx={`${d.x}%`} cy={`${d.y}%`} r={d.r} fill={i % 2 === 0 ? C.tealBright : C.magenta} opacity={d.op} />
+        <circle key={i} cx={`${d.x}%`} cy={`${d.y}%`} r={d.r} fill={i % 2 === 0 ? C.tealBright : C.teal} opacity={d.op} />
       ))}
 
       {/* Double helix structure */}
       <g transform={`translate(${helixOffsetX}, ${helixOffsetY})`} opacity="0.06">
         <path d={`M0,0 C40,50 -40,100 0,150 C40,200 -40,250 0,300 C40,350 -40,400 0,450 C40,500 -40,550 0,600 C40,650 -40,700 0,750 C40,800 -40,850 0,900`} stroke={C.tealBright} strokeWidth="2.5" fill="none" />
-        <path d={`M80,0 C40,50 120,100 80,150 C40,200 120,250 80,300 C40,350 120,400 80,450 C40,500 120,550 80,600 C40,650 120,700 80,750 C40,800 120,850 80,900`} stroke={C.magenta} strokeWidth="2.5" fill="none" />
+        <path d={`M80,0 C40,50 120,100 80,150 C40,200 120,250 80,300 C40,350 120,400 80,450 C40,500 120,550 80,600 C40,650 120,700 80,750 C40,800 120,850 80,900`} stroke={C.teal} strokeWidth="2.5" fill="none" />
         {[0,75,150,225,300,375,450,525,600,675,750,825].map((y, i) => {
           const phase = Math.sin((y / 150) * Math.PI);
           const x1 = 40 + phase * 40;
@@ -207,12 +209,12 @@ const GlobalStyle = () => (
       .cream-card { background: #f7f3ed !important; border: 1px solid #c8c0b4 !important; }
       .cream-card, .cream-card * { color: #222 !important; }
 
-      /* ── PURPLE / TEAL DARK CARDS → white bg with teal left border ── */
+      /* ── CYAN DARK CARDS → white bg with cyan left border ── */
       .page div[style*="background: ${C.purple}"],
-      .page div[style*="background: rgb(107, 46, 125)"] {
+      .page div[style*="background: ${C.bg3}"] {
         background: #fff !important;
-        border: 1px solid #00D4D4 !important;
-        border-left: 3px solid #00D4D4 !important;
+        border: 1px solid #00E5FF !important;
+        border-left: 3px solid #00E5FF !important;
       }
 
       /* ── ALERT CARDS → white bg, keep left accent border ── */
@@ -231,8 +233,8 @@ const GlobalStyle = () => (
 
       /* ── TABLES ── */
       .tbl th {
-        background: linear-gradient(135deg, #6B2E7D, #B84BB8, #00D4D4) !important;
-        color: #1BFFFF !important;
+        background: linear-gradient(135deg, ${C.bg3}, ${C.teal}, ${C.tealBright}) !important;
+        color: ${C.cream1} !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -418,7 +420,7 @@ const CreamCard = ({ title, children, borderColor }) => (
   </div>
 );
 
-// Dark purple-teal card (matches Legacy Medical brand)
+// Dark cyan card (Nightingale BioTech steel + cyan theme)
 const TealCard = ({ title, children, icon }) => (
   <div style={{
     background: C.purple,
@@ -433,7 +435,7 @@ const TealCard = ({ title, children, icon }) => (
   </div>
 );
 
-// Alert / callout card (Legacy Medical brand: purple-teal gradient theme)
+// Alert / callout card (Nightingale BioTech: steel-cyan gradient theme)
 const AlertCard = ({ title, children, type }) => {
   const colors = {
     warn: { bg: `linear-gradient(135deg, ${C.gold}15, ${C.goldGlow})`, border: C.gold, text: C.goldLight },
@@ -514,7 +516,7 @@ const BigStat = ({ value, label, sub }) => (
   </div>
 );
 
-// Table (Legacy Medical brand: purple-magenta-teal gradient header)
+// Table (Nightingale BioTech: steel-cyan gradient header)
 const Tbl = ({ h, rows, compact }) => (
   <div style={{
     overflowX: "auto",

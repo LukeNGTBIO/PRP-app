@@ -6,60 +6,62 @@ import { useState, useRef, useEffect } from "react";
    Design Reference: Legacy Medical Consultants ActiGraft Playbook
    + Master Training Guide | 2026 Edition
    Brand Ownership: Nightingale BioTech (bird watermark)
-   Product Lines: ActiGraft (teal) · Legacy Medical (gold)
+   Brand Theme: Monochromatic Steel + Electric Cyan Backlit Glow
    ═══════════════════════════════════════════════════════════════════ */
 
-// ─── DESIGN TOKENS (Legacy Medical Consultants palette) ───
+// ─── DESIGN TOKENS (Nightingale BioTech Brand Theme — Steel + Cyan) ───
+import { NIGHTINGALE } from './brandTheme.js';
+
 const C = {
-  // Backgrounds — deep purple to teal gradient layers
-  bg0: "#1A0F1F",   // deepest (body) — dark purple
-  bg1: "#2A1A35",   // page base — purple
-  bg2: "#3A2550",   // page content — purple-teal transition
-  bg3: "#2A4055",   // elevated sections — teal-gray
-  bg4: "#1E384D",   // card dark — teal
-  bg5: "#2A4860",   // card hover — lighter teal
+  // Backgrounds — Monochromatic steel foundation
+  bg0: NIGHTINGALE.bg.deepest,    // "#1A1E24" — deepest steel
+  bg1: NIGHTINGALE.bg.base,       // "#22262E" — page base steel
+  bg2: NIGHTINGALE.bg.card,       // "#2E343C" — page content steel
+  bg3: NIGHTINGALE.bg.elevated,   // "#3C424C" — elevated sections
+  bg4: NIGHTINGALE.bg.cardAlt,    // "#343A44" — card dark
+  bg5: NIGHTINGALE.bg.panel,      // "#282D35" — card hover
 
-  // Cream text hierarchy (matches Legacy Medical typography)
-  cream1: "#F5F3F0", // primary headings — pure ivory
-  cream2: "#E8E4DD", // body text — warm cream
-  cream3: "#C8C0B8", // secondary text
-  cream4: "#A8A098", // muted/captions
-  cream5: "#888078", // very muted
+  // Text hierarchy — Silver/Platinum ramp
+  cream1: NIGHTINGALE.text.platinum,  // "#C8D0DA" — primary headings
+  cream2: NIGHTINGALE.text.silver,    // "#A8B2BE" — body text
+  cream3: NIGHTINGALE.text.chrome,    // "#C8D0DA" — secondary (brightened)
+  cream4: NIGHTINGALE.text.pewter,    // "#788290" — muted/captions
+  cream5: NIGHTINGALE.text.slate,     // "#606A78" — very muted
 
-  // Cream card backgrounds (matches the light info boxes)
-  cardCream: "#F5F3ED",
-  cardCreamBorder: "#D8D0C8",
-  cardCreamText: "#2A2520",
-  cardCreamMuted: "#5A5248",
+  // Cream card backgrounds (light info boxes)
+  cardCream: NIGHTINGALE.frost.bright,      // "rgba(210,218,228,0.20)"
+  cardCreamBorder: NIGHTINGALE.border.light, // "#445060"
+  cardCreamText: NIGHTINGALE.text.platinum,  // "#C8D0DA"
+  cardCreamMuted: NIGHTINGALE.text.pewter,   // "#788290"
 
-  // Teal/Cyan accents (matches brand guide teal)
-  teal: "#5BB8C8",
-  tealDark: "#4AA6B6",
-  tealDeep: "#388898",
-  tealBright: "#7CD4E4",
-  tealGlow: "rgba(91,184,200,0.10)",
+  // Electric Cyan accents — The Glow Origin
+  teal: NIGHTINGALE.cyan.core,        // "#00E5FF" — electric cyan core
+  tealDark: NIGHTINGALE.cyan.mid,     // "#00BCD4" — mid cyan
+  tealDeep: NIGHTINGALE.cyan.dim,     // "#008C9E" — dim cyan
+  tealBright: NIGHTINGALE.cyan.bright, // "#5CF0FF" — bright cyan highlight
+  tealGlow: NIGHTINGALE.cyan.bg,      // "rgba(0,229,255,0.04)"
 
-  // Purple accent cards (matches brand guide purple)
-  purple: "#5E2A5E",
-  purpleBorder: "#8A4A8A",
-  purpleLight: "#7A3A7A",
-  purpleDark: "#3A1A3A",
+  // Cyan replacements (formerly purple accent cards)
+  purple: NIGHTINGALE.cyan.mid,         // "#00BCD4" — (replaced purple)
+  purpleBorder: NIGHTINGALE.cyan.bright, // "#5CF0FF" — (replaced purple border)
+  purpleLight: NIGHTINGALE.cyan.bright,  // "#5CF0FF" — (replaced light purple)
+  purpleDark: NIGHTINGALE.cyan.deep,     // "#005F6B" — (replaced dark purple)
 
-  // Gold accents (Legacy Medical product line)
-  gold: "#C4A868",
-  goldDark: "#A08850",
-  goldLight: "#E0C888",
-  goldGlow: "rgba(196,168,104,0.12)",
+  // Gold accents (keep for warm contrast)
+  gold: NIGHTINGALE.frost.warm,       // "rgba(210,190,160,0.12)" — amber reflection
+  goldDark: NIGHTINGALE.text.pewter,  // "#788290"
+  goldLight: NIGHTINGALE.text.silver, // "#A8B2BE"
+  goldGlow: NIGHTINGALE.cyan.bgHover, // "rgba(0,229,255,0.07)"
 
   // Status
-  green: "#7BAA8E",
-  red: "#C07070",
-  redLight: "#D09090",
-  amber: "#C4A868",
+  green: NIGHTINGALE.status.green.value,  // "#7BAA8E"
+  red: NIGHTINGALE.status.red.value,      // "#B07878"
+  redLight: NIGHTINGALE.status.red.border, // "rgba(176,120,120,0.18)"
+  amber: NIGHTINGALE.status.amber.value,   // "#A8986C"
 
   // Borders
-  border: "#3A2850",
-  borderLight: "#4A3860",
+  border: NIGHTINGALE.border.default,  // "#38404C"
+  borderLight: NIGHTINGALE.border.light, // "#445060"
 };
 
 // ─── NIGHTINGALE BIRD SVG WATERMARK ───
@@ -356,7 +358,7 @@ const CreamCard = ({ title, children, borderColor }) => (
   </div>
 );
 
-// Dark purple-teal card (matches Legacy Medical brand)
+// Dark cyan card (Nightingale BioTech steel + cyan theme)
 const TealCard = ({ title, children, icon }) => (
   <div style={{ background: C.purple, border: `1px solid ${C.purpleBorder}`, borderRadius: 8, padding: "18px 20px", marginBottom: 12, boxShadow: `0 2px 8px ${C.purpleDark}40` }}>
     {title && <div style={{ fontSize: 13, fontWeight: 700, color: C.tealBright, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5, fontSize: 11 }}>{title}</div>}
