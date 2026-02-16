@@ -5,6 +5,7 @@ import MethodistIntelDashboard from './MethodistIntelDashboard.jsx'
 import MethodistIntelDashboard_Mobile from './MethodistIntelDashboard_Mobile.jsx'
 import ActiGraftManual from './ActiGraftManual.jsx'
 import ActiGraftCalculator from './ActiGraftCalculator.jsx'
+import ActiGraftPresentationDeck from './ActiGraftPresentationDeck.jsx'
 import nbLogoWhite from './assets/nb-logo-white.png'
 import { NIGHTINGALE } from './brandTheme'
 
@@ -85,6 +86,9 @@ function App() {
         <button onClick={() => setActivePage('manual')} style={tabStyle(activePage === 'manual')}>
           {isMobile ? 'Manual' : 'Manual & Training'}
         </button>
+        <button onClick={() => setActivePage('presentation')} style={tabStyle(activePage === 'presentation')}>
+          {isMobile ? 'Deck' : 'Presentation Deck'}
+        </button>
       </nav>
 
       {/* Page Content */}
@@ -92,6 +96,7 @@ function App() {
       {activePage === 'methodist' && (isMobile ? <MethodistIntelDashboard_Mobile /> : <MethodistIntelDashboard />)}
       {activePage === 'calculator' && <ActiGraftCalculator />}
       {activePage === 'manual' && <ActiGraftManual />}
+      {activePage === 'presentation' && <ActiGraftPresentationDeck />}
     </div>
   )
 }
