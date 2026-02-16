@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PRP from './PRP.jsx'
 import MethodistIntelDashboard from './MethodistIntelDashboard.jsx'
+import nbBirdWhite from './assets/nb-bird-white.png'
 
 function App() {
   const [activePage, setActivePage] = useState('prp')
@@ -17,20 +18,32 @@ function App() {
         padding: '0 32px',
         display: 'flex',
         alignItems: 'center',
-        gap: 8,
+        gap: 12,
         fontFamily: "'Outfit', 'Helvetica Neue', sans-serif",
       }}>
-        <span style={{
-          color: '#D4A860',
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: 1.5,
-          textTransform: 'uppercase',
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
           marginRight: 16,
-          padding: '14px 0',
+          padding: '8px 0',
         }}>
-          NIGHTINGALE BIOTECH
-        </span>
+          <img
+            src={nbBirdWhite}
+            alt="Nightingale Biotech"
+            style={{ height: 32, width: 'auto', filter: 'brightness(1.1)' }}
+          />
+          <span style={{
+            color: '#D4A860',
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: 1.5,
+            textTransform: 'uppercase',
+            lineHeight: 1.2,
+          }}>
+            NIGHTINGALE<br />BIOTECH
+          </span>
+        </div>
         <button
           onClick={() => setActivePage('prp')}
           style={{

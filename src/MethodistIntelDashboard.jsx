@@ -9,6 +9,7 @@ import {
   DollarSign, TrendingUp, FileText, Users, Heart, ChevronDown, ChevronRight,
   Target, Zap, Clock, MapPin, Phone, Mail, ExternalLink, Star, Layers
 } from "lucide-react";
+import nbBirdWhite from './assets/nb-bird-white.png';
 
 // ─── DATA LAYER ───────────────────────────────────────────────
 // Official Nightingale Biotech Brand Colors (Brand Toolkit July 2024)
@@ -31,8 +32,6 @@ const BRAND = {
   high: "#1A3A6B",             // Navy — high confidence
   taupe: "#f0efe8",            // Cream — alt backgrounds
   white: "#1a1a2e",            // Dark navy — used for headings (inverted for light theme)
-  headerBg: "#1a1a2e",         // Dark navy — header background (matches PRP)
-  headerBorder: "#2a2a3e",     // Dark navy border
 };
 
 const HOSPITAL_PROFILE = {
@@ -264,11 +263,12 @@ export default function MethodistIntelDashboard() {
   return (
     <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Outfit', 'Helvetica Neue', sans-serif" }}>
       {/* HEADER */}
-      <div style={{ background: BRAND.headerBg, borderBottom: `2px solid #D4A860`, padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
+      <div style={{ background: "#1a1a2e", borderBottom: "2px solid #D4A860", padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
+                <img src={nbBirdWhite} alt="Nightingale Biotech" style={{ height: 28, width: "auto" }} />
                 <span style={{ color: "#D4A860", fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase" }}>NIGHTINGALE BIOTECH</span>
               </div>
               <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: -0.3, color: "#fff" }}>
