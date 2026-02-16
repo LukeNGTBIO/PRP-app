@@ -201,7 +201,7 @@ const SectionHeader = ({ icon: Icon, title, subtitle }) => (
   <div style={{ marginBottom: 18, paddingBottom: 12, borderBottom: `1px solid ${BRAND.border}` }}>
     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
       <Icon size={17} color={BRAND.brightBlue} />
-      <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: BRAND.white, letterSpacing: -0.2 }}>{title}</h2>
+      <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: BRAND.white, letterSpacing: -0.2, fontFamily: "'Libre Caslon Display', Georgia, serif" }}>{title}</h2>
     </div>
     {subtitle && <p style={{ margin: 0, marginLeft: 25, fontSize: 14, color: BRAND.textMuted }}>{subtitle}</p>}
   </div>
@@ -213,7 +213,7 @@ const Collapsible = ({ title, icon: Icon, children, defaultOpen = false }) => {
     <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, overflow: "hidden", marginBottom: 16 }}>
       <button onClick={() => setOpen(!open)} style={{ width: "100%", background: "transparent", border: "none", padding: "16px 22px", display: "flex", alignItems: "center", gap: 10, cursor: "pointer", color: BRAND.textPrimary }}>
         <Icon size={18} color={BRAND.brightBlue} />
-        <span style={{ flex: 1, textAlign: "left", fontSize: 17, fontWeight: 600, letterSpacing: -0.2 }}>{title}</span>
+        <span style={{ flex: 1, textAlign: "left", fontSize: 17, fontWeight: 600, letterSpacing: -0.2, fontFamily: "'Libre Caslon Display', Georgia, serif" }}>{title}</span>
         {open ? <ChevronDown size={18} color={BRAND.textMuted} /> : <ChevronRight size={18} color={BRAND.textMuted} />}
       </button>
       {open && <div style={{ padding: "0 22px 20px", borderTop: `1px solid ${BRAND.border}` }}>{children}</div>}
@@ -268,7 +268,7 @@ export default function MethodistIntelDashboard() {
               <div style={{ marginBottom: 8 }}>
                 <img src={nbLogoWhite} alt="Nightingale Biotech" style={{ height: 30, width: "auto" }} />
               </div>
-              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#E6EBF0" }}>
+              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#E6EBF0", fontFamily: "'Libre Caslon Display', Georgia, serif" }}>
                 Methodist University Hospital — Market Intelligence
               </h1>
               <p style={{ margin: 0, fontSize: 14, color: "#8E9BAA", marginTop: 4 }}>

@@ -780,7 +780,7 @@ export default function NCD270StudyChart() {
         <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "2px", color: "#5CE0D2", marginBottom: 6 }}>
           NCD 270.3 COMPETITIVE LANDSCAPE — FEBRUARY 2026
         </div>
-        <div style={{ fontSize: "22px", fontWeight: 800, lineHeight: 1.2 }}>
+        <div style={{ fontSize: "22px", fontWeight: 800, lineHeight: 1.2, fontFamily: "'Libre Caslon Display', Georgia, serif" }}>
           Autologous Blood-Derived Wound Products
         </div>
         <div style={{ fontSize: "14px", color: "#8E9BAA", marginTop: 6 }}>
