@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /* ═══════════════════════════════════════════════════════════════════
    ACTIGRAFT TRAINING & EDUCATION MANUAL — e-PDF Edition
@@ -250,19 +250,56 @@ const GlobalStyle = () => (
 );
 
 // ─── PAGE WRAPPER (each "page" of the e-PDF) ───
-let _pageCounter = 0;
+// Using static variant based on pageNum to ensure consistent rendering
 const Page = ({ children, pageNum }) => {
-  const variant = (_pageCounter++) % 2;
+  // Derive variant from page number for consistent background patterns
+  const variant = typeof pageNum === 'string' && pageNum !== '' && pageNum !== 'i'
+    ? parseInt(pageNum) % 2
+    : (pageNum === 'i' ? 1 : 0);
+
+  const isMobile = window.innerWidth < 768;
+
   return (
-    <div className="page" style={{ position: "relative", maxWidth: 820, margin: "0 auto 32px", background: C.bg1, borderRadius: 3, boxShadow: "0 4px 40px rgba(0,0,0,0.5)", overflow: "hidden", minHeight: 400 }}>
+    <div className="page" style={{
+      position: "relative",
+      maxWidth: 820,
+      margin: isMobile ? "0 auto 20px" : "0 auto 32px",
+      background: C.bg1,
+      borderRadius: isMobile ? 0 : 3,
+      boxShadow: isMobile ? "none" : "0 4px 40px rgba(0,0,0,0.5)",
+      overflow: "hidden",
+      minHeight: 400
+    }}>
       <div className="mol-bg"><MolecularBg variant={variant} /></div>
       <BirdWatermark style={{ bottom: -40, right: -20, width: 280, height: 300 }} />
-    <div style={{ position: "relative", zIndex: 1, padding: "44px 48px 60px" }}>
+    <div style={{
+      position: "relative",
+      zIndex: 1,
+      padding: isMobile ? "28px 20px 44px" : "44px 48px 60px"
+    }}>
       {children}
     </div>
     {/* Page number + footer */}
-    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "10px 48px", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.border}`, zIndex: 2 }}>
-      <span style={{ fontSize: 8, color: C.cream5, letterSpacing: 1.5, textTransform: "uppercase" }}>Nightingale BioTech · Legacy Medical Consultants · Confidential</span>
+    <div style={{
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: isMobile ? "10px 20px" : "10px 48px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderTop: `1px solid ${C.border}`,
+      zIndex: 2
+    }}>
+      <span style={{
+        fontSize: isMobile ? 7 : 8,
+        color: C.cream5,
+        letterSpacing: isMobile ? 0.5 : 1.5,
+        textTransform: "uppercase"
+      }}>
+        {isMobile ? "Nightingale BioTech" : "Nightingale BioTech · Legacy Medical Consultants · Confidential"}
+      </span>
       <span style={{ fontSize: 9, color: C.cream4, fontWeight: 700 }}>{pageNum}</span>
     </div>
   </div>
@@ -393,6 +430,17 @@ export default function ActiGraftManual() {
   const [sendOpen, setSendOpen] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
 
+  // Scroll to top when component mounts (tab is opened)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Cleanup: close modals when component unmounts (tab is switched)
+    return () => {
+      setSendOpen(false);
+      setTocOpen(false);
+    };
+  }, []);
+
   const sections = [
     { id: "cover", label: "Cover", pg: "" },
     { id: "toc", label: "Table of Contents", pg: "i" },
@@ -418,15 +466,50 @@ export default function ActiGraftManual() {
       <SendModal open={sendOpen} onClose={() => setSendOpen(false)} />
 
       {/* ═══ FLOATING TOOLBAR ═══ */}
-      <div className="toolbar-float no-print" style={{ position: "fixed", top: 16, right: 16, zIndex: 500, display: "flex", gap: 6 }}>
-        <button onClick={() => setTocOpen(!tocOpen)} style={{ padding: "7px 14px", borderRadius: 4, border: `1px solid ${C.borderLight}`, background: C.bg3, color: C.cream3, cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
-          {tocOpen ? "✕ Close" : "☰ TOC"}
+      <div className="toolbar-float no-print" style={{
+        position: "fixed",
+        top: window.innerWidth < 768 ? 8 : 16,
+        right: window.innerWidth < 768 ? 8 : 16,
+        zIndex: 500,
+        display: "flex",
+        gap: window.innerWidth < 768 ? 4 : 6,
+        flexWrap: "wrap"
+      }}>
+        <button onClick={() => setTocOpen(!tocOpen)} style={{
+          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          borderRadius: 4,
+          border: `1px solid ${C.borderLight}`,
+          background: C.bg3,
+          color: C.cream3,
+          cursor: "pointer",
+          fontSize: window.innerWidth < 768 ? 10 : 11,
+          fontWeight: 600
+        }}>
+          {tocOpen ? "✕" : "☰"}
         </button>
-        <button onClick={() => window.print()} style={{ padding: "7px 14px", borderRadius: 4, border: `1px solid ${C.borderLight}`, background: C.bg3, color: C.cream3, cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
-          🖨 Print
+        <button onClick={() => window.print()} style={{
+          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          borderRadius: 4,
+          border: `1px solid ${C.borderLight}`,
+          background: C.bg3,
+          color: C.cream3,
+          cursor: "pointer",
+          fontSize: window.innerWidth < 768 ? 10 : 11,
+          fontWeight: 600
+        }}>
+          🖨
         </button>
-        <button onClick={() => setSendOpen(true)} style={{ padding: "7px 14px", borderRadius: 4, border: `1px solid ${C.teal}40`, background: C.blue, color: C.tealBright, cursor: "pointer", fontSize: 11, fontWeight: 700 }}>
-          ✉ Send
+        <button onClick={() => setSendOpen(true)} style={{
+          padding: window.innerWidth < 768 ? "6px 10px" : "7px 14px",
+          borderRadius: 4,
+          border: `1px solid ${C.teal}40`,
+          background: C.blue,
+          color: C.tealBright,
+          cursor: "pointer",
+          fontSize: window.innerWidth < 768 ? 10 : 11,
+          fontWeight: 700
+        }}>
+          ✉
         </button>
       </div>
 
@@ -441,7 +524,7 @@ export default function ActiGraftManual() {
         ))}
       </div>}
 
-      <div style={{ padding: "24px 16px 0" }}>
+      <div style={{ padding: window.innerWidth < 768 ? "12px 8px 0" : "24px 16px 0" }}>
 
         {/* ════════════════════════════════════
             COVER PAGE
