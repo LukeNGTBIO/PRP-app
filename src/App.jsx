@@ -85,6 +85,9 @@ function App() {
         <button onClick={() => setActivePage('manual')} style={tabStyle(activePage === 'manual')}>
           {isMobile ? 'Manual' : 'Manual & Training'}
         </button>
+        <button onClick={() => setActivePage('calculator')} style={tabStyle(activePage === 'calculator')}>
+          {isMobile ? 'ROI Calc' : 'ROI Calculator'}
+        </button>
       </nav>
 
       {/* Page Content */}
@@ -92,6 +95,7 @@ function App() {
       {activePage === 'methodist' && (isMobile ? <MethodistIntelDashboard_Mobile /> : <MethodistIntelDashboard />)}
       {activePage === 'calculator' && <ActiGraftCalculator />}
       {activePage === 'manual' && <ActiGraftManual />}
+      {activePage === 'calculator' && <ActiGraftCalculator />}
     </div>
   )
 }
