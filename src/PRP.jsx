@@ -375,17 +375,17 @@ function OverviewTab() {
           </div>
           {products.map(p => (
             <div key={p.id} style={{
-              padding: "12px 10px", borderLeft: "1px solid #38404C",
-              textAlign: "center"
+              padding: "12px 10px", borderLeft: `4px solid ${p.color}`,
+              background: p.lightColor, textAlign: "center"
             }}>
               <div style={{
-                display: "inline-block", width: "28px", height: "28px",
-                borderRadius: "4px", background: p.color, color: "#1E2228", textShadow: NIGHTINGALE.emboss.text,
-                fontSize: "13px", fontWeight: 800, lineHeight: "28px",
-                marginBottom: "4px"
+                display: "inline-flex", width: "32px", height: "32px",
+                borderRadius: "4px", background: p.color, color: "#C8D0DA",
+                fontSize: "14px", fontWeight: 800, alignItems: "center",
+                justifyContent: "center", marginBottom: "6px", margin: "0 auto 6px"
               }}>{p.abbr}</div>
-              <div style={{ fontSize: "14px", fontWeight: 700, marginTop: "2px", color: "#1E2228", textShadow: NIGHTINGALE.emboss.text }}>{p.name}</div>
-              <div style={{ fontSize: "12px", color: "#788290", marginTop: "1px" }}>{p.typeShort}</div>
+              <div style={{ fontSize: "16px", fontWeight: 800, marginTop: "2px", color: p.color }}>{p.name}</div>
+              <div style={{ fontSize: "12px", color: "#788290", marginTop: "2px" }}>{p.typeShort}</div>
             </div>
           ))}
         </div>
@@ -454,7 +454,7 @@ function ClinicalTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#1E2228", textShadow: NIGHTINGALE.emboss.text, fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#C8D0DA", textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6)", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
@@ -534,7 +534,7 @@ function AccessTab() {
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#1E2228", textShadow: NIGHTINGALE.emboss.text, fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#C8D0DA", textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6)", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
