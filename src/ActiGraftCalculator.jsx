@@ -382,11 +382,21 @@ export default function ActiGraftCalculator() {
     const skinSubInvoiceCostPerApp = skinSubInvoiceCostPerCm2 * billableCm2;
 
     let skinSubReimbPerApp;
+    let skinSubProductPaymentGross = 0; // Gross product payment (100%)
+    let skinSubProductPaymentNet = 0;   // Net product payment (80% Medicare pays)
+
     if (siteOfService === "office") {
-      // Physician office: Separate product payment (closer to ASP-based rates ~$800 typical)
-      // Office reimbursement is typically product cost-based, not bundled
-      const officeRate = paymentYear === "cy2025" ? 800 : 850; // Approximate office reimbursement
-      skinSubReimbPerApp = Math.min(officeRate, skinSubProductCostPerApp * 1.08); // Closer margin in office
+      // Physician office: Separate product payment
+      // Medicare Part B pays 80%, patient responsible for 20% coinsurance (often written off)
+      if (paymentYear === "cy2026") {
+        skinSubProductPaymentGross = yr.skinSub_flatRate_perCm2 * billableCm2;
+        skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80; // Medicare pays 80%
+        skinSubReimbPerApp = skinSubProductPaymentNet; // Office: product only, no separate application fee
+      } else {
+        const officeRate = 800; // CY 2025 approximate office reimbursement
+        const officeRateGross = Math.min(officeRate, skinSubProductCostPerApp * 1.08);
+        skinSubReimbPerApp = officeRateGross * 0.80; // Apply 80% Medicare payment
+      }
     } else if (paymentYear === "cy2025") {
       // HOPD Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
       const bundledBase = billableCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
@@ -395,10 +405,12 @@ export default function ActiGraftCalculator() {
       skinSubReimbPerApp = (bundled80Pct * yr.laborShare * wageIndex) + (bundled80Pct * yr.nonLaborShare);
     } else {
       // CY 2026 HOPD: Separate product payment + application procedure
-      const productPayment = yr.skinSub_flatRate_perCm2 * billableCm2;
+      // Medicare Part B pays 80%, patient responsible for 20% coinsurance (often written off)
+      skinSubProductPaymentGross = yr.skinSub_flatRate_perCm2 * billableCm2;
+      skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80; // Medicare pays 80%, patient 20% often uncollected
       const appProcedure = billableCm2 <= 100 ? 800 : 1200; // Approximate application-only APC
       const appProcedureAdj = (appProcedure * yr.laborShare * wageIndex) + (appProcedure * yr.nonLaborShare);
-      skinSubReimbPerApp = productPayment + appProcedureAdj;
+      skinSubReimbPerApp = skinSubProductPaymentNet + appProcedureAdj;
     }
 
     const skinSubTotalReimb = skinSubReimbPerApp * skinSubApplications;
@@ -458,6 +470,8 @@ export default function ActiGraftCalculator() {
       productChangeDir,
       productChangePct,
       billableCm2,
+      skinSubProductPaymentGross,  // 100% product payment
+      skinSubProductPaymentNet,    // 80% product payment (Medicare pays)
     };
   }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, unitsPerApplication, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
 
@@ -822,8 +836,9 @@ export default function ActiGraftCalculator() {
               {competitorCosts[product.name] && paymentYear === "cy2026" && (() => {
                 const billable = calc.billableCm2;
                 const totalCost = competitorCosts[product.name] * billable;
-                const totalReimb = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
-                const margin = totalReimb - totalCost;
+                const totalReimbGross = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
+                const totalReimbNet = totalReimbGross * 0.80; // Medicare pays 80%, patient 20% often written off
+                const marginNet = totalReimbNet - totalCost;
                 return (
                   <div style={{
                     marginTop: 8,
@@ -844,20 +859,26 @@ export default function ActiGraftCalculator() {
                         ${totalCost.toFixed(2)}
                       </span>
                     </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
+                      <span style={{ color: N.text.pewter }}>Reimb (gross):</span>
+                      <span style={{ color: N.text.slate, fontFamily: N.font.mono, textDecoration: "line-through" }}>
+                        ${totalReimbGross.toFixed(2)}
+                      </span>
+                    </div>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                      <span style={{ color: N.text.pewter }}>CY2026 Reimb:</span>
+                      <span style={{ color: N.text.pewter }}>Reimb (80% net):</span>
                       <span style={{ color: N.text.silver, fontFamily: N.font.mono }}>
-                        ${totalReimb.toFixed(2)}
+                        ${totalReimbNet.toFixed(2)}
                       </span>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 4, borderTop: `1px solid ${N.border.subtle}` }}>
-                      <span style={{ color: N.text.pewter, fontWeight: 700 }}>Gross Margin:</span>
+                      <span style={{ color: N.text.pewter, fontWeight: 700 }}>Net Margin:</span>
                       <span style={{
-                        color: margin > 0 ? N.status.green.value : N.status.red.value,
+                        color: marginNet > 0 ? N.status.green.value : N.status.red.value,
                         fontFamily: N.font.mono,
                         fontWeight: 700,
                       }}>
-                        {margin > 0 ? "+" : ""}${margin.toFixed(2)}
+                        {marginNet > 0 ? "+" : ""}${marginNet.toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -997,17 +1018,25 @@ export default function ActiGraftCalculator() {
                 </>
               ) : (
                 <>
-                  <div style={{ marginBottom: 8 }}>
+                  <div style={{ marginBottom: 4 }}>
                     <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
-                      Product: $127.14/cm² × {calc.billableCm2} cm²
+                      Product (gross): $127.14/cm² × {calc.billableCm2} cm²
                       {unitsPerApplication > 1 && <span style={{ fontSize: N.fontSize.xs, color: N.text.slate }}> ({woundSizeCm2} × {unitsPerApplication} units, rounded up)</span>}:
                     </span>
+                    <span style={{ color: N.text.slate, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8, textDecoration: "line-through" }}>
+                      {fmtDec(calc.skinSubProductPaymentGross)}
+                    </span>
+                  </div>
+                  <div style={{ marginBottom: 8 }}>
+                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
+                      Medicare pays 80% (patient 20% often written off):
+                    </span>
                     <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                      {fmtDec(CMS_DATA.cy2026.skinSub_flatRate_perCm2 * calc.billableCm2)}
+                      {fmtDec(calc.skinSubProductPaymentNet)}
                     </span>
                   </div>
                   <div style={{ marginBottom: 12 }}>
-                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Application + product (WI-adj):</span>
+                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Application + product (WI-adj, net):</span>
                     <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
                       {fmtDec(calc.skinSubReimbPerApp)}
                     </span>
@@ -1016,7 +1045,7 @@ export default function ActiGraftCalculator() {
                     fontSize: N.fontSize.xs, color: N.status.red.value, marginBottom: 12,
                     padding: "6px 10px", background: N.status.red.bg, borderRadius: 4,
                   }}>
-                    CY 2026: Products unpackaged — flat $127.14/cm² regardless of product ASP
+                    CY 2026: Flat $127.14/cm² × 80% Medicare payment = ${(CMS_DATA.cy2026.skinSub_flatRate_perCm2 * 0.80).toFixed(2)}/cm² net (patient 20% coinsurance often uncollected)
                   </div>
                 </>
               )}
