@@ -5,8 +5,8 @@ const products = [
     id: "actigraft",
     name: "ActiGraft PRO",
     abbr: "AG",
-    color: "#0D6E3F",
-    lightColor: "#E8F5ED",
+    color: "#5CD89C",
+    lightColor: "rgba(92, 216, 156, 0.12)",
     manufacturer: "RedDress Ltd.",
     mfgHQ: "Israel (U.S.: Jacksonville, FL)",
     mfgLeader: "CEO Alon Kushnir (co-founder)",
@@ -67,8 +67,8 @@ const products = [
     id: "aurix",
     name: "Aurix / CENTRIO",
     abbr: "AX",
-    color: "#1A3A6B",
-    lightColor: "#E6EDF7",
+    color: "#6CA8D8",
+    lightColor: "rgba(108, 168, 216, 0.12)",
     manufacturer: "Nuo Therapeutics, Inc.",
     mfgHQ: "Houston, TX (OTCQB: AURX)",
     mfgLeader: "CEO not disclosed; ~5 employees",
@@ -129,8 +129,8 @@ const products = [
     id: "cascade",
     name: "CASCADE",
     abbr: "CS",
-    color: "#8B4513",
-    lightColor: "#FDF3E7",
+    color: "#D8C060",
+    lightColor: "rgba(216, 192, 96, 0.12)",
     manufacturer: "PRP Concepts, Inc.",
     mfgHQ: "Red Bank, NJ",
     mfgLeader: "CEO Damon Keeley, PhD (founder)",
@@ -191,8 +191,8 @@ const products = [
     id: "fastskin",
     name: "FastSkin Patch",
     abbr: "FS",
-    color: "#7B2D8E",
-    lightColor: "#F5EAF8",
+    color: "#B08CD8",
+    lightColor: "rgba(176, 140, 216, 0.12)",
     manufacturer: "MimiX Biotherapeutics, Ltd.",
     mfgHQ: "Biel/Bienne, Switzerland",
     mfgLeader: "CEO Marc Thurner (founder/chairman)",
@@ -300,7 +300,7 @@ const tabs = [
   { id: "additional", label: "+3 Products" }
 ];
 
-function Badge({ children, color = "#555", bg = "#f0f0f0" }) {
+function Badge({ children, color = "#8E9BAA", bg = "rgba(30, 42, 56, 0.33)" }) {
   return (
     <span style={{
       display: "inline-block", fontSize: "12px", fontWeight: 700,
@@ -311,16 +311,16 @@ function Badge({ children, color = "#555", bg = "#f0f0f0" }) {
 }
 
 function Check({ yes, partial }) {
-  if (yes) return <span style={{ color: "#0D6E3F", fontSize: "20px", fontWeight: 900 }}>✓</span>;
-  if (partial) return <span style={{ color: "#D4A017", fontSize: "20px", fontWeight: 900 }}>◐</span>;
-  return <span style={{ color: "#ccc", fontSize: "18px" }}>✗</span>;
+  if (yes) return <span style={{ color: "#5CD89C", fontSize: "20px", fontWeight: 900 }}>&#10003;</span>;
+  if (partial) return <span style={{ color: "#D8C060", fontSize: "20px", fontWeight: 900 }}>&#9680;</span>;
+  return <span style={{ color: "#3E5060", fontSize: "18px" }}>&#10007;</span>;
 }
 
 function RatingBadge({ rating }) {
   const styles = {
-    "Most Favorable": { bg: "#0D6E3F", color: "#fff" },
-    "Favorable": { bg: "#2E7D32", color: "#fff" },
-    "NCD Only": { bg: "#78909C", color: "#fff" }
+    "Most Favorable": { bg: "rgba(92, 216, 156, 0.15)", color: "#5CD89C" },
+    "Favorable": { bg: "rgba(92, 216, 156, 0.10)", color: "#68D4BC" },
+    "NCD Only": { bg: "rgba(94, 110, 126, 0.12)", color: "#8E9BAA" }
   };
   const s = styles[rating] || styles["NCD Only"];
   return <Badge color={s.color} bg={s.bg}>{rating}</Badge>;
@@ -329,9 +329,9 @@ function RatingBadge({ rating }) {
 function SectionHeader({ children }) {
   return (
     <div style={{
-      padding: "6px 12px", background: "#1a1a2e", color: "#D4A860",
+      padding: "6px 12px", background: "#090C12", color: "#5CE0D2",
       fontSize: "12px", fontWeight: 700, letterSpacing: "1.5px",
-      textTransform: "uppercase", borderBottom: "1px solid #2a2a3e"
+      textTransform: "uppercase", borderBottom: "1px solid #1E2A38"
     }}>{children}</div>
   );
 }
@@ -340,19 +340,19 @@ function DataRow({ label, values, highlight, mono }) {
   return (
     <div style={{
       display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
-      borderBottom: "1px solid #eee", minHeight: "40px",
-      background: highlight ? "#fafaf5" : "#fff"
+      borderBottom: "1px solid #1E2A38", minHeight: "40px",
+      background: highlight ? "#161D27" : "#121820"
     }}>
       <div style={{
         padding: "8px 12px", fontSize: "13px", fontWeight: 700,
-        color: "#444", background: highlight ? "#f5f5ed" : "#f9f9f9",
-        borderRight: "1px solid #eee", display: "flex", alignItems: "center"
+        color: "#C4CDD8", background: highlight ? "#161D27" : "#0E1319",
+        borderRight: "1px solid #1E2A38", display: "flex", alignItems: "center"
       }}>{label}</div>
       {values.map((v, i) => (
         <div key={i} style={{
           padding: "8px 10px", fontSize: mono ? "11px" : "12px",
           fontFamily: mono ? "'JetBrains Mono', 'Fira Code', monospace" : "inherit",
-          color: "#333", borderRight: i < 3 ? "1px solid #f0f0f0" : "none",
+          color: "#C4CDD8", borderRight: i < 3 ? "1px solid rgba(30, 42, 56, 0.33)" : "none",
           display: "flex", alignItems: "center", lineHeight: "1.4"
         }}>{v}</div>
       ))}
@@ -367,24 +367,24 @@ function OverviewTab() {
         {/* Header row */}
         <div style={{
           display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
-          background: "#1a1a2e", color: "#fff", position: "sticky", top: 0, zIndex: 2
+          background: "#090C12", color: "#E6EBF0", position: "sticky", top: 0, zIndex: 2
         }}>
-          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
+          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#5CE0D2" }}>
             PRODUCT ATTRIBUTE
           </div>
           {products.map(p => (
             <div key={p.id} style={{
-              padding: "12px 10px", borderLeft: "1px solid #2a2a3e",
+              padding: "12px 10px", borderLeft: "1px solid #1E2A38",
               textAlign: "center"
             }}>
               <div style={{
                 display: "inline-block", width: "28px", height: "28px",
-                borderRadius: "4px", background: p.color, color: "#fff",
+                borderRadius: "4px", background: p.color, color: "#E6EBF0",
                 fontSize: "13px", fontWeight: 800, lineHeight: "28px",
                 marginBottom: "4px"
               }}>{p.abbr}</div>
               <div style={{ fontSize: "14px", fontWeight: 700, marginTop: "2px" }}>{p.name}</div>
-              <div style={{ fontSize: "12px", color: "#aaa", marginTop: "1px" }}>{p.typeShort}</div>
+              <div style={{ fontSize: "12px", color: "#8E9BAA", marginTop: "1px" }}>{p.typeShort}</div>
             </div>
           ))}
         </div>
@@ -394,7 +394,7 @@ function OverviewTab() {
         <DataRow label="HQ Location" values={products.map(p => p.mfgHQ)} highlight />
         <DataRow label="Key Leader" values={products.map(p => p.mfgLeader)} />
         <DataRow label="U.S. Distributor" values={products.map(p => (
-          <span>{p.distributor}{p.distExclusive && <Badge color="#0D6E3F" bg="#E8F5ED"> EXCLUSIVE</Badge>}</span>
+          <span>{p.distributor}{p.distExclusive && <Badge color="#5CD89C" bg="rgba(92, 216, 156, 0.12)"> EXCLUSIVE</Badge>}</span>
         ))} highlight />
         <DataRow label="Deal Details" values={products.map(p => p.distDetails)} />
 
@@ -404,10 +404,10 @@ function OverviewTab() {
         ))} />
         <DataRow label="Blood Volume" values={products.map(p => p.bloodVolume)} highlight mono />
         <DataRow label="Centrifuge Required" values={products.map(p => (
-          <span>{p.centrifuge ? <Badge color="#B71C1C" bg="#FFEBEE">YES</Badge> : <Badge color="#0D6E3F" bg="#E8F5ED">NO</Badge>}</span>
+          <span>{p.centrifuge ? <Badge color="#E07070" bg="rgba(224, 112, 112, 0.10)">YES</Badge> : <Badge color="#5CD89C" bg="rgba(92, 216, 156, 0.12)">NO</Badge>}</span>
         ))} />
         <DataRow label="Bovine Thrombin" values={products.map(p => (
-          <span>{p.bovineThrombin ? <Badge color="#B71C1C" bg="#FFEBEE">YES</Badge> : <Badge color="#0D6E3F" bg="#E8F5ED">NO</Badge>}</span>
+          <span>{p.bovineThrombin ? <Badge color="#E07070" bg="rgba(224, 112, 112, 0.10)">YES</Badge> : <Badge color="#5CD89C" bg="rgba(92, 216, 156, 0.12)">NO</Badge>}</span>
         ))} highlight />
         <DataRow label="Prep Time" values={products.map(p => p.prepTime)} mono />
         <DataRow label="Coverage Area" values={products.map(p => p.coverageArea)} highlight mono />
@@ -417,14 +417,14 @@ function OverviewTab() {
         <DataRow label="510(k) Clearance" values={products.map(p => p.fdaClearance)} mono />
         <DataRow label="Product Code" values={products.map(p => (
           <span>{p.productCode === "PMQ" ?
-            <Badge color="#0D6E3F" bg="#E8F5ED">PMQ ✓</Badge> :
-            <Badge color="#E65100" bg="#FFF3E0">ORG ⚠</Badge>
+            <Badge color="#5CD89C" bg="rgba(92, 216, 156, 0.12)">PMQ &#10003;</Badge> :
+            <Badge color="#D8C060" bg="rgba(216, 192, 96, 0.10)">ORG &#9888;</Badge>
           }</span>
         ))} highlight />
 
         <SectionHeader>Reimbursement</SectionHeader>
         <DataRow label="Kit Price" values={products.map(p => (
-          <span style={{ fontWeight: p.kitPrice.includes("$795") ? 800 : 400, color: p.kitPrice.includes("$795") ? "#0D6E3F" : "#666" }}>
+          <span style={{ fontWeight: p.kitPrice.includes("$795") ? 800 : 400, color: p.kitPrice.includes("$795") ? "#5CD89C" : "#8E9BAA" }}>
             {p.kitPrice}
           </span>
         ))} mono />
@@ -442,18 +442,18 @@ function ClinicalTab() {
       <div style={{ minWidth: "900px" }}>
         <div style={{
           display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
-          background: "#1a1a2e", color: "#fff", position: "sticky", top: 0, zIndex: 2
+          background: "#090C12", color: "#E6EBF0", position: "sticky", top: 0, zIndex: 2
         }}>
-          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
+          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#5CE0D2" }}>
             CLINICAL & MOA
           </div>
           {products.map(p => (
             <div key={p.id} style={{
-              padding: "10px", borderLeft: "1px solid #2a2a3e", textAlign: "center"
+              padding: "10px", borderLeft: "1px solid #1E2A38", textAlign: "center"
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#fff", fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#E6EBF0", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
@@ -468,20 +468,20 @@ function ClinicalTab() {
         ]} />
         <DataRow label="Active Components" values={[
           "ALL blood components: RBCs, WBCs, platelets, plasma, fibrin, stem cells, fibrocyte precursors",
-          "Concentrated platelets + growth factors: PDGF, TGF-β, VEGF (separated from RBCs/WBCs)",
-          "Platelets (210× concentrated) in dense cross-linked fibrin lattice; extremely low neutrophils",
+          "Concentrated platelets + growth factors: PDGF, TGF-\u03B2, VEGF (separated from RBCs/WBCs)",
+          "Platelets (210\u00D7 concentrated) in dense cross-linked fibrin lattice; extremely low neutrophils",
           "ALL blood components: similar to ActiGraft — RBCs, WBCs, platelets, fibrin, growth factors"
         ]} highlight />
         <DataRow label="Activation Method" values={[
           "Calcium gluconate powder + kaolin nanoparticles (pre-loaded in mold)",
           "Bovine thrombin + ascorbic acid (reagent kit)",
-          "Calcium chloride (CaCl₂) — endogenous thrombin activation",
+          "Calcium chloride (CaCl\u2082) — endogenous thrombin activation",
           "Calcium gluconate solution + 28mg kaolin (coagulation cartridge)"
         ]} />
         <DataRow label="Growth Factor Release" values={[
           "Immediate + sustained (clot acts as reservoir ~7 days)",
           "Burst release upon thrombin activation",
-          "Sustained 7–10 days (platelets remain unactivated; <5% CD62p)",
+          "Sustained 7\u201310 days (platelets remain unactivated; <5% CD62p)",
           "Immediate + sustained (similar to ActiGraft; clot active ~7 days)"
         ]} highlight />
         <DataRow label="Application Frequency" values={[
@@ -497,10 +497,10 @@ function ClinicalTab() {
         ))} highlight />
         <DataRow label="Total Patients / Uses" values={products.map(p => p.totalPatients)} />
         <DataRow label="Evidence Tier" values={[
-          <Badge color="#1a1a2e" bg="#E8E8E8">Tier 1: Multicenter RCT (n=119)</Badge>,
-          <Badge color="#1A3A6B" bg="#E6EDF7">Tier 1+: Blinded RCT drove NCD (n=129)</Badge>,
-          <Badge color="#8B4513" bg="#FDF3E7">Tier 2: Pilot study (n=21 VLU)</Badge>,
-          <Badge color="#7B2D8E" bg="#F5EAF8">Tier 3: Small FDA study (n=20)</Badge>
+          <Badge color="#E6EBF0" bg="rgba(94, 110, 126, 0.12)">Tier 1: Multicenter RCT (n=119)</Badge>,
+          <Badge color="#6CA8D8" bg="rgba(108, 168, 216, 0.12)">Tier 1+: Blinded RCT drove NCD (n=129)</Badge>,
+          <Badge color="#D8C060" bg="rgba(216, 192, 96, 0.12)">Tier 2: Pilot study (n=21 VLU)</Badge>,
+          <Badge color="#B08CD8" bg="rgba(176, 140, 216, 0.12)">Tier 3: Small FDA study (n=20)</Badge>
         ]} highlight />
         <DataRow label="CED Participation" values={[
           "No", "Yes — instrumental in NCD 270.3", "No", "No"
@@ -522,18 +522,18 @@ function AccessTab() {
       <div style={{ minWidth: "900px" }}>
         <div style={{
           display: "grid", gridTemplateColumns: "180px repeat(4, 1fr)",
-          background: "#1a1a2e", color: "#fff", position: "sticky", top: 0, zIndex: 2
+          background: "#090C12", color: "#E6EBF0", position: "sticky", top: 0, zIndex: 2
         }}>
-          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#D4A860" }}>
+          <div style={{ padding: "12px", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", color: "#5CE0D2" }}>
             MARKET ACCESS
           </div>
           {products.map(p => (
             <div key={p.id} style={{
-              padding: "10px", borderLeft: "1px solid #2a2a3e", textAlign: "center"
+              padding: "10px", borderLeft: "1px solid #1E2A38", textAlign: "center"
             }}>
               <div style={{
                 display: "inline-block", padding: "2px 10px", borderRadius: "3px",
-                background: p.color, color: "#fff", fontSize: "13px", fontWeight: 700
+                background: p.color, color: "#E6EBF0", fontSize: "13px", fontWeight: 700
               }}>{p.name}</div>
             </div>
           ))}
@@ -541,58 +541,58 @@ function AccessTab() {
 
         <SectionHeader>GPO & Formulary Contracts</SectionHeader>
         <DataRow label="Vizient" values={products.map(p => (
-          <span><Check yes={p.vizient} /> {p.vizientDate && <span style={{ fontSize: "12px", color: "#666", marginLeft: 4 }}>{p.vizientDate}</span>}</span>
+          <span><Check yes={p.vizient} /> {p.vizientDate && <span style={{ fontSize: "12px", color: "#8E9BAA", marginLeft: 4 }}>{p.vizientDate}</span>}</span>
         ))} />
         <DataRow label="Healogics iSupply" values={products.map(p => (
-          <span><Check yes={p.healogics} /> {p.healogicsDate && <span style={{ fontSize: "12px", color: "#666", marginLeft: 4 }}>{p.healogicsDate}</span>}</span>
+          <span><Check yes={p.healogics} /> {p.healogicsDate && <span style={{ fontSize: "12px", color: "#8E9BAA", marginLeft: 4 }}>{p.healogicsDate}</span>}</span>
         ))} highlight />
         <DataRow label="WCA Formulary" values={products.map(p => (
-          <span><Check yes={p.wca} /> {p.wcaDate && <span style={{ fontSize: "12px", color: "#666", marginLeft: 4 }}>{p.wcaDate}</span>}</span>
+          <span><Check yes={p.wca} /> {p.wcaDate && <span style={{ fontSize: "12px", color: "#8E9BAA", marginLeft: 4 }}>{p.wcaDate}</span>}</span>
         ))} />
         <DataRow label="Premier" values={products.map(p => <Check yes={p.premier} />)} highlight />
         <DataRow label="HealthTrust" values={products.map(p => <Check yes={p.healthTrust} />)} />
 
         <SectionHeader>Strategic Partnerships</SectionHeader>
         <DataRow label="Smith+Nephew" values={products.map(p => (
-          <span>{p.smithNephew ? <Badge color="#1A3A6B" bg="#E6EDF7">CENTRIO Deal</Badge> : <Check />}</span>
+          <span>{p.smithNephew ? <Badge color="#6CA8D8" bg="rgba(108, 168, 216, 0.12)">CENTRIO Deal</Badge> : <Check />}</span>
         ))} />
         <DataRow label="PAM Health" values={products.map(p => (
-          <span>{p.pamHealth ? <Badge color="#1A3A6B" bg="#E6EDF7">Exclusive</Badge> : <Check />}</span>
+          <span>{p.pamHealth ? <Badge color="#6CA8D8" bg="rgba(108, 168, 216, 0.12)">Exclusive</Badge> : <Check />}</span>
         ))} highlight />
 
         <SectionHeader>VA / DoD Access</SectionHeader>
         <DataRow label="VA Status" values={products.map(p => p.vaStatus)} />
         <DataRow label="VA Access Level" values={products.map(p => (
-          <span>{p.vaIcon === "full" ? <Badge color="#fff" bg="#0D6E3F">FSS CONTRACT ✓</Badge> :
-                 p.vaIcon === "partial" ? <Badge color="#8B6914" bg="#FFF8E1">FACILITY-LEVEL</Badge> :
-                 <Badge color="#999" bg="#f5f5f5">NONE</Badge>}</span>
+          <span>{p.vaIcon === "full" ? <Badge color="#090C12" bg="#5CD89C">FSS CONTRACT &#10003;</Badge> :
+                 p.vaIcon === "partial" ? <Badge color="#D8C060" bg="rgba(216, 192, 96, 0.10)">FACILITY-LEVEL</Badge> :
+                 <Badge color="#5E6E7E" bg="rgba(62, 80, 96, 0.12)">NONE</Badge>}</span>
         ))} highlight />
 
         <SectionHeader>Commercial Payer Landscape</SectionHeader>
-        <DataRow label="UnitedHealthcare" values={Array(4).fill(<Badge color="#B71C1C" bg="#FFEBEE">DENIED — Experimental</Badge>)} />
-        <DataRow label="Aetna" values={Array(4).fill(<Badge color="#B71C1C" bg="#FFEBEE">DENIED — Experimental</Badge>)} highlight />
-        <DataRow label="Cigna" values={Array(4).fill(<Badge color="#B71C1C" bg="#FFEBEE">DENIED — Experimental (Policy 0507)</Badge>)} />
-        <DataRow label="BCBS" values={Array(4).fill(<Badge color="#B71C1C" bg="#FFEBEE">DENIED — Investigational (2.01.98)</Badge>)} highlight />
-        <DataRow label="Medicare Advantage" values={Array(4).fill(<Badge color="#0D6E3F" bg="#E8F5ED">COVERED — Must follow NCD 270.3</Badge>)} />
-        <DataRow label="Medicaid" values={Array(4).fill(<Badge color="#78909C" bg="#ECEFF1">State-dependent; most defer to NCD</Badge>)} highlight />
+        <DataRow label="UnitedHealthcare" values={Array(4).fill(<Badge color="#E07070" bg="rgba(224, 112, 112, 0.10)">DENIED — Experimental</Badge>)} />
+        <DataRow label="Aetna" values={Array(4).fill(<Badge color="#E07070" bg="rgba(224, 112, 112, 0.10)">DENIED — Experimental</Badge>)} highlight />
+        <DataRow label="Cigna" values={Array(4).fill(<Badge color="#E07070" bg="rgba(224, 112, 112, 0.10)">DENIED — Experimental (Policy 0507)</Badge>)} />
+        <DataRow label="BCBS" values={Array(4).fill(<Badge color="#E07070" bg="rgba(224, 112, 112, 0.10)">DENIED — Investigational (2.01.98)</Badge>)} highlight />
+        <DataRow label="Medicare Advantage" values={Array(4).fill(<Badge color="#5CD89C" bg="rgba(92, 216, 156, 0.12)">COVERED — Must follow NCD 270.3</Badge>)} />
+        <DataRow label="Medicaid" values={Array(4).fill(<Badge color="#8E9BAA" bg="rgba(94, 110, 126, 0.12)">State-dependent; most defer to NCD</Badge>)} highlight />
 
         <SectionHeader>GPO Penetration Score</SectionHeader>
         <DataRow label="Overall Access Score" values={[
           <div style={{ display: "flex", gap: 2 }}>
-            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 4 ? "#0D6E3F" : "#e0e0e0" }} />)}
-            <span style={{ marginLeft: 6, fontWeight: 700, color: "#0D6E3F" }}>4/5</span>
+            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 4 ? "#5CD89C" : "#1E2A38" }} />)}
+            <span style={{ marginLeft: 6, fontWeight: 700, color: "#5CD89C" }}>4/5</span>
           </div>,
           <div style={{ display: "flex", gap: 2 }}>
-            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 3 ? "#1A3A6B" : "#e0e0e0" }} />)}
-            <span style={{ marginLeft: 6, fontWeight: 700, color: "#1A3A6B" }}>3/5</span>
+            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 3 ? "#6CA8D8" : "#1E2A38" }} />)}
+            <span style={{ marginLeft: 6, fontWeight: 700, color: "#6CA8D8" }}>3/5</span>
           </div>,
           <div style={{ display: "flex", gap: 2 }}>
-            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 1 ? "#8B4513" : "#e0e0e0" }} />)}
-            <span style={{ marginLeft: 6, fontWeight: 700, color: "#8B4513" }}>1/5</span>
+            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 1 ? "#D8C060" : "#1E2A38" }} />)}
+            <span style={{ marginLeft: 6, fontWeight: 700, color: "#D8C060" }}>1/5</span>
           </div>,
           <div style={{ display: "flex", gap: 2 }}>
-            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 0 ? "#7B2D8E" : "#e0e0e0" }} />)}
-            <span style={{ marginLeft: 6, fontWeight: 700, color: "#7B2D8E" }}>0/5</span>
+            {[1,2,3,4,5].map(i => <div key={i} style={{ width: 18, height: 18, borderRadius: 3, background: i <= 0 ? "#B08CD8" : "#1E2A38" }} />)}
+            <span style={{ marginLeft: 6, fontWeight: 700, color: "#B08CD8" }}>0/5</span>
           </div>
         ]} />
       </div>
@@ -604,7 +604,7 @@ function MACTab() {
   return (
     <div>
       <div style={{
-        padding: "16px", background: "#1a1a2e", color: "#D4A860",
+        padding: "16px", background: "#090C12", color: "#5CE0D2",
         fontSize: "13px", fontWeight: 600, lineHeight: 1.5
       }}>
         NCD 270.3 mandates national coverage for G0465 (diabetic wounds, first 20 weeks) — no MAC can deny.
@@ -613,33 +613,33 @@ function MACTab() {
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
           <thead>
-            <tr style={{ background: "#f5f5ed" }}>
+            <tr style={{ background: "#161D27" }}>
               {["MAC", "Jurisdiction", "States", "LCD #", "Rating", "Notes"].map(h => (
                 <th key={h} style={{
                   padding: "10px 12px", textAlign: "left", fontWeight: 700,
                   fontSize: "12px", letterSpacing: "0.5px", textTransform: "uppercase",
-                  color: "#555", borderBottom: "2px solid #ddd"
+                  color: "#8E9BAA", borderBottom: "2px solid #1E2A38"
                 }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {macData.map((m, i) => (
-              <tr key={m.mac} style={{ background: i % 2 ? "#fafafa" : "#fff" }}>
-                <td style={{ padding: "10px 12px", fontWeight: 700, color: "#333", borderBottom: "1px solid #eee" }}>{m.mac}</td>
-                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "13px", borderBottom: "1px solid #eee" }}>{m.jx}</td>
-                <td style={{ padding: "10px 12px", fontSize: "13px", color: "#555", borderBottom: "1px solid #eee", maxWidth: "200px" }}>{m.states}</td>
-                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "13px", borderBottom: "1px solid #eee" }}>{m.lcd}</td>
-                <td style={{ padding: "10px 12px", borderBottom: "1px solid #eee" }}><RatingBadge rating={m.rating} /></td>
-                <td style={{ padding: "10px 12px", fontSize: "13px", color: "#666", borderBottom: "1px solid #eee", lineHeight: 1.4 }}>{m.note}</td>
+              <tr key={m.mac} style={{ background: i % 2 ? "#0E1319" : "#121820" }}>
+                <td style={{ padding: "10px 12px", fontWeight: 700, color: "#E6EBF0", borderBottom: "1px solid #1E2A38" }}>{m.mac}</td>
+                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "13px", borderBottom: "1px solid #1E2A38", color: "#C4CDD8" }}>{m.jx}</td>
+                <td style={{ padding: "10px 12px", fontSize: "13px", color: "#8E9BAA", borderBottom: "1px solid #1E2A38", maxWidth: "200px" }}>{m.states}</td>
+                <td style={{ padding: "10px 12px", fontFamily: "monospace", fontSize: "13px", borderBottom: "1px solid #1E2A38", color: "#C4CDD8" }}>{m.lcd}</td>
+                <td style={{ padding: "10px 12px", borderBottom: "1px solid #1E2A38" }}><RatingBadge rating={m.rating} /></td>
+                <td style={{ padding: "10px 12px", fontSize: "13px", color: "#8E9BAA", borderBottom: "1px solid #1E2A38", lineHeight: 1.4 }}>{m.note}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div style={{ padding: "16px", background: "#fff", borderTop: "2px solid #eee" }}>
-        <div style={{ fontSize: "13px", fontWeight: 700, color: "#1a1a2e", marginBottom: "8px" }}>KEY BILLING REQUIREMENTS (ALL MACs)</div>
-        <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.7 }}>
+      <div style={{ padding: "16px", background: "#121820", borderTop: "2px solid #1E2A38" }}>
+        <div style={{ fontSize: "13px", fontWeight: 700, color: "#E6EBF0", marginBottom: "8px" }}>KEY BILLING REQUIREMENTS (ALL MACs)</div>
+        <div style={{ fontSize: "13px", color: "#8E9BAA", lineHeight: 1.7 }}>
           <div><strong>G0465</strong> — Autologous PRP/blood-derived for diabetic chronic wounds (NCD-mandated nationally)</div>
           <div><strong>G0460</strong> — Non-diabetic chronic wounds (MAC discretion; strongest coverage in Palmetto GBA, First Coast, Novitas)</div>
           <div><strong>KX Modifier</strong> — Required for treatments beyond 20 weeks (all MACs accept this mechanism)</div>
@@ -656,7 +656,7 @@ function StrategicTab() {
     <div style={{ overflowX: "auto" }}>
       <div style={{ minWidth: "900px" }}>
         {products.map(p => (
-          <div key={p.id} style={{ borderBottom: "3px solid #eee" }}>
+          <div key={p.id} style={{ borderBottom: "3px solid #1E2A38" }}>
             <div style={{
               display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
               background: p.lightColor, borderLeft: `4px solid ${p.color}`
@@ -664,39 +664,39 @@ function StrategicTab() {
               <div style={{ gridColumn: "1 / -1", padding: "12px 16px", display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 4, background: p.color,
-                  color: "#fff", fontSize: 14, fontWeight: 800, display: "flex",
+                  color: "#E6EBF0", fontSize: 14, fontWeight: 800, display: "flex",
                   alignItems: "center", justifyContent: "center"
                 }}>{p.abbr}</div>
                 <div>
                   <div style={{ fontSize: "16px", fontWeight: 800, color: p.color }}>{p.name}</div>
-                  <div style={{ fontSize: "13px", color: "#666" }}>{p.manufacturer} — {p.type}</div>
+                  <div style={{ fontSize: "13px", color: "#8E9BAA" }}>{p.manufacturer} — {p.type}</div>
                 </div>
               </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 0 }}>
-              <div style={{ padding: "12px 16px", borderRight: "1px solid #eee" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "#0D6E3F", letterSpacing: "0.5px", marginBottom: 8 }}>STRATEGIC ADVANTAGES</div>
+              <div style={{ padding: "12px 16px", borderRight: "1px solid #1E2A38" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#5CD89C", letterSpacing: "0.5px", marginBottom: 8 }}>STRATEGIC ADVANTAGES</div>
                 {p.strategicAdvantages.map((a, i) => (
-                  <div key={i} style={{ fontSize: "13px", color: "#333", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
-                    <span style={{ color: "#0D6E3F", fontWeight: 700 }}>+</span> {a}
+                  <div key={i} style={{ fontSize: "13px", color: "#E6EBF0", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
+                    <span style={{ color: "#5CD89C", fontWeight: 700 }}>+</span> {a}
                   </div>
                 ))}
               </div>
-              <div style={{ padding: "12px 16px", borderRight: "1px solid #eee" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "#1A3A6B", letterSpacing: "0.5px", marginBottom: 8 }}>RECENT NEWS (2024–2026)</div>
+              <div style={{ padding: "12px 16px", borderRight: "1px solid #1E2A38" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#6CA8D8", letterSpacing: "0.5px", marginBottom: 8 }}>RECENT NEWS (2024–2026)</div>
                 {p.recentNews.map((n, i) => (
-                  <div key={i} style={{ fontSize: "13px", color: "#333", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
-                    <span style={{ color: "#1A3A6B", fontWeight: 700 }}>→</span> {n}
+                  <div key={i} style={{ fontSize: "13px", color: "#E6EBF0", lineHeight: 1.5, marginBottom: 4, paddingLeft: 12, textIndent: -12 }}>
+                    <span style={{ color: "#6CA8D8", fontWeight: 700 }}>&rarr;</span> {n}
                   </div>
                 ))}
                 <div style={{ marginTop: 10 }}>
-                  <div style={{ fontSize: "12px", fontWeight: 700, color: "#666", marginBottom: 4 }}>STRONGHOLDS</div>
-                  <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.4 }}>{p.strongholds}</div>
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: "#8E9BAA", marginBottom: 4 }}>STRONGHOLDS</div>
+                  <div style={{ fontSize: "13px", color: "#8E9BAA", lineHeight: 1.4 }}>{p.strongholds}</div>
                 </div>
               </div>
               <div style={{ padding: "12px 16px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: "#B71C1C", letterSpacing: "0.5px", marginBottom: 8 }}>WEAKNESSES & VULNERABILITIES</div>
-                <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.5 }}>{p.weaknesses}</div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#E07070", letterSpacing: "0.5px", marginBottom: 8 }}>WEAKNESSES & VULNERABILITIES</div>
+                <div style={{ fontSize: "13px", color: "#8E9BAA", lineHeight: 1.5 }}>{p.weaknesses}</div>
               </div>
             </div>
           </div>
@@ -710,7 +710,7 @@ function AdditionalTab() {
   return (
     <div>
       <div style={{
-        padding: "16px", background: "#1a1a2e", color: "#D4A860",
+        padding: "16px", background: "#090C12", color: "#5CE0D2",
         fontSize: "13px", fontWeight: 600, lineHeight: 1.5
       }}>
         Three additional FDA 510(k)-cleared products qualify under NCD 270.3 but have minimal U.S. commercial presence.
@@ -719,38 +719,38 @@ function AdditionalTab() {
       {additionalProducts.map((p, i) => (
         <div key={p.name} style={{
           display: "grid", gridTemplateColumns: "200px 1fr",
-          borderBottom: "1px solid #eee", background: i % 2 ? "#fafafa" : "#fff"
+          borderBottom: "1px solid #1E2A38", background: i % 2 ? "#0E1319" : "#121820"
         }}>
           <div style={{
-            padding: "16px", borderRight: "1px solid #eee",
+            padding: "16px", borderRight: "1px solid #1E2A38",
             display: "flex", flexDirection: "column", justifyContent: "center"
           }}>
-            <div style={{ fontSize: "16px", fontWeight: 800, color: "#333" }}>{p.name}</div>
-            <div style={{ fontSize: "13px", color: "#666", marginTop: 2 }}>{p.manufacturer}</div>
+            <div style={{ fontSize: "16px", fontWeight: 800, color: "#E6EBF0" }}>{p.name}</div>
+            <div style={{ fontSize: "13px", color: "#8E9BAA", marginTop: 2 }}>{p.manufacturer}</div>
             <div style={{ marginTop: 6 }}>
-              <Badge color="#0D6E3F" bg="#E8F5ED">{p.code}</Badge>
-              <span style={{ fontSize: "12px", color: "#999", marginLeft: 6 }}>{p.clearance}</span>
+              <Badge color="#5CD89C" bg="rgba(92, 216, 156, 0.12)">{p.code}</Badge>
+              <span style={{ fontSize: "12px", color: "#5E6E7E", marginLeft: 6 }}>{p.clearance}</span>
             </div>
           </div>
           <div style={{ padding: "16px" }}>
-            <div style={{ fontSize: "14px", color: "#333", lineHeight: 1.5 }}>
+            <div style={{ fontSize: "14px", color: "#E6EBF0", lineHeight: 1.5 }}>
               <strong>Type:</strong> {p.type}
             </div>
-            <div style={{ fontSize: "14px", color: "#333", lineHeight: 1.5, marginTop: 4 }}>
+            <div style={{ fontSize: "14px", color: "#E6EBF0", lineHeight: 1.5, marginTop: 4 }}>
               <strong>Status:</strong> {p.status}
             </div>
-            <div style={{ fontSize: "13px", color: "#888", lineHeight: 1.5, marginTop: 4, fontStyle: "italic" }}>
+            <div style={{ fontSize: "13px", color: "#5E6E7E", lineHeight: 1.5, marginTop: 4, fontStyle: "italic" }}>
               {p.notes}
             </div>
           </div>
         </div>
       ))}
 
-      <div style={{ padding: "16px", background: "#fff3e0", borderTop: "2px solid #E65100" }}>
-        <div style={{ fontSize: "13px", fontWeight: 700, color: "#E65100", marginBottom: 6 }}>
+      <div style={{ padding: "16px", background: "rgba(216, 192, 96, 0.07)", borderTop: "1px solid #D8C060" }}>
+        <div style={{ fontSize: "13px", fontWeight: 700, color: "#D8C060", marginBottom: 6 }}>
           PRODUCTS THAT DO NOT QUALIFY UNDER NCD 270.3
         </div>
-        <div style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}>
+        <div style={{ fontSize: "13px", color: "#8E9BAA", lineHeight: 1.6 }}>
           The following widely-used PRP devices are cleared only for orthopedic bone graft handling (product code ORG without wound indications)
           and cannot bill G0465/G0460: Arthrex ACP & Angel Systems, GPS III (Zimmer Biomet — standalone), SmartPrep (Harvest/Terumo),
           Magellan (Medtronic), Pure PRP II (EmCyte), Eclipse PRP, Dr. PRP, RegenKit-THT (RegenLab — ortho version only).
@@ -765,26 +765,25 @@ export default function NCD270StudyChart() {
 
   return (
     <div style={{
-      fontFamily: "'Outfit', 'Helvetica Neue', sans-serif",
-      background: "#f0efe8", minHeight: "100vh",
+      fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif",
+      background: "#0A0E14", minHeight: "100vh",
       padding: "20px"
     }}>
-      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
       {/* Title */}
       <div style={{
-        background: "#1a1a2e",
+        background: "#090C12",
         borderRadius: "8px 8px 0 0",
         padding: "24px 20px",
-        color: "#fff"
+        color: "#E6EBF0"
       }}>
-        <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "2px", color: "#D4A860", marginBottom: 6 }}>
+        <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "2px", color: "#5CE0D2", marginBottom: 6 }}>
           NCD 270.3 COMPETITIVE LANDSCAPE — FEBRUARY 2026
         </div>
         <div style={{ fontSize: "22px", fontWeight: 800, lineHeight: 1.2 }}>
           Autologous Blood-Derived Wound Products
         </div>
-        <div style={{ fontSize: "14px", color: "#aaa", marginTop: 6 }}>
+        <div style={{ fontSize: "14px", color: "#8E9BAA", marginTop: 6 }}>
           7 FDA-cleared devices qualifying for Medicare diabetic ulcer coverage — 4 primary + 3 additional
         </div>
 
@@ -794,10 +793,10 @@ export default function NCD270StudyChart() {
             <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{
                 width: 22, height: 22, borderRadius: 3, background: p.color,
-                color: "#fff", fontSize: 11, fontWeight: 800, display: "flex",
+                color: "#E6EBF0", fontSize: 11, fontWeight: 800, display: "flex",
                 alignItems: "center", justifyContent: "center"
               }}>{p.abbr}</div>
-              <span style={{ fontSize: "13px", color: "#ccc" }}>{p.name}</span>
+              <span style={{ fontSize: "13px", color: "#5E6E7E" }}>{p.name}</span>
             </div>
           ))}
         </div>
@@ -805,17 +804,17 @@ export default function NCD270StudyChart() {
 
       {/* Tabs */}
       <div style={{
-        display: "flex", background: "#232340",
-        borderBottom: "2px solid #D4A860", overflowX: "auto"
+        display: "flex", background: "#0C1018",
+        borderBottom: "2px solid #5CE0D2", overflowX: "auto"
       }}>
         {tabs.map(t => (
           <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
             padding: "10px 18px", border: "none", cursor: "pointer",
             fontSize: "13px", fontWeight: 700, letterSpacing: "0.3px",
             fontFamily: "inherit",
-            background: activeTab === t.id ? "#D4A860" : "transparent",
-            color: activeTab === t.id ? "#1a1a2e" : "#aaa",
-            borderBottom: activeTab === t.id ? "2px solid #D4A860" : "2px solid transparent",
+            background: activeTab === t.id ? "#5CE0D2" : "transparent",
+            color: activeTab === t.id ? "#090C12" : "#8E9BAA",
+            borderBottom: activeTab === t.id ? "2px solid #5CE0D2" : "2px solid transparent",
             transition: "all 0.15s ease", whiteSpace: "nowrap"
           }}>{t.label}</button>
         ))}
@@ -823,10 +822,10 @@ export default function NCD270StudyChart() {
 
       {/* Content */}
       <div style={{
-        background: "#fff",
+        background: "#121820",
         borderRadius: "0 0 8px 8px",
         overflow: "hidden",
-        boxShadow: "0 2px 12px rgba(0,0,0,0.06)"
+        boxShadow: "0 2px 8px rgba(0,0,0,0.2), 0 0 1px rgba(92, 224, 210, 0.04)"
       }}>
         {activeTab === "overview" && <OverviewTab />}
         {activeTab === "clinical" && <ClinicalTab />}
@@ -839,7 +838,7 @@ export default function NCD270StudyChart() {
       {/* Footer */}
       <div style={{
         marginTop: 12, padding: "12px 16px",
-        fontSize: "12px", color: "#999", lineHeight: 1.5
+        fontSize: "12px", color: "#5E6E7E", lineHeight: 1.5
       }}>
         Sources: FDA 510(k) database, CMS NCD 270.3, Nuo Therapeutics 10-K (SEC), RedDress press releases, Smith+Nephew CENTRIO launch,
         PRP Concepts website, MimiX Biotherapeutics FDA submission, MAC LCD databases, commercial payer policy bulletins.

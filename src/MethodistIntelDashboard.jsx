@@ -12,26 +12,24 @@ import {
 import nbLogoWhite from './assets/nb-logo-white.png';
 
 // ─── DATA LAYER ───────────────────────────────────────────────
-// Official Nightingale Biotech Brand Colors (Brand Toolkit July 2024)
-// Dark Blue: #0A1526 | Light Blue: #CDE9EE | Bright Blue: #449AF6
-// Light Taupe: #EDE7D4 | Golden Yellow: #FEBE11 | White: #FFFFFF
+// Nightingale BioTech Brand Theme v3.0 — Dark Steel · Neon Aqua · Sea Green
 const BRAND = {
-  brightBlue: "#D4A860",       // Gold accent — CTAs, links, highlights (matches PRP)
-  lightBlue: "#f5f5ed",        // Light beige — soft highlights, badges
-  goldenYellow: "#D4A860",     // Gold accent — dividers, warnings, timeline markers
-  dark: "#f0efe8",             // Cream — page background (matches PRP)
-  darkPanel: "#fff",           // White — panel backgrounds
-  darkCard: "#fff",            // White — card backgrounds
-  border: "#eee",              // Light gray — borders
-  textPrimary: "#333",         // Dark gray — primary text
-  textSecondary: "#666",       // Medium gray — secondary text
-  textMuted: "#999",           // Light gray — muted text
-  confirmed: "#0D6E3F",        // Forest green — positive / confirmed (matches PRP)
-  assessed: "#E65100",         // Orange — assessed / warning
-  unconfirmed: "#B71C1C",      // Red — not found / barriers (matches PRP)
-  high: "#1A3A6B",             // Navy — high confidence
-  taupe: "#f0efe8",            // Cream — alt backgrounds
-  white: "#1a1a2e",            // Dark navy — used for headings (inverted for light theme)
+  brightBlue: "#5CE0D2",        // Neon Aqua — primary accent
+  lightBlue: "rgba(92, 224, 210, 0.06)",  // Aqua tinted bg
+  goldenYellow: "#D8C060",      // Yellow — warnings, timeline
+  dark: "#0A0E14",              // Dark steel — page background
+  darkPanel: "#0E1319",         // Panel backgrounds
+  darkCard: "#121820",          // Card surfaces
+  border: "#1E2A38",            // Steel border
+  textPrimary: "#E6EBF0",      // White — headings
+  textSecondary: "#8E9BAA",    // Silver muted — body
+  textMuted: "#5E6E7E",        // Silver dim — labels
+  confirmed: "#5CD89C",        // Green — positive/confirmed
+  assessed: "#D8C060",         // Yellow — assessed/warning
+  unconfirmed: "#E07070",      // Red — barriers/denied
+  high: "#6CA8D8",             // Blue — info/high confidence
+  taupe: "#0E1319",            // Panel shade
+  white: "#E6EBF0",            // White text on dark bg
 };
 
 const HOSPITAL_PROFILE = {
@@ -152,8 +150,8 @@ const STRATEGIC_SCORES = [
 ];
 
 const PER_APP_ECONOMICS = [
-  { name: "Kit Cost", value: 450, fill: "#E85D5D" },
-  { name: "Gross Margin", value: 1276, fill: "#449AF6" },
+  { name: "Kit Cost", value: 450, fill: "#E07070" },
+  { name: "Gross Margin", value: 1276, fill: "#5CE0D2" },
 ];
 
 const WOUND_CLOSURE_DATA = [
@@ -165,15 +163,15 @@ const WOUND_CLOSURE_DATA = [
 
 const ConfidenceBadge = ({ level }) => {
   const map = {
-    "Confirmed": { bg: "#E8F5ED", text: BRAND.confirmed, icon: CheckCircle },
-    "High Confidence": { bg: "#E6EDF7", text: BRAND.high, icon: Shield },
-    "Assessed": { bg: "#FFF3E0", text: BRAND.assessed, icon: AlertTriangle },
-    "Probable": { bg: "#FFF3E0", text: BRAND.assessed, icon: AlertTriangle },
-    "Moderate": { bg: "#FFF3E0", text: BRAND.assessed, icon: AlertTriangle },
-    "Unconfirmed": { bg: "#FFEBEE", text: BRAND.unconfirmed, icon: XCircle },
-    "Inferred": { bg: "#f5f5ed", text: BRAND.textSecondary, icon: Target },
-    "Recommendation": { bg: "#FDF3E7", text: "#8B4513", icon: Zap },
-    "Contextual": { bg: "#f5f5ed", text: BRAND.textSecondary, icon: FileText },
+    "Confirmed": { bg: "rgba(92, 216, 156, 0.12)", text: BRAND.confirmed, icon: CheckCircle },
+    "High Confidence": { bg: "rgba(108, 168, 216, 0.12)", text: BRAND.high, icon: Shield },
+    "Assessed": { bg: "rgba(216, 192, 96, 0.12)", text: BRAND.assessed, icon: AlertTriangle },
+    "Probable": { bg: "rgba(216, 192, 96, 0.12)", text: BRAND.assessed, icon: AlertTriangle },
+    "Moderate": { bg: "rgba(216, 192, 96, 0.12)", text: BRAND.assessed, icon: AlertTriangle },
+    "Unconfirmed": { bg: "rgba(224, 112, 112, 0.10)", text: BRAND.unconfirmed, icon: XCircle },
+    "Inferred": { bg: "rgba(94, 110, 126, 0.12)", text: BRAND.textSecondary, icon: Target },
+    "Recommendation": { bg: "rgba(92, 224, 210, 0.10)", text: BRAND.brightBlue, icon: Zap },
+    "Contextual": { bg: "rgba(94, 110, 126, 0.12)", text: BRAND.textSecondary, icon: FileText },
   };
   const cfg = map[level] || map["Unconfirmed"];
   const Icon = cfg.icon;
@@ -189,7 +187,7 @@ const StatusDot = ({ active }) => (
 );
 
 const MetricCard = ({ icon: Icon, label, value, sub, accent = BRAND.brightBlue }) => (
-  <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 4, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+  <div style={{ background: BRAND.darkCard, border: `1px solid ${BRAND.border}`, borderRadius: 8, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 4, boxShadow: "0 2px 8px rgba(0,0,0,0.2), 0 0 1px rgba(92, 224, 210, 0.04)" }}>
     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
       <Icon size={14} color={accent} />
       <span style={{ color: BRAND.textMuted, fontSize: 13, fontWeight: 500, letterSpacing: 0.4, textTransform: "uppercase" }}>{label}</span>
@@ -234,7 +232,7 @@ const DataRow = ({ label, value, confidence, highlight }) => (
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)" }}>
+    <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}>
       <div style={{ fontSize: 14, color: BRAND.textSecondary, marginBottom: 6 }}>{label}</div>
       {payload.map((p, i) => (
         <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, color: p.color, fontWeight: 600 }}>
@@ -261,36 +259,36 @@ export default function MethodistIntelDashboard() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Outfit', 'Helvetica Neue', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BRAND.dark, color: BRAND.textPrimary, fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif" }}>
       {/* HEADER */}
-      <div style={{ background: "#1a1a2e", borderBottom: "2px solid #D4A860", padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
+      <div style={{ background: "#090C12", borderBottom: "1px solid #2A4050", padding: "20px 32px", position: "sticky", top: 50, zIndex: 50 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div>
               <div style={{ marginBottom: 8 }}>
                 <img src={nbLogoWhite} alt="Nightingale Biotech" style={{ height: 30, width: "auto" }} />
               </div>
-              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#fff" }}>
+              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: -0.3, color: "#E6EBF0" }}>
                 Methodist University Hospital — Market Intelligence
               </h1>
-              <p style={{ margin: 0, fontSize: 14, color: "#aaa", marginTop: 4 }}>
+              <p style={{ margin: 0, fontSize: 14, color: "#8E9BAA", marginTop: 4 }}>
                 ActiGraft Pro · GPO Contracting Intelligence · Compiled Feb 15, 2026
               </p>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 13, color: "#aaa", background: "#232340", padding: "6px 12px", borderRadius: 8, border: "1px solid #2a2a3e" }}>
+              <span style={{ fontSize: 13, color: "#8E9BAA", background: "#0C1018", padding: "6px 12px", borderRadius: 8, border: "1px solid #1E2A38" }}>
                 <Clock size={12} style={{ verticalAlign: -2, marginRight: 4 }} /> Last Updated: Feb 15, 2026
               </span>
             </div>
           </div>
           {/* TABS */}
-          <div style={{ display: "flex", gap: 4, marginTop: 18, overflowX: "auto", background: "#232340", borderRadius: 6, padding: 4, borderBottom: "2px solid #D4A860" }}>
+          <div style={{ display: "flex", gap: 4, marginTop: 18, overflowX: "auto", background: "#0C1018", borderRadius: 6, padding: 4, borderBottom: "1px solid #2A4050" }}>
             {tabs.map(t => {
               const Icon = t.icon;
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? "#D4A860" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#1a1a2e" : "#aaa", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
+                  style={{ background: active ? "#5CE0D2" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#0A0E14" : "#5E6E7E", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );
@@ -467,7 +465,7 @@ export default function MethodistIntelDashboard() {
                     <XAxis dataKey="metric" tick={{ fontSize: 13, fill: BRAND.textSecondary }} />
                     <YAxis tick={{ fontSize: 13, fill: BRAND.textSecondary }} tickFormatter={v => `$${v}M`} />
                     <Tooltip content={({ active, payload }) => active && payload?.length ? (
-                      <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
+                      <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
                         <strong>{payload[0].payload.metric}</strong>: ${payload[0].value}M
                       </div>
                     ) : null} />
@@ -512,7 +510,7 @@ export default function MethodistIntelDashboard() {
                         {PER_APP_ECONOMICS.map((e, i) => <Cell key={i} fill={e.fill} />)}
                       </Pie>
                       <Tooltip content={({ active, payload }) => active && payload?.length ? (
-                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
+                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
                           <strong>{payload[0].name}</strong>: ${payload[0].value.toLocaleString()}
                         </div>
                       ) : null} />
@@ -535,7 +533,7 @@ export default function MethodistIntelDashboard() {
                       <XAxis type="number" tick={{ fontSize: 13, fill: BRAND.textSecondary }} tickFormatter={v => `${v}%`} domain={[0, 100]} />
                       <YAxis type="category" dataKey="name" tick={{ fontSize: 14, fill: BRAND.textSecondary }} width={120} />
                       <Tooltip content={({ active, payload }) => active && payload?.length ? (
-                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
+                        <div style={{ background: BRAND.darkPanel, border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "10px 14px", fontSize: 15, color: BRAND.textPrimary }}>
                           <strong>{payload[0].payload.name}</strong>: {payload[0].value}% closure
                         </div>
                       ) : null} />

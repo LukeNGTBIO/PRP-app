@@ -7,10 +7,10 @@ function App() {
   const [activePage, setActivePage] = useState('prp')
 
   const tabStyle = (isActive) => ({
-    background: isActive ? '#D4A860' : 'transparent',
+    background: isActive ? '#5CE0D2' : 'transparent',
     border: '2px solid transparent',
-    borderBottom: isActive ? '2px solid #D4A860' : '2px solid transparent',
-    color: isActive ? '#1a1a2e' : '#aaa',
+    borderBottom: isActive ? '2px solid #5CE0D2' : '2px solid transparent',
+    color: isActive ? '#0A0E14' : '#5E6E7E',
     padding: '12px 20px',
     fontSize: 14,
     fontWeight: 700,
@@ -21,19 +21,19 @@ function App() {
   })
 
   return (
-    <div style={{ background: '#f0efe8', minHeight: '100vh' }}>
+    <div style={{ background: '#0A0E14', minHeight: '100vh' }}>
       {/* Navigation Bar */}
       <nav style={{
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: '#1a1a2e',
-        borderBottom: '2px solid #D4A860',
+        background: '#090C12',
+        borderBottom: '1px solid #2A4050',
         padding: '0 32px',
         display: 'flex',
         alignItems: 'center',
         gap: 16,
-        fontFamily: "'Outfit', 'Helvetica Neue', sans-serif",
+        fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif",
       }}>
         <div style={{
           marginRight: 12,
