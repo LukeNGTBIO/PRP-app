@@ -1,31 +1,41 @@
 /* ═══════════════════════════════════════════════════════════
    WOUND TEAM DOSSIER - Nightingale BioTech Brand Theme
-   Purple-Teal Gradient | Hexagonal Patterns | Frosted Glass
+   Monochromatic Steel + Electric Cyan Backlit Glow
    ═══════════════════════════════════════════════════════════ */
 
-/* ─── COLOR PALETTE (Nightingale Brand) ─── */
+/* ─── COLOR PALETTE (Nightingale Brand — Steel + Cyan) ─── */
 :root {
-  --purple-dark: #1A0F1F;
-  --purple-base: #2A1A35;
-  --purple-mid: #3A2550;
-  --purple-accent: #5E2A5E;
-  --purple-light: #7A3A7A;
-  --purple-border: #8A4A8A;
+  /* Steel Backgrounds */
+  --steel-deepest: #1A1E24;
+  --steel-base: #22262E;
+  --steel-card: #2E343C;
+  --steel-elevated: #3C424C;
+  --steel-cardAlt: #343A44;
+  --steel-panel: #282D35;
 
-  --teal-deep: #388898;
-  --teal-mid: #4AA6B6;
-  --teal-base: #5BB8C8;
-  --teal-bright: #7CD4E4;
-  --teal-glow: rgba(91, 184, 200, 0.1);
+  /* Electric Cyan Accents */
+  --cyan-core: #00E5FF;
+  --cyan-bright: #5CF0FF;
+  --cyan-mid: #00BCD4;
+  --cyan-dim: #008C9E;
+  --cyan-deep: #005F6B;
+  --cyan-glow: rgba(0, 229, 255, 0.1);
 
-  --cream-1: #E8EEF2;
-  --cream-2: #D4DDE5;
-  --cream-3: #B8C5D0;
-  --cream-4: #9BAAB8;
-  --cream-5: #7A8A9A;
+  /* Silver/Platinum Text */
+  --text-platinum: #C8D0DA;
+  --text-silver: #A8B2BE;
+  --text-chrome: #C8D0DA;
+  --text-pewter: #788290;
+  --text-slate: #606A78;
 
-  --shadow-purple: rgba(94, 42, 94, 0.3);
-  --shadow-teal: rgba(91, 184, 200, 0.2);
+  /* Borders */
+  --border-default: #38404C;
+  --border-light: #445060;
+  --border-accent: #506070;
+
+  /* Shadows */
+  --shadow-steel: rgba(0, 0, 0, 0.3);
+  --shadow-cyan: rgba(0, 229, 255, 0.2);
 }
 
 /* ─── CONTAINER & LAYOUT ─── */
@@ -34,7 +44,7 @@
   margin: 0 auto;
   padding: 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--purple-dark);
+  background: var(--steel-deepest);
   color: var(--cream-2);
   min-height: 100vh;
 }
@@ -43,19 +53,19 @@
 .dossier-header {
   position: relative;
   text-align: center;
-  background: linear-gradient(135deg, var(--purple-accent), var(--purple-mid));
+  background: linear-gradient(135deg, var(--steel-elevated), var(--steel-card));
   padding: 40px 30px;
   border-radius: 12px;
   margin-bottom: 40px;
   overflow: hidden;
-  border: 1px solid var(--purple-border);
-  box-shadow: 0 8px 32px var(--shadow-purple), 0 2px 8px var(--shadow-teal);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 8px 32px var(--shadow-steel), 0 2px 8px var(--shadow-cyan);
 }
 
 .header-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent 0%, var(--teal-glow) 100%);
+  background: linear-gradient(135deg, transparent 0%, var(--cyan-glow) 100%);
   pointer-events: none;
 }
 
@@ -66,7 +76,7 @@
   color: var(--cream-1);
   margin: 0 0 12px;
   font-family: 'Georgia', serif;
-  text-shadow: 0 2px 8px var(--shadow-purple);
+  text-shadow: 0 2px 8px var(--shadow-steel);
 }
 
 .prepared-for {
@@ -79,13 +89,13 @@
 
 .objective {
   position: relative;
-  background: rgba(91, 184, 200, 0.08);
+  background: rgba(0, 229, 255, 0.08);
   backdrop-filter: blur(10px);
   padding: 18px 24px;
   border-radius: 8px;
   margin-top: 20px;
-  border: 1px solid var(--teal-mid);
-  border-left: 4px solid var(--teal-base);
+  border: 1px solid var(--cyan-mid);
+  border-left: 4px solid var(--cyan-mid);
   color: var(--cream-2);
   font-size: 14px;
   line-height: 1.7;
@@ -117,7 +127,7 @@ section h2::after {
   left: 0;
   width: 80px;
   height: 3px;
-  background: linear-gradient(90deg, var(--purple-accent), var(--teal-base));
+  background: linear-gradient(90deg, var(--steel-elevated), var(--cyan-mid));
   border-radius: 2px;
 }
 
@@ -131,10 +141,10 @@ section h2::after {
 
 /* ─── CENTER VISUALS GALLERY ─── */
 .center-visuals {
-  background: var(--purple-base);
+  background: var(--steel-base);
   padding: 30px;
   border-radius: 12px;
-  border: 1px solid var(--purple-border);
+  border: 1px solid var(--border-light);
 }
 
 .gallery-grid {
@@ -148,7 +158,7 @@ section h2::after {
   position: relative;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 16px var(--shadow-purple);
+  box-shadow: 0 4px 16px var(--shadow-steel);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -165,7 +175,7 @@ section h2::after {
 }
 
 .gallery-item p {
-  background: linear-gradient(180deg, transparent, var(--purple-accent));
+  background: linear-gradient(180deg, transparent, var(--steel-elevated));
   padding: 12px 16px;
   margin: 0;
   position: absolute;
@@ -181,11 +191,11 @@ section h2::after {
 
 /* ─── ORG CHART TREE STRUCTURE ─── */
 .org-chart-section {
-  background: var(--purple-base);
+  background: var(--steel-base);
   padding: 30px;
   border-radius: 12px;
-  border: 1px solid var(--purple-border);
-  box-shadow: 0 4px 16px var(--shadow-purple);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 16px var(--shadow-steel);
 }
 
 .tree {
@@ -194,7 +204,7 @@ section h2::after {
 }
 
 .tree ul {
-  padding-top: 40px;
+  padding-top: 25px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -205,7 +215,7 @@ section h2::after {
 .tree li {
   list-style-type: none;
   position: relative;
-  padding: 40px 20px 0;
+  padding: 25px 20px 0;
   text-align: center;
   flex: 1;
 }
@@ -217,15 +227,15 @@ section h2::after {
   position: absolute;
   top: 0;
   right: 50%;
-  border-top: 2px solid var(--teal-mid);
+  border-top: 2px solid var(--cyan-mid);
   width: 50%;
-  height: 40px;
+  height: 25px;
 }
 
 .tree li::after {
   right: auto;
   left: 50%;
-  border-left: 2px solid var(--teal-mid);
+  border-left: 2px solid var(--cyan-mid);
 }
 
 .tree li:only-child::after,
@@ -243,7 +253,7 @@ section h2::after {
 }
 
 .tree li:last-child::before {
-  border-right: 2px solid var(--teal-mid);
+  border-right: 2px solid var(--cyan-mid);
   border-radius: 0 6px 0 0;
 }
 
@@ -259,7 +269,7 @@ section h2::after {
   padding: 16px 20px;
   border-radius: 10px;
   color: white;
-  box-shadow: 0 4px 12px var(--shadow-purple);
+  box-shadow: 0 4px 12px var(--shadow-steel);
   transition: all 0.3s ease;
 }
 
@@ -273,33 +283,33 @@ section h2::after {
 }
 
 .node.director {
-  background: linear-gradient(135deg, var(--purple-accent), var(--purple-light));
+  background: linear-gradient(135deg, var(--steel-elevated), var(--steel-cardAlt));
   font-size: 1.05em;
-  border: 2px solid var(--purple-border);
+  border: 2px solid var(--border-light);
 }
 
 .node.clinical-lead {
-  background: linear-gradient(135deg, var(--teal-deep), var(--teal-mid));
-  border: 2px solid var(--teal-base);
+  background: linear-gradient(135deg, var(--cyan-deep), var(--cyan-mid));
+  border: 2px solid var(--cyan-mid);
 }
 
 .node.specialist {
-  background: linear-gradient(135deg, var(--teal-mid), var(--teal-base));
+  background: linear-gradient(135deg, var(--cyan-mid), var(--cyan-mid));
   min-width: 180px;
   font-size: 0.95em;
-  border: 1px solid var(--teal-bright);
+  border: 1px solid var(--cyan-bright);
 }
 
 .node.specialist.generic {
-  background: linear-gradient(135deg, var(--teal-base), var(--teal-bright));
+  background: linear-gradient(135deg, var(--cyan-mid), var(--cyan-bright));
   opacity: 0.9;
 }
 
 .node.support {
-  background: linear-gradient(135deg, var(--purple-mid), var(--purple-accent));
+  background: linear-gradient(135deg, var(--steel-card), var(--steel-elevated));
   min-width: 180px;
   font-size: 0.9em;
-  border: 1px solid var(--purple-border);
+  border: 1px solid var(--border-light);
 }
 
 .toggle-icon {
@@ -344,10 +354,10 @@ section h2::after {
 
 /* ─── PERSONNEL CARDS ─── */
 .personnel-cards {
-  background: var(--purple-base);
+  background: var(--steel-base);
   padding: 30px;
   border-radius: 12px;
-  border: 1px solid var(--purple-border);
+  border: 1px solid var(--border-light);
 }
 
 .cards-grid {
@@ -358,11 +368,11 @@ section h2::after {
 }
 
 .person-card {
-  background: linear-gradient(135deg, var(--purple-mid), var(--purple-accent));
-  border: 1px solid var(--purple-border);
+  background: linear-gradient(135deg, var(--steel-card), var(--steel-elevated));
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 16px var(--shadow-purple);
+  box-shadow: 0 4px 16px var(--shadow-steel);
   transition: all 0.3s ease;
 }
 
@@ -377,7 +387,7 @@ section h2::after {
   gap: 18px;
   margin-bottom: 20px;
   padding-bottom: 18px;
-  border-bottom: 1px solid var(--purple-border);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .headshot {
@@ -385,8 +395,8 @@ section h2::after {
   height: 90px;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid var(--teal-base);
-  box-shadow: 0 4px 12px var(--shadow-teal);
+  border: 3px solid var(--cyan-mid);
+  box-shadow: 0 4px 12px var(--shadow-cyan);
   flex-shrink: 0;
 }
 
@@ -417,12 +427,12 @@ section h2::after {
 
 .accordion summary {
   cursor: pointer;
-  background: rgba(91, 184, 200, 0.08);
+  background: rgba(0, 229, 255, 0.08);
   padding: 12px 16px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 13px;
-  color: var(--teal-bright);
+  color: var(--cyan-bright);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -431,8 +441,8 @@ section h2::after {
 }
 
 .accordion summary:hover {
-  background: rgba(91, 184, 200, 0.15);
-  border-color: var(--teal-mid);
+  background: rgba(0, 229, 255, 0.15);
+  border-color: var(--cyan-mid);
 }
 
 .accordion summary svg {
@@ -452,7 +462,7 @@ section h2::after {
 .detail-section h4 {
   font-size: 12px;
   font-weight: 700;
-  color: var(--teal-base);
+  color: var(--cyan-mid);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 8px;
@@ -466,10 +476,10 @@ section h2::after {
 }
 
 .detail-section.opener {
-  background: rgba(94, 42, 94, 0.3);
+  background: rgba(0, 229, 255, 0.08);
   padding: 14px;
   border-radius: 8px;
-  border-left: 3px solid var(--teal-base);
+  border-left: 3px solid var(--cyan-mid);
 }
 
 .quote {
@@ -501,9 +511,9 @@ section h2::after {
 .notes-section textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--purple-border);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  background: var(--purple-dark);
+  background: var(--steel-deepest);
   color: var(--cream-2);
   font-family: inherit;
   font-size: 13px;
@@ -514,8 +524,8 @@ section h2::after {
 
 .notes-section textarea:focus {
   outline: none;
-  border-color: var(--teal-base);
-  box-shadow: 0 0 0 3px var(--teal-glow);
+  border-color: var(--cyan-mid);
+  box-shadow: 0 0 0 3px var(--cyan-glow);
 }
 
 .notes-section textarea::placeholder {
@@ -530,10 +540,10 @@ section h2::after {
 
 /* ─── STRATEGIES SECTION ─── */
 .strategies-section {
-  background: var(--purple-base);
+  background: var(--steel-base);
   padding: 30px;
   border-radius: 12px;
-  border: 1px solid var(--purple-border);
+  border: 1px solid var(--border-light);
 }
 
 .strategies-grid {
@@ -544,18 +554,18 @@ section h2::after {
 }
 
 .strategy-card {
-  background: linear-gradient(135deg, var(--purple-mid), var(--purple-accent));
+  background: linear-gradient(135deg, var(--steel-card), var(--steel-elevated));
   padding: 24px;
   border-radius: 10px;
-  border: 1px solid var(--purple-border);
-  box-shadow: 0 4px 12px var(--shadow-purple);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 12px var(--shadow-steel);
   transition: all 0.3s ease;
 }
 
 .strategy-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px var(--shadow-teal);
-  border-color: var(--teal-mid);
+  box-shadow: 0 6px 20px var(--shadow-cyan);
+  border-color: var(--cyan-mid);
 }
 
 .strategy-icon {
@@ -581,19 +591,19 @@ section h2::after {
 .dossier-footer {
   position: relative;
   text-align: center;
-  background: linear-gradient(135deg, var(--purple-accent), var(--purple-mid));
+  background: linear-gradient(135deg, var(--steel-elevated), var(--steel-card));
   padding: 30px;
   border-radius: 12px;
   margin-top: 50px;
   overflow: hidden;
-  border: 1px solid var(--purple-border);
-  box-shadow: 0 4px 16px var(--shadow-purple);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 16px var(--shadow-steel);
 }
 
 .footer-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent 0%, var(--teal-glow) 100%);
+  background: linear-gradient(135deg, transparent 0%, var(--cyan-glow) 100%);
   pointer-events: none;
 }
 
@@ -635,7 +645,7 @@ section h2::after {
   }
 
   .tree li {
-    border-left: 2px solid var(--teal-mid);
+    border-left: 2px solid var(--cyan-mid);
     margin-left: 20px;
   }
 
