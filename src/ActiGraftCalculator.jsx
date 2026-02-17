@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { NIGHTINGALE } from "./brandTheme";
 import {
   Calculator, DollarSign, Shield, TrendingUp, AlertTriangle, CheckCircle,
