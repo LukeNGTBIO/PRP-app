@@ -678,7 +678,7 @@ export default function ActiGraftManual() {
       {/* ═══ FLOATING TOOLBAR ═══ */}
       <div className="toolbar-float no-print" style={{
         position: "fixed",
-        top: isMobile ? 8 : 16,
+        top: isMobile ? 60 : 70,
         right: isMobile ? 8 : 16,
         zIndex: 500,
         display: "flex",
