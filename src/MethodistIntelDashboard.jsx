@@ -290,7 +290,7 @@ export default function MethodistIntelDashboard() {
               const active = activeTab === t.id;
               return (
                 <button key={t.id} onClick={() => setActiveTab(t.id)}
-                  style={{ background: active ? "#00E5FF" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 14px", color: active ? "#22262E" : "#9AA4B0", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5 }}>
+                  style={{ background: active ? "#00E5FF" : "transparent", border: "2px solid transparent", borderRadius: 4, padding: "7px 16px", color: active ? "#22262E" : "#9AA4B0", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, whiteSpace: "nowrap", transition: "all 0.15s", letterSpacing: 0.5, minWidth: "fit-content" }}>
                   <Icon size={14} /> {t.label}
                 </button>
               );
