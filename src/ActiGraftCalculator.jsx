@@ -306,6 +306,8 @@ const pct = (n) => (n * 100).toFixed(1) + "%";
 // ═══════════════════════════════════════════════════════════════
 
 export default function ActiGraftCalculator() {
+  console.log('ActiGraftCalculator rendering');
+
   // ─── Mobile detection ──────────────────────────────
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -1889,6 +1891,14 @@ export default function ActiGraftCalculator() {
   // ═══════════════════════════════════════════════════
   //  RENDER
   // ═══════════════════════════════════════════════════
+
+  try {
+    console.log('Rendering calculator, activeTab:', activeTab);
+    console.log('calc object:', calc);
+  } catch (e) {
+    console.error('Error in calculator:', e);
+    return <div style={{ padding: 40, color: 'white' }}>Error loading calculator: {e.message}</div>;
+  }
 
   return (
     <div style={{
