@@ -7,33 +7,54 @@ import {
 } from "lucide-react";
 
 // ═══════════════════════════════════════════════════════════════
-//  CMS REIMBURSEMENT DATA — CY 2025 / CY 2026
+//  CMS REIMBURSEMENT DATA — CY 2026 (Current Year)
+//  Sources: CY 2026 OPPS Final Rule (CMS-1809-FC), CY 2026 PFS Final Rule,
+//           CMS Addendum A/B, NCD 270.3
 // ═══════════════════════════════════════════════════════════════
 
 const CMS_DATA = {
-  cy2025: {
-    conversionFactor: 89.169,
-    g0465_hopd: 2107.97,
-    g0465_mpfs_nonfacility: 770.83,
-    g0465_mpfs_facility: 83.84,
-    laborShare: 0.60,
-    nonLaborShare: 0.40,
-    budgetNeutralityFactor: 0.9995,
-    skinSub_apc5053: 1829,       // ≤100cm² bundled
-    skinSub_apc5054: 3661,       // >100cm² bundled
-  },
-  cy2026: {
-    conversionFactor: 91.415,
-    g0465_hopd_est: 2161,        // estimated proportional increase
-    g0465_mpfs_nonfacility: 790.26,  // office rate: CY2025 rate × (91.415/89.169)
-    g0465_mpfs_facility: 85.95,      // facility rate: proportional increase
-    laborShare: 0.60,
-    nonLaborShare: 0.40,
-    budgetNeutralityFactor: 0.9990,
-    skinSub_flatRate_perCm2: 127.14,  // CMS 2026 Final Rule flat rate (incident-to supplies)
-    skinSub_apc5053: 1875,       // ≤100cm² bundled (estimated)
-    skinSub_apc5054: 3753,       // >100cm² bundled (estimated)
-  },
+  // ─── Conversion Factors ────────────────────────────────
+  oppsUpdateFactor: 1.026,          // 2.6% overall OPPS update for CY 2026
+  pfsConversionFactor: 91.415,      // CY 2026 PFS conversion factor
+
+  // ─── PRP (G0465) — APC 5054 ───────────────────────────
+  // G0465: Autologous PRP for chronic non-healing diabetic wounds
+  // OPPS: Assigned to APC 5054 (Level 4 Skin Procedures)
+  g0465_hopd: 2107.97,             // National unadjusted HOPD rate (APC 5054)
+  g0465_mpfs_nonfacility: 1064.49, // PFS non-facility (office) rate
+  g0465_mpfs_facility: 83.84,      // PFS facility rate (technical component only)
+
+  // ─── OPPS Wage Index Parameters ────────────────────────
+  laborShare: 0.60,                 // 60% labor-related share (wage-index adjusted)
+  nonLaborShare: 0.40,              // 40% non-labor share (NOT adjusted)
+
+  // ─── Skin Substitute Product Payment (CY 2026 Reform) ──
+  // CMS reclassified skin subs as "incident-to supplies" effective 1/1/2026
+  // New APC categories: 6000 (PMA), 6001 (510k/De Novo), 6002 (361 HCT/P)
+  // All three APCs pay the same uniform transitional rate
+  skinSub_opps_perCm2: 127.14,     // OPPS flat rate — NOT geographically adjusted
+  skinSub_pfs_perCm2: 127.28,      // PFS rate — IS subject to GPCI adjustment
+
+  // ─── Skin Substitute Application Procedure APCs ────────
+  // Application codes (CPT 15271-15278 base codes) paid separately from product
+  // Add-on codes (15272, 15274, 15276, 15278) remain packaged (no separate payment)
+  skinSub_appApc5053: 1829,        // APC 5053: Application ≤25cm² (CPT 15271/15275)
+  skinSub_appApc5054: 3661,        // APC 5054: Application first 100cm² (CPT 15273/15277)
+
+  // ─── Medicare Part B Cost-Sharing (80/20 Rule) ─────────
+  // Applies to ALL Part B services: PRP, skin subs, application procedures
+  // Medicare pays 80% of approved amount after Part B deductible ($257/yr in 2026)
+  // Beneficiary responsible for 20% coinsurance
+  medicarePayPct: 0.80,
+  coinsurancePct: 0.20,
+
+  // ─── BLA (Section 351) Exemption ───────────────────────
+  // Products with BLA would retain ASP+6% methodology
+  // As of Jan 2026: NO skin substitutes hold a BLA — all fall under flat rate
+  // Apligraf (formerly BLA) was reclassified; exemption is theoretical only
+  blaExemptionNote: "No skin substitutes currently hold Section 351 BLA status",
+
+  // ─── Wage Index Presets ────────────────────────────────
   wageIndex: {
     min: 0.60,
     max: 1.85,
@@ -43,7 +64,7 @@ const CMS_DATA = {
 };
 
 const SKIN_SUB_PRODUCTS = [
-  { name: "Apligraf", hcpcs: "Q4101", aspPerCm2: 30.42, type: "BLA (351)", exempt: true, mfg: "Organogenesis" },
+  { name: "Apligraf", hcpcs: "Q4101", aspPerCm2: 30.42, type: "PMA", exempt: false, mfg: "Organogenesis" },
   { name: "EpiFix", hcpcs: "Q4186", aspPerCm2: 140, type: "361 HCT/P", exempt: false, mfg: "MiMedx" },
   { name: "EpiCord", hcpcs: "Q4187", aspPerCm2: 140, type: "361 HCT/P", exempt: false, mfg: "MiMedx" },
   { name: "Affinity", hcpcs: "Q4159", aspPerCm2: 420.53, type: "361 HCT/P", exempt: false, mfg: "Organogenesis" },
@@ -352,23 +373,22 @@ export default function ActiGraftCalculator() {
   });
   const [showCompetitorCosts, setShowCompetitorCosts] = useState(false);
 
-  // ─── Derived calculations ──────────────────────────
+  // ─── Derived calculations (CY 2026 only) ──────────
   const calc = useMemo(() => {
-    const yr = paymentYear === "cy2025" ? CMS_DATA.cy2025 : CMS_DATA.cy2026;
+    // ── PRP (G0465) Reimbursement ────────────────────
+    // Select base rate by site of service
+    const baseG0465 = siteOfService === "office"
+      ? CMS_DATA.g0465_mpfs_nonfacility   // $1,064.49
+      : CMS_DATA.g0465_hopd;              // $2,107.97
 
-    // Select G0465 rate based on site of service
-    let baseG0465;
-    if (siteOfService === "office") {
-      baseG0465 = yr.g0465_mpfs_nonfacility; // ~$770
-    } else {
-      // HOPD bundled rate
-      baseG0465 = paymentYear === "cy2025" ? yr.g0465_hopd : yr.g0465_hopd_est; // ~$2,108
-    }
+    // Wage-index adjustment: 60% labor (WI-adjusted) + 40% non-labor (flat)
+    const laborPortion = baseG0465 * CMS_DATA.laborShare * wageIndex;
+    const nonLaborPortion = baseG0465 * CMS_DATA.nonLaborShare;
+    const adjustedG0465Gross = laborPortion + nonLaborPortion;
 
-    // Wage-index adjusted G0465
-    const laborPortion = baseG0465 * yr.laborShare * wageIndex;
-    const nonLaborPortion = baseG0465 * yr.nonLaborShare;
-    const adjustedG0465 = laborPortion + nonLaborPortion;
+    // Medicare Part B 80/20: Medicare pays 80%, beneficiary 20% coinsurance
+    // This applies to ALL Part B services including PRP G0465
+    const adjustedG0465 = adjustedG0465Gross * CMS_DATA.medicarePayPct;
 
     // PRP per-wound economics
     const prpTotalReimbursement = adjustedG0465 * prpApplications;
@@ -376,16 +396,16 @@ export default function ActiGraftCalculator() {
     const prpFacilityMargin = prpTotalReimbursement - prpTotalKitCost;
     const prpMarginPct = prpTotalReimbursement > 0 ? prpFacilityMargin / prpTotalReimbursement : 0;
 
-    // PRP weekly/daily throughput economics
-    const prpWeeklyKits = kitsPerDay; // 2 kits = ~2 patients per day, but NCD 270.3 = up to 2 kits/day
+    // PRP weekly/daily throughput economics (NCD 270.3: up to 2 kits/day)
+    const prpWeeklyKits = kitsPerDay;
     const prpWeeklyReimbursement = prpWeeklyKits * adjustedG0465;
     const prpWeeklyKitCost = prpWeeklyKits * prpKitCost;
     const prpWeeklyMargin = prpWeeklyReimbursement - prpWeeklyKitCost;
     const prp20WeekReimbursement = prpWeeklyReimbursement * 20;
     const prp20WeekMargin = prpWeeklyMargin * 20;
 
-    // Skin substitute economics
-    // CMS Methodology: Calculate total cm², multiply by units, round UP
+    // ── Skin Substitute Economics (CY 2026 Reform) ───
+    // Billable cm²: wound size × units per application, rounded UP
     const billableCm2 = Math.ceil(woundSizeCm2 * unitsPerApplication);
 
     const product = SKIN_SUB_PRODUCTS.find((p) => p.name === selectedSkinSub) || SKIN_SUB_PRODUCTS[0];
@@ -393,35 +413,34 @@ export default function ActiGraftCalculator() {
     const skinSubInvoiceCostPerApp = skinSubInvoiceCostPerCm2 * billableCm2;
 
     let skinSubReimbPerApp;
-    let skinSubProductPaymentGross = 0; // Gross product payment (100%)
-    let skinSubProductPaymentNet = 0;   // Net product payment (80% Medicare pays)
+    let skinSubProductPaymentGross = 0;
+    let skinSubProductPaymentNet = 0;
+    let skinSubAppPaymentGross = 0;
+    let skinSubAppPaymentNet = 0;
 
     if (siteOfService === "office") {
-      // Physician office: Separate product payment
-      // Medicare Part B pays 80%, patient responsible for 20% coinsurance (often written off)
-      if (paymentYear === "cy2026") {
-        skinSubProductPaymentGross = yr.skinSub_flatRate_perCm2 * billableCm2;
-        skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80; // Medicare pays 80%
-        skinSubReimbPerApp = skinSubProductPaymentNet; // Office: product only, no separate application fee
-      } else {
-        const officeRate = 800; // CY 2025 approximate office reimbursement
-        const officeRateGross = Math.min(officeRate, skinSubProductCostPerApp * 1.08);
-        skinSubReimbPerApp = officeRateGross * 0.80; // Apply 80% Medicare payment
-      }
-    } else if (paymentYear === "cy2025") {
-      // HOPD Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
-      const bundledBase = billableCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
-      // HOPD starts at 80% of bundled rate, adjusted for wage index
-      const bundled80Pct = bundledBase * 0.80;
-      skinSubReimbPerApp = (bundled80Pct * yr.laborShare * wageIndex) + (bundled80Pct * yr.nonLaborShare);
+      // Physician Office (PFS): Product-only payment at PFS rate
+      // PFS rate ($127.28/cm²) is subject to GPCI adjustment (not modeled here)
+      // Medicare Part B pays 80%, patient responsible for 20% coinsurance
+      skinSubProductPaymentGross = CMS_DATA.skinSub_pfs_perCm2 * billableCm2;
+      skinSubProductPaymentNet = skinSubProductPaymentGross * CMS_DATA.medicarePayPct;
+      skinSubReimbPerApp = skinSubProductPaymentNet;
     } else {
-      // CY 2026 HOPD: Separate product payment + application procedure
-      // Medicare Part B pays 80%, patient responsible for 20% coinsurance (often written off)
-      skinSubProductPaymentGross = yr.skinSub_flatRate_perCm2 * billableCm2;
-      skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80; // Medicare pays 80%, patient 20% often uncollected
-      const appProcedure = billableCm2 <= 100 ? 800 : 1200; // Approximate application-only APC
-      const appProcedureAdj = (appProcedure * yr.laborShare * wageIndex) + (appProcedure * yr.nonLaborShare);
-      skinSubReimbPerApp = skinSubProductPaymentNet + appProcedureAdj;
+      // HOPD (OPPS): Separate product payment + application procedure APC
+      //
+      // 1) Product APC (6000/6001/6002): $127.14/cm² — NOT wage-index adjusted
+      skinSubProductPaymentGross = CMS_DATA.skinSub_opps_perCm2 * billableCm2;
+      skinSubProductPaymentNet = skinSubProductPaymentGross * CMS_DATA.medicarePayPct;
+      //
+      // 2) Application procedure APC (5053/5054): IS wage-index adjusted
+      const appApcBase = billableCm2 <= 25
+        ? CMS_DATA.skinSub_appApc5053   // APC 5053: ≤25cm²
+        : CMS_DATA.skinSub_appApc5054;  // APC 5054: first 100cm²+
+      skinSubAppPaymentGross = (appApcBase * CMS_DATA.laborShare * wageIndex) + (appApcBase * CMS_DATA.nonLaborShare);
+      skinSubAppPaymentNet = skinSubAppPaymentGross * CMS_DATA.medicarePayPct;
+      //
+      // Total HOPD reimbursement = product (flat) + application (WI-adjusted), both at 80%
+      skinSubReimbPerApp = skinSubProductPaymentNet + skinSubAppPaymentNet;
     }
 
     const skinSubTotalReimb = skinSubReimbPerApp * skinSubApplications;
@@ -434,22 +453,21 @@ export default function ActiGraftCalculator() {
     const skinSubDistribProfit = skinSubTotalReimb - skinSubDistribInvoiceCost;
     const skinSubDistribMarginPct = skinSubTotalReimb > 0 ? skinSubDistribProfit / skinSubTotalReimb : 0;
 
-    // Distributor profit margins (ActiGraft)
+    // Distributor profit margins (ActiGraft PRP)
     const actigraftDiscountedCost = actigraftInvoiceCost * (1 - volumeDiscountPct / 100);
     const actigraftOrderCost = actigraftDiscountedCost * kitsPerOrder;
     const actigraftOrderReimbursement = adjustedG0465 * kitsPerOrder;
     const actigraftDistribProfit = actigraftOrderReimbursement - actigraftOrderCost;
     const actigraftDistribMarginPct = actigraftOrderReimbursement > 0 ? actigraftDistribProfit / actigraftOrderReimbursement : 0;
 
-    // CY 2026 change for selected product
-    const newRate2026 = product.exempt ? product.aspPerCm2 * 1.06 : CMS_DATA.cy2026.skinSub_flatRate_perCm2;
-    const productChangeDir = product.exempt ? "Exempt (BLA, ASP+6%)" :
-      (newRate2026 < product.aspPerCm2 ? "decrease" : "increase");
-    const productChangePct = product.exempt ? 0 :
-      Math.abs((newRate2026 - product.aspPerCm2) / product.aspPerCm2);
+    // CY 2026 rate change impact for selected product (vs. prior ASP)
+    const newRate2026 = CMS_DATA.skinSub_opps_perCm2; // $127.14 flat for all products
+    const productChangeDir = newRate2026 < product.aspPerCm2 ? "decrease" : "increase";
+    const productChangePct = Math.abs((newRate2026 - product.aspPerCm2) / product.aspPerCm2);
 
     return {
       adjustedG0465,
+      adjustedG0465Gross,
       laborPortion,
       nonLaborPortion,
       prpTotalReimbursement,
@@ -481,10 +499,12 @@ export default function ActiGraftCalculator() {
       productChangeDir,
       productChangePct,
       billableCm2,
-      skinSubProductPaymentGross,  // 100% product payment
-      skinSubProductPaymentNet,    // 80% product payment (Medicare pays)
+      skinSubProductPaymentGross,
+      skinSubProductPaymentNet,
+      skinSubAppPaymentGross,
+      skinSubAppPaymentNet,
     };
-  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, unitsPerApplication, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
+  }, [wageIndex, siteOfService, woundSizeCm2, unitsPerApplication, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
 
   // ─── Sub-tab definitions ───────────────────────────
   const tabs = [
@@ -813,7 +833,7 @@ export default function ActiGraftCalculator() {
           gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
           gap: 16,
         }}>
-          {SKIN_SUB_PRODUCTS.filter(p => !p.exempt).map((product) => (
+          {SKIN_SUB_PRODUCTS.map((product) => (
             <div key={product.name} style={{
               background: N.bg.panel,
               borderRadius: 8,
@@ -844,11 +864,11 @@ export default function ActiGraftCalculator() {
                 unit="$/cm²"
                 helpText={`${product.mfg} acquisition cost`}
               />
-              {competitorCosts[product.name] && paymentYear === "cy2026" && (() => {
+              {competitorCosts[product.name] && (() => {
                 const billable = calc.billableCm2;
                 const totalCost = competitorCosts[product.name] * billable;
-                const totalReimbGross = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
-                const totalReimbNet = totalReimbGross * 0.80; // Medicare pays 80%, patient 20% often written off
+                const totalReimbGross = CMS_DATA.skinSub_opps_perCm2 * billable;
+                const totalReimbNet = totalReimbGross * CMS_DATA.medicarePayPct;
                 const marginNet = totalReimbNet - totalCost;
                 return (
                   <div style={{
@@ -956,8 +976,8 @@ export default function ActiGraftCalculator() {
                 </span>
                 <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
                   {siteOfService === "hopd"
-                    ? fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_hopd : CMS_DATA.cy2026.g0465_hopd_est)
-                    : fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_mpfs_nonfacility : CMS_DATA.cy2026.g0465_mpfs_nonfacility)}
+                    ? fmtDec(CMS_DATA.g0465_hopd)
+                    : fmtDec(CMS_DATA.g0465_mpfs_nonfacility)}
                 </span>
               </div>
               <div style={{ marginBottom: 8 }}>
@@ -1008,32 +1028,10 @@ export default function ActiGraftCalculator() {
               background: N.bg.panel, borderRadius: 8, padding: 16,
               border: `1px solid ${N.status.amber.border}`,
             }}>
-              {paymentYear === "cy2025" ? (
-                <>
-                  <div style={{ marginBottom: 12 }}>
-                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Bundled APC rate (≤100 cm²):</span>
-                    <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                      {fmt(CMS_DATA.cy2025.skinSub_apc5053)}
-                    </span>
-                  </div>
-                  <div style={{ marginBottom: 12 }}>
-                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>WI-adjusted per application:</span>
-                    <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                      {fmtDec(calc.skinSubReimbPerApp)}
-                    </span>
-                  </div>
-                  <div style={{
-                    fontSize: N.fontSize.xs, color: N.status.amber.value, marginBottom: 12,
-                    padding: "6px 10px", background: N.status.amber.bg, borderRadius: 4,
-                  }}>
-                    Product cost bundled into APC — facility absorbs product acquisition
-                  </div>
-                </>
-              ) : (
-                <>
+              <>
                   <div style={{ marginBottom: 4 }}>
                     <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
-                      Product (gross): $127.14/cm² × {calc.billableCm2} cm²
+                      Product (gross): ${siteOfService === "office" ? CMS_DATA.skinSub_pfs_perCm2 : CMS_DATA.skinSub_opps_perCm2}/cm² × {calc.billableCm2} cm²
                       {unitsPerApplication > 1 && <span style={{ fontSize: N.fontSize.xs, color: N.text.slate }}> ({woundSizeCm2} × {unitsPerApplication} units, rounded up)</span>}:
                     </span>
                     <span style={{ color: N.text.slate, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8, textDecoration: "line-through" }}>
@@ -1042,14 +1040,26 @@ export default function ActiGraftCalculator() {
                   </div>
                   <div style={{ marginBottom: 8 }}>
                     <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
-                      Medicare pays 80% (patient 20% often written off):
+                      Medicare pays 80% (patient 20% coinsurance):
                     </span>
                     <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
                       {fmtDec(calc.skinSubProductPaymentNet)}
                     </span>
                   </div>
+                  {siteOfService === "hopd" && (
+                    <div style={{ marginBottom: 8 }}>
+                      <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
+                        Application APC ({calc.billableCm2 <= 25 ? "5053" : "5054"}, WI-adjusted, 80%):
+                      </span>
+                      <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
+                        {fmtDec(calc.skinSubAppPaymentNet)}
+                      </span>
+                    </div>
+                  )}
                   <div style={{ marginBottom: 12 }}>
-                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Application + product (WI-adj, net):</span>
+                    <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
+                      {siteOfService === "hopd" ? "Application + product (net):" : "Total payment (net):"}
+                    </span>
                     <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
                       {fmtDec(calc.skinSubReimbPerApp)}
                     </span>
@@ -1058,10 +1068,9 @@ export default function ActiGraftCalculator() {
                     fontSize: N.fontSize.xs, color: N.status.red.value, marginBottom: 12,
                     padding: "6px 10px", background: N.status.red.bg, borderRadius: 4,
                   }}>
-                    CY 2026: Flat $127.14/cm² × 80% Medicare payment = ${(CMS_DATA.cy2026.skinSub_flatRate_perCm2 * 0.80).toFixed(2)}/cm² net (patient 20% coinsurance often uncollected)
+                    CY 2026: Flat ${siteOfService === "office" ? CMS_DATA.skinSub_pfs_perCm2 : CMS_DATA.skinSub_opps_perCm2}/cm² × 80% Medicare = ${(CMS_DATA.skinSub_opps_perCm2 * CMS_DATA.medicarePayPct).toFixed(2)}/cm² net (patient 20% coinsurance often uncollected)
                   </div>
                 </>
-              )}
               <div style={{
                 borderTop: `1px solid ${N.status.amber.border}`, paddingTop: 12,
                 display: "flex", justifyContent: "space-between", alignItems: "baseline",
@@ -1078,9 +1087,7 @@ export default function ActiGraftCalculator() {
               display: "flex", alignItems: "center", gap: 4,
             }}>
               <AlertTriangle size={12} color={N.status.amber.value} />
-              {calc.product.name}: Pre-2026 ASP ${calc.product.aspPerCm2}/cm² →
-              {calc.product.exempt ? " BLA-exempt (ASP+6% continues)" :
-                ` flat $127.14/cm² (${calc.productChangeDir === "decrease" ? "-" : "+"}${(calc.productChangePct * 100).toFixed(0)}%)`}
+              {calc.product.name}: Pre-2026 ASP ${calc.product.aspPerCm2}/cm² → flat ${CMS_DATA.skinSub_opps_perCm2}/cm² ({calc.productChangeDir === "decrease" ? "-" : "+"}{(calc.productChangePct * 100).toFixed(0)}%)
             </div>
           </div>
         </div>
@@ -1107,8 +1114,7 @@ export default function ActiGraftCalculator() {
       </Card>
 
       {/* CY 2026 Impact Card */}
-      {paymentYear === "cy2026" && (
-        <Card style={{ marginBottom: 20 }}>
+      <Card style={{ marginBottom: 20 }}>
           <SectionHeader
             icon={AlertTriangle}
             title="CY 2026 Skin Substitute Payment Reform"
@@ -1118,15 +1124,15 @@ export default function ActiGraftCalculator() {
             display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
             gap: 16, marginTop: 12,
           }}>
-            {SKIN_SUB_PRODUCTS.filter(p => !p.exempt).slice(0, 6).map((p) => {
-              const change = ((CMS_DATA.cy2026.skinSub_flatRate_perCm2 - p.aspPerCm2) / p.aspPerCm2) * 100;
+            {SKIN_SUB_PRODUCTS.slice(0, 6).map((p) => {
+              const change = ((CMS_DATA.skinSub_opps_perCm2 - p.aspPerCm2) / p.aspPerCm2) * 100;
               const isIncrease = change > 0;
               const hasCost = competitorCosts[p.name] != null;
 
               // Calculate total cost and reimbursement using billable cm²
               const billable = calc.billableCm2;
               const totalCost = hasCost ? competitorCosts[p.name] * billable : null;
-              const totalReimb = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
+              const totalReimb = CMS_DATA.skinSub_opps_perCm2 * billable;
               const totalMargin = hasCost ? totalReimb - totalCost : null;
               const marginPositive = totalMargin != null && totalMargin > 0;
 
@@ -1144,7 +1150,7 @@ export default function ActiGraftCalculator() {
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: N.fontSize.xs, color: N.text.pewter, marginBottom: hasCost ? 8 : 0 }}>
                     <span>Pre-2026: ${p.aspPerCm2}/cm²</span>
-                    <span>→ $127.14/cm²</span>
+                    <span>→ ${CMS_DATA.skinSub_opps_perCm2}/cm²</span>
                   </div>
                   {hasCost && (
                     <div style={{
@@ -1190,7 +1196,6 @@ export default function ActiGraftCalculator() {
             <strong style={{ color: N.cyan.core }}>PRP (G0465) is unaffected</strong> — governed by NCD 270.3, not subject to skin substitute reclassification
           </div>
         </Card>
-      )}
     </div>
   );
 
@@ -1350,12 +1355,16 @@ export default function ActiGraftCalculator() {
   // ═══════════════════════════════════════════════════
 
   const DistributorTab = () => {
-    // Calculate max profitable size for skin sub in HOPD (80% bundle rule)
-    const yr = paymentYear === "cy2025" ? CMS_DATA.cy2025 : CMS_DATA.cy2026;
-    const bundledBase = yr.skinSub_apc5053 || 1829;
-    const hopdReimb80Pct = bundledBase * 0.80;
-    const hopdReimbAdj = (hopdReimb80Pct * yr.laborShare * wageIndex) + (hopdReimb80Pct * yr.nonLaborShare);
-    const maxProfitableSize = Math.floor(hopdReimbAdj / skinSubInvoiceCostPerCm2);
+    // Calculate max profitable size for skin sub in HOPD
+    // Product APC: flat $127.14/cm² (not wage-adjusted), 80% Medicare
+    // Application APC: APC 5053 (≤25cm²), wage-adjusted, 80% Medicare
+    const productReimbPerCm2Net = CMS_DATA.skinSub_opps_perCm2 * CMS_DATA.medicarePayPct;
+    const appApcBase = CMS_DATA.skinSub_appApc5053;
+    const appApcWiAdj = (appApcBase * CMS_DATA.laborShare * wageIndex) + (appApcBase * CMS_DATA.nonLaborShare);
+    const appApcNet = appApcWiAdj * CMS_DATA.medicarePayPct;
+    // Max profitable size: where product reimbursement per cm² covers invoice cost
+    // (Application APC is fixed regardless of size for ≤25cm²)
+    const maxProfitableSize = skinSubInvoiceCostPerCm2 > 0 ? Math.floor((appApcNet / skinSubInvoiceCostPerCm2) + (productReimbPerCm2Net / skinSubInvoiceCostPerCm2) * 25) : 999;
 
     return (
       <div>
@@ -1410,12 +1419,12 @@ export default function ActiGraftCalculator() {
           </Card>
         </div>
 
-        {/* HOPD 80% Bundle Rate Explanation */}
+        {/* HOPD Skin Sub Reimbursement Model (CY 2026) */}
         <Card style={{ marginBottom: 20 }}>
           <SectionHeader
             icon={Building2}
-            title="HOPD Skin Substitute Reimbursement Model"
-            subtitle="80% of bundled rate adjusted for local wage index — largest profitable size constraint"
+            title="HOPD Skin Substitute Reimbursement Model (CY 2026)"
+            subtitle="Product APC (flat per cm²) + Application APC (WI-adjusted) — both at 80% Medicare"
           />
           <div style={{
             display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -1426,10 +1435,13 @@ export default function ActiGraftCalculator() {
               border: `1px solid ${N.border.subtle}`,
             }}>
               <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
-                Bundle Base Rate (APC 5053)
+                Product Rate (per cm²)
               </div>
               <div style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
-                {fmt(bundledBase)}
+                {fmtDec(CMS_DATA.skinSub_opps_perCm2)}
+              </div>
+              <div style={{ color: N.text.slate, fontSize: N.fontSize.xs, marginTop: 4 }}>
+                Flat rate — not WI-adjusted
               </div>
             </div>
             <div style={{
@@ -1437,10 +1449,13 @@ export default function ActiGraftCalculator() {
               border: `1px solid ${N.cyan.border}`,
             }}>
               <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
-                80% Bundle (WI: {wageIndex.toFixed(2)})
+                Application APC 5053 (WI: {wageIndex.toFixed(2)}, 80%)
               </div>
               <div style={{ color: N.cyan.bright, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
-                {fmtDec(hopdReimbAdj)}
+                {fmtDec(appApcNet)}
+              </div>
+              <div style={{ color: N.text.slate, fontSize: N.fontSize.xs, marginTop: 4 }}>
+                Base: {fmt(appApcBase)} × WI × 80%
               </div>
             </div>
             <div style={{
@@ -1459,7 +1474,7 @@ export default function ActiGraftCalculator() {
               border: `1px solid ${N.status.green.border}`,
             }}>
               <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 6 }}>
-                Max Profitable Size (2025)
+                Max Profitable Size (CY 2026)
               </div>
               <div style={{ color: N.status.green.value, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.xl }}>
                 ~{maxProfitableSize} cm²
@@ -1475,8 +1490,8 @@ export default function ActiGraftCalculator() {
             background: N.cyan.bg, border: `1px solid ${N.cyan.border}`,
             borderRadius: 8, fontSize: N.fontSize.sm, color: N.text.silver,
           }}>
-            <strong style={{ color: N.cyan.core }}>Formula:</strong> HOPD Reimbursement =
-            (Bundle Rate × 80% × 60% × WI) + (Bundle Rate × 80% × 40%)
+            <strong style={{ color: N.cyan.core }}>CY 2026 Formula:</strong> HOPD Reimbursement =
+            Product ($127.14/cm² × size × 80%) + Application APC (base × WI × 80%)
             <br />
             Profit = Reimbursement − (Invoice Cost/cm² × Size in cm²)
           </div>
@@ -1930,7 +1945,7 @@ export default function ActiGraftCalculator() {
             OPPS APC 5054
           </Badge>
           <Badge color={N.status.amber.value} bg={N.status.amber.bg}>
-            {paymentYear === "cy2025" ? "CY 2025 Rates" : "CY 2026 Reform"}
+            CY 2026 Rules
           </Badge>
         </div>
       </div>
@@ -1973,9 +1988,9 @@ export default function ActiGraftCalculator() {
         fontSize: N.fontSize.xs, color: N.text.slate,
         fontFamily: N.font.primary, lineHeight: 1.6,
       }}>
-        <strong style={{ color: N.text.pewter }}>Sources:</strong> CMS CY 2025 OPPS Final Rule (CMS-1809-FC);
-        CMS CY 2026 OPPS/PFS Final Rules; CMS Addendum B & L; NCD 270.3; Dougherty 2008 (Wound Repair & Regeneration);
-        Gude et al. 2019 (Advances in Skin & Wound Care); CMS ASP Drug Pricing Files.
+        <strong style={{ color: N.text.pewter }}>Sources:</strong> CMS CY 2026 OPPS Final Rule (CMS-1809-FC);
+        CMS CY 2026 PFS Final Rule; CMS Addendum A, B & L; NCD 270.3; Dougherty 2008 (Wound Repair & Regeneration);
+        Gude et al. 2019 (Advances in Skin & Wound Care).
         <br />
         <strong style={{ color: N.text.pewter }}>Disclaimer:</strong> This calculator is for educational and strategic planning purposes.
         Actual reimbursement varies by carrier, geography, and clinical circumstances. Consult CMS fee schedules for authoritative rates.
