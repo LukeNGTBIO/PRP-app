@@ -54,6 +54,65 @@ const SKIN_SUB_PRODUCTS = [
   { name: "Revita", hcpcs: "Q4180", aspPerCm2: 656, type: "361 HCT/P", exempt: false, mfg: "StimLabs" },
 ];
 
+// ═══════════════════════════════════════════════════════════════
+//  NCD 270.3–ELIGIBLE PRP PRODUCTS (DFU)
+// ═══════════════════════════════════════════════════════════════
+
+const PRP_PRODUCTS = [
+  {
+    id: "actigraft",
+    brand_name: "ActiGraft",
+    manufacturer: "RedDress Medical",
+    hcpcs: "G0465",
+    ncd_weeks_max: 20,
+    fda_summary: "Autologous whole blood clot system for management of exuding cutaneous wounds including diabetic ulcers",
+    default_allowed_office: 1200.0,
+    default_allowed_hopd: 1400.0,
+    default_acquisition_cost: 400.0,
+    default_treatments_per_episode: 12,
+    episode_duration_weeks: 12,
+  },
+  {
+    id: "actigraft_pro",
+    brand_name: "ActiGraft PRO",
+    manufacturer: "RedDress Medical",
+    hcpcs: "G0465",
+    ncd_weeks_max: 20,
+    fda_summary: "Enhanced ActiGraft system for advanced wound care in chronic diabetic ulcers and other exuding wounds",
+    default_allowed_office: 1300.0,
+    default_allowed_hopd: 1500.0,
+    default_acquisition_cost: 500.0,
+    default_treatments_per_episode: 12,
+    episode_duration_weeks: 12,
+  },
+  {
+    id: "aurix",
+    brand_name: "Aurix",
+    manufacturer: "Nuo Therapeutics",
+    hcpcs: "G0465",
+    ncd_weeks_max: 20,
+    fda_summary: "Autologous PRP gel indicated for management of exuding cutaneous wounds including chronic diabetic foot ulcers",
+    default_allowed_office: 1200.0,
+    default_allowed_hopd: 1400.0,
+    default_acquisition_cost: 450.0,
+    default_treatments_per_episode: 12,
+    episode_duration_weeks: 12,
+  },
+  {
+    id: "3c_patch",
+    brand_name: "3C Patch (LeucoPatch)",
+    manufacturer: "Reapplix",
+    hcpcs: "G0465",
+    ncd_weeks_max: 20,
+    fda_summary: "Autologous leukocyte-platelet-fibrin patch for exuding cutaneous wounds including chronic diabetic foot ulcers",
+    default_allowed_office: 1250.0,
+    default_allowed_hopd: 1450.0,
+    default_acquisition_cost: 475.0,
+    default_treatments_per_episode: 10,
+    episode_duration_weeks: 10,
+  },
+];
+
 // PRP Competitor Products (FDA 510(k) Cleared for Platelet-Rich Plasma)
 const PRP_COMPETITOR_PRODUCTS = [
   {
@@ -324,14 +383,20 @@ export default function ActiGraftCalculator() {
   const [wageIndex, setWageIndex] = useState(1.00);
   const paymentYear = "cy2026"; // CY 2026 rules are now permanent (policy changed)
   const [siteOfService, setSiteOfService] = useState("hopd"); // 'hopd' or 'office'
-  const [woundSizeCm2, setWoundSizeCm2] = useState(10);
+  const [woundLengthCm, setWoundLengthCm] = useState(3.3);
+  const [woundWidthCm, setWoundWidthCm] = useState(3.0);
   const [unitsPerApplication, setUnitsPerApplication] = useState(1); // Number of pieces/grafts per treatment
-  const [prpApplications, setPrpApplications] = useState(20);
+  const [selectedPrpProduct, setSelectedPrpProduct] = useState("actigraft");
+  const [prpApplications, setPrpApplications] = useState(12);
   const [skinSubApplications, setSkinSubApplications] = useState(6);
   const [selectedSkinSub, setSelectedSkinSub] = useState("EpiFix");
   const [prpKitCost, setPrpKitCost] = useState(75);
   const [kitsPerDay, setKitsPerDay] = useState(2);
   const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // ─── Local rate overrides (optional) ───────────────
+  const [localSkinSubRateOverride, setLocalSkinSubRateOverride] = useState(null);
+  const [localPrpAllowedOverride, setLocalPrpAllowedOverride] = useState(null);
 
   // ─── Distributor-specific inputs ──────────────────
   const [actigraftInvoiceCost, setActigraftInvoiceCost] = useState(650);
@@ -353,116 +418,155 @@ export default function ActiGraftCalculator() {
   const [showCompetitorCosts, setShowCompetitorCosts] = useState(false);
 
   // ─── Derived calculations ──────────────────────────
+  const woundAreaCm2 = woundLengthCm * woundWidthCm;
+
   const calc = useMemo(() => {
     const yr = paymentYear === "cy2025" ? CMS_DATA.cy2025 : CMS_DATA.cy2026;
 
-    // Select G0465 rate based on site of service
-    let baseG0465;
-    if (siteOfService === "office") {
-      baseG0465 = yr.g0465_mpfs_nonfacility; // ~$770
+    // Selected PRP product from NCD-eligible list
+    const prpProduct = PRP_PRODUCTS.find((p) => p.id === selectedPrpProduct) || PRP_PRODUCTS[0];
+
+    // Wound area: length × width
+    const woundArea = woundLengthCm * woundWidthCm;
+
+    // ─── PRP ECONOMICS (per-product allowed rates) ───
+    // Use local override if provided, otherwise use product default for site of service
+    let prpAllowedPerTreatment;
+    if (localPrpAllowedOverride && localPrpAllowedOverride > 0) {
+      prpAllowedPerTreatment = localPrpAllowedOverride;
+    } else if (siteOfService === "office") {
+      prpAllowedPerTreatment = prpProduct.default_allowed_office;
     } else {
-      // HOPD bundled rate
-      baseG0465 = paymentYear === "cy2025" ? yr.g0465_hopd : yr.g0465_hopd_est; // ~$2,108
+      prpAllowedPerTreatment = prpProduct.default_allowed_hopd;
     }
 
-    // Wage-index adjusted G0465
+    // Also compute CMS G0465 wage-index adjusted rate for reference/comparison
+    let baseG0465;
+    if (siteOfService === "office") {
+      baseG0465 = yr.g0465_mpfs_nonfacility;
+    } else {
+      baseG0465 = paymentYear === "cy2025" ? yr.g0465_hopd : yr.g0465_hopd_est;
+    }
     const laborPortion = baseG0465 * yr.laborShare * wageIndex;
     const nonLaborPortion = baseG0465 * yr.nonLaborShare;
     const adjustedG0465 = laborPortion + nonLaborPortion;
 
-    // PRP per-wound economics
-    const prpTotalReimbursement = adjustedG0465 * prpApplications;
+    // PRP per-wound episode economics
+    const prpTotalPayment = prpAllowedPerTreatment * prpApplications;
+    const prpTotalAcquisitionCost = prpProduct.default_acquisition_cost * prpApplications;
+    const prpFacilityMargin = prpTotalPayment - prpTotalAcquisitionCost;
+    const prpMarginPct = prpTotalPayment > 0 ? prpFacilityMargin / prpTotalPayment : 0;
+
+    // Also keep kit-cost based margin for the facility economics view
     const prpTotalKitCost = prpKitCost * prpApplications;
-    const prpFacilityMargin = prpTotalReimbursement - prpTotalKitCost;
-    const prpMarginPct = prpTotalReimbursement > 0 ? prpFacilityMargin / prpTotalReimbursement : 0;
+    const prpFacilityMarginKitBasis = prpTotalPayment - prpTotalKitCost;
+    const prpMarginPctKitBasis = prpTotalPayment > 0 ? prpFacilityMarginKitBasis / prpTotalPayment : 0;
 
     // PRP weekly/daily throughput economics
-    const prpWeeklyKits = kitsPerDay; // 2 kits = ~2 patients per day, but NCD 270.3 = up to 2 kits/day
-    const prpWeeklyReimbursement = prpWeeklyKits * adjustedG0465;
+    const prpWeeklyKits = kitsPerDay;
+    const prpWeeklyReimbursement = prpWeeklyKits * prpAllowedPerTreatment;
     const prpWeeklyKitCost = prpWeeklyKits * prpKitCost;
     const prpWeeklyMargin = prpWeeklyReimbursement - prpWeeklyKitCost;
-    const prp20WeekReimbursement = prpWeeklyReimbursement * 20;
-    const prp20WeekMargin = prpWeeklyMargin * 20;
+    const prpMaxWeeks = prpProduct.ncd_weeks_max;
+    const prpMaxWeekReimbursement = prpWeeklyReimbursement * prpMaxWeeks;
+    const prpMaxWeekMargin = prpWeeklyMargin * prpMaxWeeks;
 
-    // Skin substitute economics
-    // CMS Methodology: Calculate total cm², multiply by units, round UP
-    const billableCm2 = Math.ceil(woundSizeCm2 * unitsPerApplication);
+    // ─── SKIN SUBSTITUTE ECONOMICS ───
+    const billableCm2 = Math.ceil(woundArea * unitsPerApplication);
+
+    // Effective skin sub rate: use local override if provided
+    const effectiveSkinSubRate = (localSkinSubRateOverride && localSkinSubRateOverride > 0)
+      ? localSkinSubRateOverride
+      : CMS_DATA.cy2026.skinSub_flatRate_perCm2;
 
     const product = SKIN_SUB_PRODUCTS.find((p) => p.name === selectedSkinSub) || SKIN_SUB_PRODUCTS[0];
     const skinSubProductCostPerApp = product.aspPerCm2 * billableCm2;
     const skinSubInvoiceCostPerApp = skinSubInvoiceCostPerCm2 * billableCm2;
 
     let skinSubReimbPerApp;
-    let skinSubProductPaymentGross = 0; // Gross product payment (100%)
-    let skinSubProductPaymentNet = 0;   // Net product payment (80% Medicare pays)
+    let skinSubProductPaymentGross = 0;
+    let skinSubProductPaymentNet = 0;
 
     if (siteOfService === "office") {
-      // Physician office: Separate product payment
-      // Medicare Part B pays 80%, patient responsible for 20% coinsurance (often written off)
       if (paymentYear === "cy2026") {
-        skinSubProductPaymentGross = yr.skinSub_flatRate_perCm2 * billableCm2;
-        skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80; // Medicare pays 80%
-        skinSubReimbPerApp = skinSubProductPaymentNet; // Office: product only, no separate application fee
+        skinSubProductPaymentGross = effectiveSkinSubRate * billableCm2;
+        skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80;
+        skinSubReimbPerApp = skinSubProductPaymentNet;
       } else {
-        const officeRate = 800; // CY 2025 approximate office reimbursement
+        const officeRate = 800;
         const officeRateGross = Math.min(officeRate, skinSubProductCostPerApp * 1.08);
-        skinSubReimbPerApp = officeRateGross * 0.80; // Apply 80% Medicare payment
+        skinSubReimbPerApp = officeRateGross * 0.80;
       }
     } else if (paymentYear === "cy2025") {
-      // HOPD Bundled: APC 5053 for ≤100cm², APC 5054 for >100cm²
       const bundledBase = billableCm2 <= 100 ? yr.skinSub_apc5053 : yr.skinSub_apc5054;
-      // HOPD starts at 80% of bundled rate, adjusted for wage index
       const bundled80Pct = bundledBase * 0.80;
       skinSubReimbPerApp = (bundled80Pct * yr.laborShare * wageIndex) + (bundled80Pct * yr.nonLaborShare);
     } else {
-      // CY 2026 HOPD: Separate product payment + application procedure
-      // Medicare Part B pays 80%, patient responsible for 20% coinsurance (often written off)
-      skinSubProductPaymentGross = yr.skinSub_flatRate_perCm2 * billableCm2;
-      skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80; // Medicare pays 80%, patient 20% often uncollected
-      const appProcedure = billableCm2 <= 100 ? 800 : 1200; // Approximate application-only APC
+      skinSubProductPaymentGross = effectiveSkinSubRate * billableCm2;
+      skinSubProductPaymentNet = skinSubProductPaymentGross * 0.80;
+      const appProcedure = billableCm2 <= 100 ? 800 : 1200;
       const appProcedureAdj = (appProcedure * yr.laborShare * wageIndex) + (appProcedure * yr.nonLaborShare);
       skinSubReimbPerApp = skinSubProductPaymentNet + appProcedureAdj;
     }
 
-    const skinSubTotalReimb = skinSubReimbPerApp * skinSubApplications;
+    const skinSubTotalPayment = skinSubReimbPerApp * skinSubApplications;
     const skinSubTotalProductCost = skinSubProductCostPerApp * skinSubApplications;
-    const skinSubFacilityMargin = skinSubTotalReimb - skinSubTotalProductCost;
-    const skinSubMarginPct = skinSubTotalReimb > 0 ? skinSubFacilityMargin / skinSubTotalReimb : 0;
+    const skinSubFacilityMargin = skinSubTotalPayment - skinSubTotalProductCost;
+    const skinSubMarginPct = skinSubTotalPayment > 0 ? skinSubFacilityMargin / skinSubTotalPayment : 0;
 
     // Distributor profit margins (skin substitute)
     const skinSubDistribInvoiceCost = skinSubInvoiceCostPerApp * skinSubApplications;
-    const skinSubDistribProfit = skinSubTotalReimb - skinSubDistribInvoiceCost;
-    const skinSubDistribMarginPct = skinSubTotalReimb > 0 ? skinSubDistribProfit / skinSubTotalReimb : 0;
+    const skinSubDistribProfit = skinSubTotalPayment - skinSubDistribInvoiceCost;
+    const skinSubDistribMarginPct = skinSubTotalPayment > 0 ? skinSubDistribProfit / skinSubTotalPayment : 0;
 
-    // Distributor profit margins (ActiGraft)
+    // Distributor profit margins (selected PRP product)
     const actigraftDiscountedCost = actigraftInvoiceCost * (1 - volumeDiscountPct / 100);
     const actigraftOrderCost = actigraftDiscountedCost * kitsPerOrder;
-    const actigraftOrderReimbursement = adjustedG0465 * kitsPerOrder;
+    const actigraftOrderReimbursement = prpAllowedPerTreatment * kitsPerOrder;
     const actigraftDistribProfit = actigraftOrderReimbursement - actigraftOrderCost;
     const actigraftDistribMarginPct = actigraftOrderReimbursement > 0 ? actigraftDistribProfit / actigraftOrderReimbursement : 0;
 
-    // CY 2026 change for selected product
-    const newRate2026 = product.exempt ? product.aspPerCm2 * 1.06 : CMS_DATA.cy2026.skinSub_flatRate_perCm2;
+    // CY 2026 change for selected skin sub product
+    const newRate2026 = product.exempt ? product.aspPerCm2 * 1.06 : effectiveSkinSubRate;
     const productChangeDir = product.exempt ? "Exempt (BLA, ASP+6%)" :
       (newRate2026 < product.aspPerCm2 ? "decrease" : "increase");
     const productChangePct = product.exempt ? 0 :
       Math.abs((newRate2026 - product.aspPerCm2) / product.aspPerCm2);
 
+    // ─── COMPARISON OUTPUTS ───
+    const prpVsSkinSubPaymentDiff = prpTotalPayment - skinSubTotalPayment;
+    const prpVsSkinSubMarginDiff = prpFacilityMargin - skinSubFacilityMargin;
+
     return {
+      // PRP product info
+      prpProduct,
+      prpAllowedPerTreatment,
+      // CMS G0465 reference
       adjustedG0465,
       laborPortion,
       nonLaborPortion,
-      prpTotalReimbursement,
-      prpTotalKitCost,
+      // Wound
+      woundArea,
+      billableCm2,
+      // PRP episode economics
+      prpTotalPayment,
+      prpTotalAcquisitionCost,
       prpFacilityMargin,
       prpMarginPct,
+      prpTotalKitCost,
+      prpFacilityMarginKitBasis,
+      prpMarginPctKitBasis,
+      // PRP throughput
       prpWeeklyReimbursement,
       prpWeeklyKitCost,
       prpWeeklyMargin,
-      prp20WeekReimbursement,
-      prp20WeekMargin,
+      prpMaxWeeks,
+      prpMaxWeekReimbursement,
+      prpMaxWeekMargin,
+      // Skin sub economics
+      effectiveSkinSubRate,
       skinSubReimbPerApp,
-      skinSubTotalReimb,
+      skinSubTotalPayment,
       skinSubTotalProductCost,
       skinSubFacilityMargin,
       skinSubMarginPct,
@@ -471,20 +575,27 @@ export default function ActiGraftCalculator() {
       skinSubDistribInvoiceCost,
       skinSubDistribProfit,
       skinSubDistribMarginPct,
+      skinSubProductPaymentGross,
+      skinSubProductPaymentNet,
+      // Distributor
       actigraftDiscountedCost,
       actigraftOrderCost,
       actigraftOrderReimbursement,
       actigraftDistribProfit,
       actigraftDistribMarginPct,
+      // Skin sub product info
       product,
       newRate2026,
       productChangeDir,
       productChangePct,
-      billableCm2,
-      skinSubProductPaymentGross,  // 100% product payment
-      skinSubProductPaymentNet,    // 80% product payment (Medicare pays)
+      // Comparison
+      prpVsSkinSubPaymentDiff,
+      prpVsSkinSubMarginDiff,
+      // Legacy aliases for backward compat in UI
+      prpTotalReimbursement: prpTotalPayment,
+      skinSubTotalReimb: skinSubTotalPayment,
     };
-  }, [wageIndex, paymentYear, siteOfService, woundSizeCm2, unitsPerApplication, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2]);
+  }, [wageIndex, paymentYear, siteOfService, woundLengthCm, woundWidthCm, unitsPerApplication, selectedPrpProduct, prpApplications, skinSubApplications, selectedSkinSub, prpKitCost, kitsPerDay, actigraftInvoiceCost, kitsPerOrder, volumeDiscountPct, skinSubInvoiceCostPerCm2, localSkinSubRateOverride, localPrpAllowedOverride]);
 
   // ─── Sub-tab definitions ───────────────────────────
   const tabs = [
@@ -593,19 +704,89 @@ export default function ActiGraftCalculator() {
             fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 6,
           }}>
             {siteOfService === "hopd"
-              ? "Bundled rate environment (~$1,800 PRP reimbursement)"
-              : "Separate product payment (~$800 PRP reimbursement)"}
+              ? `Bundled rate environment (${fmtDec(calc.prpProduct.default_allowed_hopd)} ${calc.prpProduct.brand_name} allowed)`
+              : `Separate product payment (${fmtDec(calc.prpProduct.default_allowed_office)} ${calc.prpProduct.brand_name} allowed)`}
           </div>
         </div>
 
-        {/* Wound Size */}
-        <InputGroup
-          label="Wound Size"
-          value={woundSizeCm2}
-          onChange={(v) => setWoundSizeCm2(Math.max(1, Math.min(200, v)))}
-          min={1} max={200} step={0.1} unit="cm²"
-          helpText="Can be decimal (e.g., 2.5×1.5 = 3.75 cm²)"
-        />
+        {/* PRP Product Selector */}
+        <div>
+          <label style={{
+            display: "block", fontSize: N.fontSize.sm, color: N.text.silver,
+            fontWeight: 600, marginBottom: 6, fontFamily: N.font.primary,
+          }}>PRP Product (NCD 270.3)</label>
+          <select
+            value={selectedPrpProduct}
+            onChange={(e) => {
+              setSelectedPrpProduct(e.target.value);
+              const p = PRP_PRODUCTS.find(pp => pp.id === e.target.value);
+              if (p) setPrpApplications(p.default_treatments_per_episode);
+            }}
+            style={{
+              width: "100%", padding: "10px 14px",
+              background: N.bg.input, border: `1px solid ${N.cyan.borderGlow}`,
+              borderRadius: 6, color: N.cyan.bright,
+              fontSize: N.fontSize.base, fontFamily: N.font.primary,
+              fontWeight: 600, outline: "none", cursor: "pointer",
+              boxShadow: N.glow.tight,
+            }}
+          >
+            {PRP_PRODUCTS.map((p) => (
+              <option key={p.id} value={p.id} style={{ background: N.bg.card }}>
+                {p.brand_name} — {p.manufacturer}
+              </option>
+            ))}
+          </select>
+          <div style={{
+            fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 4,
+          }}>
+            {calc.prpProduct.fda_summary.substring(0, 80)}…
+          </div>
+        </div>
+
+        {/* Wound Size: Length × Width */}
+        <div>
+          <label style={{
+            display: "block", fontSize: N.fontSize.sm, color: N.text.silver,
+            fontWeight: 600, marginBottom: 6, fontFamily: N.font.primary,
+          }}>Wound Dimensions (L × W)</label>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <input
+              type="number"
+              value={woundLengthCm}
+              onChange={(e) => setWoundLengthCm(Math.max(0.1, Math.min(30, parseFloat(e.target.value) || 0.1)))}
+              min={0.1} max={30} step={0.1}
+              style={{
+                width: 80, padding: "10px 14px",
+                background: N.bg.input, border: `1px solid ${N.border.default}`,
+                borderRadius: 6, color: N.cyan.bright,
+                fontSize: N.fontSize.base, fontWeight: 700, fontFamily: N.font.mono,
+                outline: "none", textAlign: "right",
+              }}
+            />
+            <span style={{ color: N.text.pewter, fontWeight: 700 }}>×</span>
+            <input
+              type="number"
+              value={woundWidthCm}
+              onChange={(e) => setWoundWidthCm(Math.max(0.1, Math.min(30, parseFloat(e.target.value) || 0.1)))}
+              min={0.1} max={30} step={0.1}
+              style={{
+                width: 80, padding: "10px 14px",
+                background: N.bg.input, border: `1px solid ${N.border.default}`,
+                borderRadius: 6, color: N.cyan.bright,
+                fontSize: N.fontSize.base, fontWeight: 700, fontFamily: N.font.mono,
+                outline: "none", textAlign: "right",
+              }}
+            />
+            <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>cm</span>
+          </div>
+          <div style={{
+            fontSize: N.fontSize.xs, color: N.cyan.core, marginTop: 6,
+            fontFamily: N.font.mono, fontWeight: 700,
+          }}>
+            = {woundAreaCm2.toFixed(1)} cm² wound area
+          </div>
+        </div>
 
         {/* Units per Application */}
         <InputGroup
@@ -692,7 +873,7 @@ export default function ActiGraftCalculator() {
               value={prpKitCost}
               onChange={(v) => setPrpKitCost(Math.max(0, Math.min(500, v)))}
               min={0} max={500} step={5} unit="per kit"
-              helpText="Typical: $50–$150 per ActiGraft kit"
+              helpText={`Typical: $50–$150 per ${calc.prpProduct.brand_name} kit`}
             />
             <InputGroup
               label="Kits Per Day (throughput)"
@@ -700,6 +881,37 @@ export default function ActiGraftCalculator() {
               onChange={(v) => setKitsPerDay(Math.max(1, Math.min(10, v)))}
               min={1} max={10} step={1} unit="kits/day"
               helpText="NCD 270.3: up to 2 kits per day"
+            />
+          </div>
+
+          {/* Local Rate Overrides */}
+          <div style={{
+            fontSize: N.fontSize.sm, fontWeight: 700, color: N.status.amber.value,
+            marginTop: 16, marginBottom: 8, fontFamily: N.font.primary,
+            display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <DollarSign size={14} />
+            Local Rate Overrides (Optional)
+          </div>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: 20, paddingBottom: 12,
+            borderBottom: `1px solid ${N.border.subtle}`,
+          }}>
+            <InputGroup
+              label="PRP Allowed Rate Override"
+              value={localPrpAllowedOverride || ""}
+              onChange={(v) => setLocalPrpAllowedOverride(v > 0 ? v : null)}
+              min={0} max={5000} step={10} unit="per treatment"
+              helpText={`Default: ${fmtDec(siteOfService === "hopd" ? calc.prpProduct.default_allowed_hopd : calc.prpProduct.default_allowed_office)}`}
+            />
+            <InputGroup
+              label="Skin Sub Rate Override (per cm²)"
+              value={localSkinSubRateOverride || ""}
+              onChange={(v) => setLocalSkinSubRateOverride(v > 0 ? v : null)}
+              min={0} max={500} step={1} unit="per cm²"
+              helpText={`Default: $${CMS_DATA.cy2026.skinSub_flatRate_perCm2}/cm²`}
             />
           </div>
 
@@ -718,7 +930,7 @@ export default function ActiGraftCalculator() {
             gap: 20,
           }}>
             <InputGroup
-              label="ActiGraft Invoice Cost"
+              label={`${calc.prpProduct.brand_name} Invoice Cost`}
               value={actigraftInvoiceCost}
               onChange={(v) => setActigraftInvoiceCost(Math.max(0, Math.min(2000, v)))}
               min={0} max={2000} step={10} unit="per kit"
@@ -759,7 +971,7 @@ export default function ActiGraftCalculator() {
             }}>
               <div>
                 <div style={{ color: N.text.pewter, fontSize: N.fontSize.xs, marginBottom: 4 }}>
-                  ActiGraft Cost After {volumeDiscountPct}% Discount
+                  {calc.prpProduct.brand_name} Cost After {volumeDiscountPct}% Discount
                 </div>
                 <div style={{ color: N.cyan.bright, fontFamily: N.font.mono, fontWeight: 700, fontSize: N.fontSize.base }}>
                   {fmtDec(calc.actigraftDiscountedCost)} per kit
@@ -847,7 +1059,7 @@ export default function ActiGraftCalculator() {
               {competitorCosts[product.name] && paymentYear === "cy2026" && (() => {
                 const billable = calc.billableCm2;
                 const totalCost = competitorCosts[product.name] * billable;
-                const totalReimbGross = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
+                const totalReimbGross = calc.effectiveSkinSubRate * billable;
                 const totalReimbNet = totalReimbGross * 0.80; // Medicare pays 80%, patient 20% often written off
                 const marginNet = totalReimbNet - totalCost;
                 return (
@@ -944,7 +1156,7 @@ export default function ActiGraftCalculator() {
               marginBottom: 12, fontFamily: N.font.primary,
               display: "flex", alignItems: "center", gap: 8,
             }}>
-              <Heart size={18} /> PRP (G0465) — ActiGraft
+              <Heart size={18} /> PRP (G0465) — {calc.prpProduct.brand_name}
             </div>
             <div style={{
               background: N.bg.panel, borderRadius: 8, padding: 16,
@@ -952,36 +1164,30 @@ export default function ActiGraftCalculator() {
             }}>
               <div style={{ marginBottom: 12 }}>
                 <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
-                  {siteOfService === "hopd" ? "National base rate (HOPD):" : "Office rate (MPFS):"}
+                  {calc.prpProduct.brand_name} allowed rate ({siteOfService === "hopd" ? "HOPD" : "Office"}):
                 </span>
-                <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                  {siteOfService === "hopd"
-                    ? fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_hopd : CMS_DATA.cy2026.g0465_hopd_est)
-                    : fmtDec(paymentYear === "cy2025" ? CMS_DATA.cy2025.g0465_mpfs_nonfacility : CMS_DATA.cy2026.g0465_mpfs_nonfacility)}
+                <span style={{ color: N.cyan.bright, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
+                  {fmtDec(calc.prpAllowedPerTreatment)}
                 </span>
+                {localPrpAllowedOverride > 0 && (
+                  <span style={{ color: N.text.slate, fontSize: N.fontSize.xs, marginLeft: 6 }}>(local override)</span>
+                )}
               </div>
-              <div style={{ marginBottom: 8 }}>
-                <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Labor portion (60% × {wageIndex.toFixed(2)}):</span>
-                <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                  {fmtDec(calc.laborPortion)}
-                </span>
-              </div>
-              <div style={{ marginBottom: 12 }}>
-                <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>Non-labor portion (40%):</span>
-                <span style={{ color: N.text.silver, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8 }}>
-                  {fmtDec(calc.nonLaborPortion)}
-                </span>
+              <div style={{ marginBottom: 8, fontSize: N.fontSize.xs, color: N.text.slate }}>
+                <span>G0465 WI-adjusted reference: </span>
+                <span style={{ fontFamily: N.font.mono }}>{fmtDec(calc.adjustedG0465)}</span>
+                <span> (labor {fmtDec(calc.laborPortion)} + non-labor {fmtDec(calc.nonLaborPortion)})</span>
               </div>
               <div style={{
                 borderTop: `1px solid ${N.cyan.border}`, paddingTop: 12,
                 display: "flex", justifyContent: "space-between", alignItems: "baseline",
               }}>
-                <span style={{ color: N.text.silver, fontWeight: 700, fontSize: N.fontSize.base }}>WI-Adjusted Payment:</span>
+                <span style={{ color: N.text.silver, fontWeight: 700, fontSize: N.fontSize.base }}>Per-Treatment Payment:</span>
                 <span style={{
                   color: N.cyan.core, fontFamily: N.font.mono,
                   fontSize: N.fontSize["2xl"], fontWeight: 800,
                   textShadow: N.glow.text,
-                }}>{fmtDec(calc.adjustedG0465)}</span>
+                }}>{fmtDec(calc.prpAllowedPerTreatment)}</span>
               </div>
             </div>
             <div style={{
@@ -1033,8 +1239,8 @@ export default function ActiGraftCalculator() {
                 <>
                   <div style={{ marginBottom: 4 }}>
                     <span style={{ color: N.text.pewter, fontSize: N.fontSize.sm }}>
-                      Product (gross): $127.14/cm² × {calc.billableCm2} cm²
-                      {unitsPerApplication > 1 && <span style={{ fontSize: N.fontSize.xs, color: N.text.slate }}> ({woundSizeCm2} × {unitsPerApplication} units, rounded up)</span>}:
+                      Product (gross): ${calc.effectiveSkinSubRate.toFixed(2)}/cm² × {calc.billableCm2} cm²
+                      {unitsPerApplication > 1 && <span style={{ fontSize: N.fontSize.xs, color: N.text.slate }}> ({woundAreaCm2.toFixed(1)} × {unitsPerApplication} units, rounded up)</span>}:
                     </span>
                     <span style={{ color: N.text.slate, fontFamily: N.font.mono, fontWeight: 700, marginLeft: 8, textDecoration: "line-through" }}>
                       {fmtDec(calc.skinSubProductPaymentGross)}
@@ -1058,7 +1264,7 @@ export default function ActiGraftCalculator() {
                     fontSize: N.fontSize.xs, color: N.status.red.value, marginBottom: 12,
                     padding: "6px 10px", background: N.status.red.bg, borderRadius: 4,
                   }}>
-                    CY 2026: Flat $127.14/cm² × 80% Medicare payment = ${(CMS_DATA.cy2026.skinSub_flatRate_perCm2 * 0.80).toFixed(2)}/cm² net (patient 20% coinsurance often uncollected)
+                    CY 2026: Flat ${calc.effectiveSkinSubRate.toFixed(2)}/cm² × 80% Medicare payment = ${(calc.effectiveSkinSubRate * 0.80).toFixed(2)}/cm² net (patient 20% coinsurance often uncollected)
                   </div>
                 </>
               )}
@@ -1092,15 +1298,15 @@ export default function ActiGraftCalculator() {
             marginBottom: 12, fontFamily: N.font.primary,
           }}>Per-Treatment Reimbursement Comparison</div>
           <ComparisonBar
-            label="PRP (G0465) — per treatment"
-            value={calc.adjustedG0465}
-            maxValue={Math.max(calc.adjustedG0465, calc.skinSubReimbPerApp) * 1.1}
+            label={`${calc.prpProduct.brand_name} (G0465) — per treatment`}
+            value={calc.prpAllowedPerTreatment}
+            maxValue={Math.max(calc.prpAllowedPerTreatment, calc.skinSubReimbPerApp) * 1.1}
             color={N.cyan.core}
           />
           <ComparisonBar
             label={`${calc.product.name} — per application`}
             value={calc.skinSubReimbPerApp}
-            maxValue={Math.max(calc.adjustedG0465, calc.skinSubReimbPerApp) * 1.1}
+            maxValue={Math.max(calc.prpAllowedPerTreatment, calc.skinSubReimbPerApp) * 1.1}
             color={N.status.amber.value}
           />
         </div>
@@ -1119,14 +1325,14 @@ export default function ActiGraftCalculator() {
             gap: 16, marginTop: 12,
           }}>
             {SKIN_SUB_PRODUCTS.filter(p => !p.exempt).slice(0, 6).map((p) => {
-              const change = ((CMS_DATA.cy2026.skinSub_flatRate_perCm2 - p.aspPerCm2) / p.aspPerCm2) * 100;
+              const change = ((calc.effectiveSkinSubRate - p.aspPerCm2) / p.aspPerCm2) * 100;
               const isIncrease = change > 0;
               const hasCost = competitorCosts[p.name] != null;
 
               // Calculate total cost and reimbursement using billable cm²
               const billable = calc.billableCm2;
               const totalCost = hasCost ? competitorCosts[p.name] * billable : null;
-              const totalReimb = CMS_DATA.cy2026.skinSub_flatRate_perCm2 * billable;
+              const totalReimb = calc.effectiveSkinSubRate * billable;
               const totalMargin = hasCost ? totalReimb - totalCost : null;
               const marginPositive = totalMargin != null && totalMargin > 0;
 
@@ -1144,7 +1350,7 @@ export default function ActiGraftCalculator() {
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: N.fontSize.xs, color: N.text.pewter, marginBottom: hasCost ? 8 : 0 }}>
                     <span>Pre-2026: ${p.aspPerCm2}/cm²</span>
-                    <span>→ $127.14/cm²</span>
+                    <span>→ ${calc.effectiveSkinSubRate.toFixed(2)}/cm²</span>
                   </div>
                   {hasCost && (
                     <div style={{
@@ -1219,7 +1425,7 @@ export default function ActiGraftCalculator() {
               PRP — Per Wound Margin
             </div>
             <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 16 }}>
-              <Stat label="Total Reimbursement" value={fmt(calc.prpTotalReimbursement)} sub={`${prpApplications} treatments × ${fmtDec(calc.adjustedG0465)}`} />
+              <Stat label="Total Reimbursement" value={fmt(calc.prpTotalPayment)} sub={`${prpApplications} treatments × ${fmtDec(calc.prpAllowedPerTreatment)}`} />
               <Stat label="Kit Cost" value={fmt(calc.prpTotalKitCost)} sub={`${prpApplications} × $${prpKitCost}`} color={N.text.pewter} />
               <Stat label="Facility Margin" value={fmt(calc.prpFacilityMargin)}
                     sub={pct(calc.prpMarginPct) + " margin"}
@@ -1237,7 +1443,7 @@ export default function ActiGraftCalculator() {
               {calc.product.name} — Per Wound Margin
             </div>
             <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 16 }}>
-              <Stat label="Total Reimbursement" value={fmt(calc.skinSubTotalReimb)} sub={`${skinSubApplications} apps × ${fmtDec(calc.skinSubReimbPerApp)}`} color={N.status.amber.value} />
+              <Stat label="Total Reimbursement" value={fmt(calc.skinSubTotalPayment)} sub={`${skinSubApplications} apps × ${fmtDec(calc.skinSubReimbPerApp)}`} color={N.status.amber.value} />
               <Stat label="Product Cost" value={fmt(calc.skinSubTotalProductCost)}
                     sub={`${skinSubApplications} × ${fmtDec(calc.skinSubProductCostPerApp)}`}
                     color={N.status.red.value} />
@@ -1257,7 +1463,7 @@ export default function ActiGraftCalculator() {
           />
           <div style={{ marginTop: 16 }}>
             <ComparisonBar
-              label={`PRP (ActiGraft) — ${prpApplications} treatments`}
+              label={`PRP (${calc.prpProduct.brand_name}) — ${prpApplications} treatments`}
               value={Math.max(0, calc.prpFacilityMargin)}
               maxValue={maxMargin * 1.1}
               color={N.status.green.value}
@@ -1278,7 +1484,7 @@ export default function ActiGraftCalculator() {
               display: "flex", alignItems: "center", gap: 8,
             }}>
               <AlertTriangle size={16} />
-              <strong>Negative margin:</strong> {calc.product.name} product cost ({fmtDec(calc.skinSubTotalProductCost)}) exceeds reimbursement ({fmtDec(calc.skinSubTotalReimb)}) — facility loses {fmt(Math.abs(calc.skinSubFacilityMargin))} per wound
+              <strong>Negative margin:</strong> {calc.product.name} product cost ({fmtDec(calc.skinSubTotalProductCost)}) exceeds reimbursement ({fmtDec(calc.skinSubTotalPayment)}) — facility loses {fmt(Math.abs(calc.skinSubFacilityMargin))} per wound
             </div>
           )}
 
@@ -1373,11 +1579,11 @@ export default function ActiGraftCalculator() {
               fontFamily: N.font.primary,
             }}>
               <Heart size={16} style={{ verticalAlign: "middle", marginRight: 6 }} color={N.cyan.core} />
-              ActiGraft Distributor Profit (Per Order)
+              {calc.prpProduct.brand_name} Distributor Profit (Per Order)
             </div>
             <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 16 }}>
               <Stat label="Order Revenue" value={fmt(calc.actigraftOrderReimbursement)}
-                    sub={`${kitsPerOrder} kits × ${fmtDec(calc.adjustedG0465)}`} />
+                    sub={`${kitsPerOrder} kits × ${fmtDec(calc.prpAllowedPerTreatment)}`} />
               <Stat label="Invoice Cost" value={fmt(calc.actigraftOrderCost)}
                     sub={`${fmtDec(calc.actigraftDiscountedCost)}/kit after ${volumeDiscountPct}% discount`}
                     color={N.text.pewter} />
@@ -1397,7 +1603,7 @@ export default function ActiGraftCalculator() {
               Skin Sub Distributor Profit (Per Wound)
             </div>
             <div style={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 16 }}>
-              <Stat label="Total Reimbursement" value={fmt(calc.skinSubTotalReimb)}
+              <Stat label="Total Reimbursement" value={fmt(calc.skinSubTotalPayment)}
                     sub={`${skinSubApplications} apps × ${fmtDec(calc.skinSubReimbPerApp)}`}
                     color={N.status.amber.value} />
               <Stat label="Invoice Cost" value={fmt(calc.skinSubDistribInvoiceCost)}
@@ -1486,7 +1692,7 @@ export default function ActiGraftCalculator() {
         <Card style={{ marginBottom: 20 }}>
           <SectionHeader
             icon={TrendingUp}
-            title="ActiGraft Volume Discount Analysis"
+            title={`${calc.prpProduct.brand_name} Volume Discount Analysis`}
             subtitle="Wholesale pricing tiers — higher volume = lower cost per kit"
           />
           <div style={{ marginTop: 12 }}>
@@ -1499,7 +1705,7 @@ export default function ActiGraftCalculator() {
             ].map((tier) => {
               const discountedCost = actigraftInvoiceCost * (1 - tier.discount / 100);
               const orderCost = discountedCost * tier.kits;
-              const orderReimb = calc.adjustedG0465 * tier.kits;
+              const orderReimb = calc.prpAllowedPerTreatment * tier.kits;
               const profit = orderReimb - orderCost;
               const marginPct = orderReimb > 0 ? profit / orderReimb : 0;
 
@@ -1558,11 +1764,11 @@ export default function ActiGraftCalculator() {
           <SectionHeader
             icon={Scale}
             title="Distributor Profit Comparison"
-            subtitle="ActiGraft vs. Skin Substitute per wound episode"
+            subtitle={`${calc.prpProduct.brand_name} vs. Skin Substitute per wound episode`}
           />
           <div style={{ marginTop: 16 }}>
             <ComparisonBar
-              label={`ActiGraft — ${kitsPerOrder} kit order`}
+              label={`${calc.prpProduct.brand_name} — ${kitsPerOrder} kit order`}
               value={Math.max(0, calc.actigraftDistribProfit)}
               maxValue={Math.max(Math.abs(calc.actigraftDistribProfit), Math.abs(calc.skinSubDistribProfit)) * 1.2}
               color={N.status.green.value}
@@ -1740,13 +1946,14 @@ export default function ActiGraftCalculator() {
   );
 
   // ═══════════════════════════════════════════════════
-  //  TAB 4 — THROUGHPUT / 20-WEEK MODEL
+  //  TAB 4 — THROUGHPUT / EPISODE-WEEK MODEL
   // ═══════════════════════════════════════════════════
 
   const ThroughputTab = () => {
-    const weeksData = Array.from({ length: 20 }, (_, i) => {
+    const maxWeeks = calc.prpMaxWeeks;
+    const weeksData = Array.from({ length: maxWeeks }, (_, i) => {
       const week = i + 1;
-      const cumPrpReimb = calc.adjustedG0465 * kitsPerDay * week;
+      const cumPrpReimb = calc.prpAllowedPerTreatment * kitsPerDay * week;
       const cumPrpCost = prpKitCost * kitsPerDay * week;
       return { week, cumPrpReimb, cumPrpCost, cumMargin: cumPrpReimb - cumPrpCost };
     });
@@ -1757,8 +1964,8 @@ export default function ActiGraftCalculator() {
         <Card style={{ marginBottom: 20 }} glowBorder>
           <SectionHeader
             icon={BarChart3}
-            title="PRP Weekly & 20-Week Throughput Economics"
-            subtitle={`${kitsPerDay} kits/day × ${fmtDec(calc.adjustedG0465)} per treatment (WI: ${wageIndex.toFixed(2)})`}
+            title={`PRP Weekly & ${maxWeeks}-Week Throughput Economics`}
+            subtitle={`${kitsPerDay} kits/day × ${fmtDec(calc.prpAllowedPerTreatment)} per treatment`}
           />
           <div style={{
             display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 20,
@@ -1769,7 +1976,7 @@ export default function ActiGraftCalculator() {
             <Stat label="Weekly Margin" value={fmt(calc.prpWeeklyMargin)} color={N.status.green.value} large />
           </div>
 
-          {/* 20-week totals */}
+          {/* Max-week totals */}
           <div style={{
             display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16,
             padding: 20, background: N.bg.panel, borderRadius: 10,
@@ -1777,26 +1984,26 @@ export default function ActiGraftCalculator() {
           }}>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: N.fontSize.sm, color: N.text.pewter, marginBottom: 4 }}>
-                20-Week Total Revenue
+                {maxWeeks}-Week Total Revenue
               </div>
               <div style={{
                 fontSize: N.fontSize["3xl"], fontWeight: 800, color: N.cyan.core,
                 fontFamily: N.font.mono, textShadow: N.glow.text,
-              }}>{fmt(calc.prp20WeekReimbursement)}</div>
+              }}>{fmt(calc.prpMaxWeekReimbursement)}</div>
               <div style={{ fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 4 }}>
-                {kitsPerDay} kits/day × 20 weeks × {fmtDec(calc.adjustedG0465)}
+                {kitsPerDay} kits/day × {maxWeeks} weeks × {fmtDec(calc.prpAllowedPerTreatment)}
               </div>
             </div>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: N.fontSize.sm, color: N.text.pewter, marginBottom: 4 }}>
-                20-Week Facility Margin
+                {maxWeeks}-Week Facility Margin
               </div>
               <div style={{
                 fontSize: N.fontSize["3xl"], fontWeight: 800, color: N.status.green.value,
                 fontFamily: N.font.mono,
-              }}>{fmt(calc.prp20WeekMargin)}</div>
+              }}>{fmt(calc.prpMaxWeekMargin)}</div>
               <div style={{ fontSize: N.fontSize.xs, color: N.text.slate, marginTop: 4 }}>
-                After kit costs: {kitsPerDay * 20} kits × ${prpKitCost} = {fmt(prpKitCost * kitsPerDay * 20)}
+                After kit costs: {kitsPerDay * maxWeeks} kits × ${prpKitCost} = {fmt(prpKitCost * kitsPerDay * maxWeeks)}
               </div>
             </div>
           </div>
@@ -1807,7 +2014,7 @@ export default function ActiGraftCalculator() {
           <SectionHeader
             icon={TrendingUp}
             title="Cumulative Revenue by Week"
-            subtitle="20-week NCD 270.3 treatment window"
+            subtitle={`${maxWeeks}-week NCD 270.3 treatment window`}
           />
           <div style={{ overflowX: "auto", marginTop: 12 }}>
             <table style={{
@@ -1826,10 +2033,10 @@ export default function ActiGraftCalculator() {
                 </tr>
               </thead>
               <tbody>
-                {weeksData.filter((_, i) => i % 2 === 0 || i === 19).map((w) => (
+                {weeksData.filter((_, i) => i % 2 === 0 || i === maxWeeks - 1).map((w) => (
                   <tr key={w.week} style={{
                     borderBottom: `1px solid ${N.border.subtle}`,
-                    background: w.week === 20 ? N.cyan.bg : "transparent",
+                    background: w.week === maxWeeks ? N.cyan.bg : "transparent",
                   }}>
                     <td style={{ padding: "8px 12px", color: N.text.silver, fontWeight: 700, textAlign: "right" }}>
                       {w.week}
@@ -1914,7 +2121,7 @@ export default function ActiGraftCalculator() {
           textShadow: N.emboss.textDeep, margin: 0,
           letterSpacing: -0.5,
         }}>
-          ActiGraft ROI Calculator
+          PRP ROI Calculator
         </h1>
         <div style={{
           fontSize: N.fontSize.base, color: N.text.pewter,
